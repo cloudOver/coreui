@@ -31,16 +31,16 @@ function TableCoreModel(data, fields, model_name) {
         } else if (this.data[n].state == "downloading" || this.data[n].state == "stopping" || this.data[n].state == "starting") {
             css_class = "warning";
         }
-        html += "<tr class='" + css_class + "' " + onclick + ">";
+        html += "<tr id=\"item_" + this.data[n]["id"] + "\" class='" + css_class + "' " + onclick + ">";
 
         for (i = 0; i < this.fields.length; i++) {
             if (this.fields[i] == "size") {
                 this.data[n][fields[i]] = parseFloat(this.data[n][fields[i]]/1024/1024/1024).toPrecision(2) + " GB";
             }
-            html += "<td>" + this.data[n][fields[i]] + "</td>";
+            html += "<td id=\"item_" + this.data[n]["id"] + "_" + fields[i] + "\">" + this.data[n][fields[i]] + "</td>";
         }
         html += "</tr>";
-        html += "<tr id='actions_" + this.data[n]["id"] + "' class='hidden'><td colspan='" + this.fields.length + "'></td></tr>";
+        html += "<tr><td id='actions_" + this.data[n]["id"] + "' class='hidden " + css_class + "' colspan='" + this.fields.length + "'></td></tr>";
         return html;
     }
 
@@ -59,14 +59,19 @@ function SelectCoreModel(data, field) {
     }
 }
 
-function SelectListModel(data) {
+function SelectListModel(data, default_value) {
     /// This model handles results stored as standard Core model (dictionary)
     this.data = data;
+    this.default_value = default_value;
     this.getHeader = function () {
         return '';
     };
 
     this.getRow = function (n) {
-        return "<option>" + this.data[n] + "</option>";
+        var selected = "";
+        if (default_value == this.data[n]) {
+            selected = "selected";
+        }
+        return "<option " + selected + ">" + this.data[n] + "</option>";
     }
 }

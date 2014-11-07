@@ -1,12 +1,45 @@
 <script type="jquery-xtmpl" id="imageInfoTmpl">
-    <div class="btn-group-vertical btn-group-sm">
-        <button id="remove_${id}" class='btn btn-danger'><span class='glyphicon glyphicon-remove'></span></button>
+<div class="row">
+    <div id="form_${id}" class="col-md-10">
+        <div class="form-group">
+            <label for="image_type_${id}">Image type:</label>
+            <select id=image_type_${id}></select>
+        </div>
+        <div class="form-group">
+            <label for="image_disk_${id}">Disk controller:</label>
+            <select id=image_disk_${id}></select>
+        </div>
+        <div class="form-group">
+            <label for="image_video_${id}">Virtual video graphics card:</label>
+            <select id=image_video_${id}></select>
+        </div>
+        <div class="form-group">
+            <label for="image_network_${id}">Virtual network card driver:</label>
+            <select id=image_network_${id}></select>
+        </div>
         <script type="text/javascript">
-            $("remove_${id}").click(function() {
-                retuest("/api/images/delete/", {token: window.token}, function() {
+            function imageRemove() {
+                request("/api/image/delete/", {token: window.token, image_id: ${id}}, function() {
                     showImageList();
                 });
-            });
+            }
+        {{html "</sc"+"ript>"}}
+    </div>
+    <div class="col-md-2 btn-group-vertical btn-group-sm">
+        <button onclick='imageRemove()' id="remove_${id}" class='btn btn-danger'><span class='glyphicon glyphicon-remove'></span></button>
+    </div>
+</div>
+</script>
+
+<script type="jquery-xtmpl" id="networkInfoTmpl">
+    <div class="btn-group-vertical btn-group-sm">
+        <button onclick='networkRemove()' id="remove_${id}" class='btn btn-danger'><span class='glyphicon glyphicon-remove'></span></button>
+        <script type="text/javascript">
+            function networkRemove() {
+                request("/api/network/release/", {token: window.token, network_id: ${id}}, function() {
+                    showNetworkList();
+                });
+            }
         {{html "</sc"+"ript>"}}
     </div>
 </script>
@@ -22,8 +55,48 @@
             $("#imageInfoTmpl").tmpl(ids).appendTo("#actions_" + id);
             $("#actions_" + id).removeClass("hidden");
             clearTimeout(window.refresh_timeout);
+            makeFieldEditable(id, 'image', 'name');
+            makeFieldEditable(id, 'image', 'description');
+
+            request("/api/image/get_by_id/", {token: window.token, image_id: id}, function(image) {
+                request("/api/image/get_image_types/", {token: window.token}, function(r) {
+                    fillSelect(new SelectListModel(r, image.type), "#form_" + id, "#image_type_" + id);
+
+                    $("#image_type_" + id).change(function () {
+                        request('/api/image/edit/', {token: window.token, image_id: id, type: $("#image_type_" + id).val()}, function () {
+                        });
+                    });
+                });
+                request("/api/image/get_video_devices/", {token: window.token}, function(r) {
+                    fillSelect(new SelectListModel(r, image.video_device), "#form_" + id, "#image_video_" + id);
+
+                    $("#image_video_" + id).change(function () {
+                        request('/api/image/edit/', {token: window.token, image_id: id, video_device: $("#image_video_" + id).val()}, function () {
+                        });
+                    });
+                });
+                request("/api/image/get_network_devices/", {token: window.token}, function(r) {
+                    fillSelect(new SelectListModel(r, image.network_device), "#form_" + id, "#image_network_" + id);
+
+                    $("#image_network_" + id).change(function () {
+                        request('/api/image/edit/', {token: window.token, image_id: id, network_device: $("#image_network_" + id).val()}, function () {
+                        });
+                    });
+                });
+                request("/api/image/get_disk_controllers/", {token: window.token}, function(r) {
+                    fillSelect(new SelectListModel(r, image.disk_controller), "#form_" + id, "#image_disk_" + id);
+
+                    $("#image_disk_" + id).change(function () {
+                        request('/api/image/edit/', {token: window.token, image_id: id, disk_controller: $("#image_disk_" + id).val()}, function () {
+                        });
+                    });
+                });
+
+            });
         } else {
             $("#actions_" + id).addClass("hidden");
+            makeFieldUneditable(id, 'name');
+            makeFieldUneditable(id, 'description');
         }
     }
 
@@ -34,11 +107,13 @@
             var ids = [
                 {id: id}
             ];
-            $("#imageInfoTmpl").tmpl(ids).appendTo("#actions_" + id);
+            $("#networkInfoTmpl").tmpl(ids).appendTo("#actions_" + id);
             $("#actions_" + id).removeClass("hidden");
             clearTimeout(window.refresh_timeout);
+            makeFieldEditable(id, 'network', 'name');
         } else {
             $("#actions_" + id).addClass("hidden");
+            makeFieldUneditable(id, 'name');
         }
     }
 

@@ -66,3 +66,18 @@ function highlightMenu(buttonId) {
     });
     $("#menu").find(buttonId).addClass("list-group-item-warning");
 }
+
+function makeFieldEditable(item_id, model, field) {
+    $("#item_" + item_id + "_" + field).editable(function(value, settings) {
+        fields = {};
+        fields['token'] = window.token;
+        fields[model + "_id"] = item_id;
+        fields[field] = value;
+        request("/api/" + model + "/edit/", fields, function() {});
+        return value;
+    });
+}
+
+function makeFieldUneditable(item_id, field) {
+    $("#item_" + item_id + "_" + field).editable('disable');
+}

@@ -43,7 +43,7 @@
         modal = "#vmCreateModal";
         name = $(modal).find("#vmName").val();
         description = $(modal).find("#vmDescription").val();
-        template_id = $(modal).find("#vmTemaplte").val();
+        template_id = $(modal).find("#vmTemplate").val();
         base_image_id = $(modal).find("#vmImage").val();
 
         request('/api/vm/create/', {token: window.token,

@@ -18,6 +18,7 @@
 
     function showTemplateList() {
         highlightMenu("#template_list");
+        clearTimeout(window.refresh_timeout);
         request("/api/template/get_list/", {token: window.token}, function(r) {
             makeTable(new TableCoreModel(r, ["name", "domain_type", "cpu", "memory", "points"], "template"));
         });
@@ -25,6 +26,7 @@
 
     function showVmCreate() {
         highlightMenu("#vm_create");
+        showVmList();
         modal = "#vmCreateModal";
         $(modal).on('show.bs.modal', function(e) {
             request('/api/template/get_list/', {token: window.token}, function (r) {
@@ -87,6 +89,7 @@
 
     function showNetworkList() {
         highlightMenu("#network_list");
+        clearTimeout(window.refresh_timeout);
         request("/api/network/list_user_networks/", {token: window.token}, function(r) {
             makeTable(new TableCoreModel(r, ["id", "name", "address", "mask"], "network"));
         });
