@@ -1,0 +1,74 @@
+<div class="modal fade" id="imageCreateModal" tabindex="-1" role="dialog" aria-labelledby="imageCreateLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button onclick="$('#imageCreateModal').modal('hide')" type="button" class="close"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="imageCreateLabel">Create new image</h4>
+            </div>
+            <div class="modal-body">
+                <form id="uploadForm" role="form">
+                    <div class="form-group">
+                        <label for="imageName">Image name: </label><input type="text" id="imageName" class="form-control">
+                        <br/>
+                        <textarea id="imageDescription" class="form-control input-sm" placeholder="Optional description"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="imageSize">Size in gigabytes:</label><input type="number" min="0.1" value="0.1" step="0.1" id="imageSize" class="form-control">
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="imageType">Type:</label><br/>
+                                <select class="form-control" id="imageType"></select>
+                            </div>
+                            <div class="form-group">
+                                <label for="imageFormat">File format:</label><br/>
+                                <select class="form-control" id="imageFormat"></select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="imageDiskController">Disk controller:</label><br/>
+                                <select class="form-control" id="imageDiskController"></select>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn" onclick="$('#imageCreateModal').modal('hide')">Cancel</button>
+                <button id="imageSubmit" type="button" class="btn btn-primary">Create</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $("#imageCreateModal").find("#imageSubmit").click(function(e) {
+        modal = "#imageCreateModal";
+        name = $(modal).find("#imageName").val();
+        description = $(modal).find("#imageDescription").val();
+
+        size = parseInt(parseFloat($(modal).find("#imageSize").val())*1024*1024*1024);
+
+        type = $(modal).find("#imageType").val();
+        format = $(modal).find("#imageFormat").val();
+        video_dev = $(modal).find("#imageVideoDevice").val();
+        network_dev = $(modal).find("#imageNetworkDevice").val();
+        disk_controller = $(modal).find("#imageDiskController").val();
+        request('/api/image/create/', {token: window.token,
+                    name: name,
+                    description: description,
+                    size: size,
+                    image_type: type,
+                    format: format,
+                    disk_controller: disk_controller},
+                function(r) {
+                    showImageList();
+                    $(modal).modal('hide');
+                    $(modal).find("#imageForm")[0].reset();
+                });
+    })
+</script>

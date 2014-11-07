@@ -1,0 +1,80 @@
+<div class="modal fade" id="imageUploadModal" tabindex="-1" role="dialog" aria-labelledby="imageUploadLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button onclick="$('#imageUploadModal').modal('hide')" type="button" class="close"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="imageUploadLabel">Upload image</h4>
+            </div>
+            <div class="modal-body">
+                <form id="imageForm" role="form">
+                    <div class="form-group">
+                        <label for="imageName">Image name: </label><input type="text" id="imageName" class="form-control">
+                        <br/>
+                        <textarea id="imageDescription" class="form-control input-sm" placeholder="Optional description"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="imageUrl">Url:</label><input type="text" id="imageUrl" class="form-control">
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="imageType">Type:</label><br/>
+                                <select class="form-control" id="imageType"></select>
+                            </div>
+                            <div class="form-group">
+                                <label for="imageFormat">File format:</label><br/>
+                                <select class="form-control" id="imageFormat"></select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="imageDiskController">Disk controller:</label><br/>
+                                <select class="form-control" id="imageDiskController"></select>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn" onclick="$('#imageUploadModal').modal('hide')">Cancel</button>
+                <button id="imageSubmit" type="button" class="btn btn-primary">Upload</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $("#imageUploadModal").find("#imageSubmit").click(function(e) {
+        modal = "#imageUploadModal";
+        name = $(modal).find("#imageName").val();
+        description = $(modal).find("#imageDescription").val();
+
+        size = 0;
+        url = $(modal).find("#imageUrl").val();
+
+        type = $(modal).find("#imageType").val();
+        format = $(modal).find("#imageFormat").val();
+        video_dev = $(modal).find("#imageVideoDevice").val();
+        network_dev = $(modal).find("#imageNetworkDevice").val();
+        disk_controller = $(modal).find("#imageDiskController").val();
+        request('/api/image/create/', {token: window.token,
+                                       name: name,
+                                       description: description,
+                                       size: size,
+                                       image_type: type,
+                                       format: format,
+                                       disk_controller: disk_controller},
+        function(r) {
+            $(modal).modal('hide');
+            $(modal).find("#imageForm")[0].reset();
+            request('/api/image/upload_url/', {token: window.token,
+                                               image_id: r.id,
+                                               url: url},
+                    function(r) {
+                        showImageList();
+            });
+        });
+    })
+</script>

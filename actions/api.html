@@ -1,0 +1,47 @@
+<script type="jquery-xtmpl" id="imageInfoTmpl">
+    <div class="btn-group-vertical btn-group-sm">
+        <button id="remove_${id}" class='btn btn-danger'><span class='glyphicon glyphicon-remove'></span></button>
+        <script type="text/javascript">
+            $("remove_${id}").click(function() {
+                retuest("/api/images/delete/", {token: window.token}, function() {
+                    showImageList();
+                });
+            });
+        {{html "</sc"+"ript>"}}
+    </div>
+</script>
+
+<script type="text/javascript">
+    function showActions_image(id) {
+        if ($("#actions_" + id).hasClass("hidden")) {
+            $("#actions_" + id).empty();
+            $("#actions_" + id).append("<div class='btn-group btn-group-sm'>");
+            var ids = [
+                {id: id}
+            ];
+            $("#imageInfoTmpl").tmpl(ids).appendTo("#actions_" + id);
+            $("#actions_" + id).removeClass("hidden");
+            clearTimeout(window.refresh_timeout);
+        } else {
+            $("#actions_" + id).addClass("hidden");
+        }
+    }
+
+    function showActions_network(id) {
+        if ($("#actions_" + id).hasClass("hidden")) {
+            $("#actions_" + id).empty();
+            $("#actions_" + id).append("<div class='btn-group btn-group-sm'>");
+            var ids = [
+                {id: id}
+            ];
+            $("#imageInfoTmpl").tmpl(ids).appendTo("#actions_" + id);
+            $("#actions_" + id).removeClass("hidden");
+            clearTimeout(window.refresh_timeout);
+        } else {
+            $("#actions_" + id).addClass("hidden");
+        }
+    }
+
+    function showActions_template(id) {
+    }
+</script>
