@@ -11,7 +11,7 @@
     function showVmList() {
         highlightMenu("#vm_list");
         request("/api/vm/get_list/", {token: window.token}, function(r) {
-            makeTable(new TableCoreModel(r, ["name", "description", "state", "start_time"], "vm"));
+            makeTable(new TableCoreModel(r, ["name", "description", "state", "start_time"], "vm"), "#content");
             refreshContent("showVmList()");
         });
     }
@@ -20,7 +20,7 @@
         highlightMenu("#template_list");
         clearTimeout(window.refresh_timeout);
         request("/api/template/get_list/", {token: window.token}, function(r) {
-            makeTable(new TableCoreModel(r, ["name", "domain_type", "cpu", "memory", "points"], "template"));
+            makeTable(new TableCoreModel(r, ["name", "domain_type", "cpu", "memory", "points"], "template"), "#content");
         });
     }
 
@@ -44,7 +44,7 @@
     function showImageList() {
         highlightMenu("#image_list");
         request("/api/image/get_list/", {token: window.token}, function(r) {
-            makeTable(new TableCoreModel(r, ["id", "name", "description", "size", "state"], "image"));
+            makeTable(new TableCoreModel(r, ["id", "name", "description", "size", "state"], "image"), "#content");
             refreshContent("showImageList()");
         });
     }
@@ -91,7 +91,7 @@
         highlightMenu("#network_list");
         clearTimeout(window.refresh_timeout);
         request("/api/network/list_user_networks/", {token: window.token}, function(r) {
-            makeTable(new TableCoreModel(r, ["id", "name", "address", "mask"], "network"));
+            makeTable(new TableCoreModel(r, ["id", "name", "address", "mask"], "network"), "#content");
         });
     }
 

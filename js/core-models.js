@@ -19,7 +19,10 @@ function TableCoreModel(data, fields, model_name) {
 
     this.getRow = function(n) {
         html = "";
-        var onclick = " onclick=\"showActions_" + this.model_name + "(" + this.data[n]["id"] + ")\"";
+        var onclick = "";
+        if (this.model_name != null) {
+            onclick = " onclick=\"showActions_" + this.model_name + "(" + this.data[n]["id"] + ")\"";
+        }
         var css_class = " ";
 
         if (this.data[n].state == "init" || this.data[n].state == "waiting") {
@@ -40,7 +43,7 @@ function TableCoreModel(data, fields, model_name) {
             html += "<td id=\"item_" + this.data[n]["id"] + "_" + fields[i] + "\">" + this.data[n][fields[i]] + "</td>";
         }
         html += "</tr>";
-        html += "<tr><td id='actions_" + this.data[n]["id"] + "' class='hidden " + css_class + "' colspan='" + this.fields.length + "'></td></tr>";
+        html += "<tr><td id='actions_" + this.data[n]["id"] + "' class='hidden " + css_class + " jumbotron' colspan='" + this.fields.length + "'></td></tr>";
         return html;
     }
 

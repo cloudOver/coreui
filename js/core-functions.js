@@ -19,9 +19,7 @@ function request(func, args, callback) {
         dataType: "application/json"
     });
 }
-function makeTable(model) {
-    var elementId = "#content";
-
+function makeTable(model, elementId) {
     if (model.data.length == 0) {
         $(elementId).animate({opacity: 0}, 100, function() {
             $(elementId).empty().append("No results").animate({opacity: 1});

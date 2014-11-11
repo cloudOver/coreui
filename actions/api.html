@@ -206,11 +206,10 @@
             makeFieldEditable(id, 'vm', 'description');
 
             request('/api/vm/get_by_id/', {token: window.token, vm_id: id}, function(r) {
+                makeTable(new TableCoreModel(r['tasks'], ["type", "action", "state"], null), "#vmTasks_" + id);
+                makeTable(new TableCoreModel(r['leases'], ["address"], null), "#vmLeases_" + id);
                 for (i = 0; i < r["leases"].length; i++) {
                     $("#vmLeases_" + id).append(r['leases'][i]["address"]);
-                }
-                for (i = 0; i < r["tasks"].length; i++) {
-                    $("#vmTasks_" + id).append("<small><b>" + r['tasks'][i]["action"] + "</b>: " + r['tasks'][i]["state"] + "</small><br/>");
                 }
             });
 
