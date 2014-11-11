@@ -26,7 +26,7 @@ function TableCoreModel(data, fields, model_name) {
             css_class = "info";
         } else if (this.data[n].state == "failed") {
             css_class = "danger";
-        } else if (this.data[n].state == "stopped") {
+        } else if (this.data[n].state == "stoped") {
             css_class = "default";
         } else if (this.data[n].state == "downloading" || this.data[n].state == "stopping" || this.data[n].state == "starting") {
             css_class = "warning";

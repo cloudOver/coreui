@@ -11,7 +11,7 @@
     function showVmList() {
         highlightMenu("#vm_list");
         request("/api/vm/get_list/", {token: window.token}, function(r) {
-            makeTable(new TableCoreModel(r, ["name", "description"], "vm"));
+            makeTable(new TableCoreModel(r, ["name", "description", "state", "start_time"], "vm"));
             refreshContent("showVmList()");
         });
     }

@@ -1,10 +1,16 @@
 <script type="jquery-xtmpl" id="imageInfoTmpl">
 <div class="row">
-    <div id="form_${id}" class="col-md-10">
+    <div id="form_${id}" class="col-md-5">
         <div class="form-group">
             <label for="image_type_${id}">Image type:</label>
             <select id=image_type_${id}></select>
         </div>
+        <div class="form-group">
+            <label for="image_access_${id}">Access:</label>
+            <select id=image_access_${id}></select>
+        </div>
+    </div>
+    <div id="form_${id}" class="col-md-5">
         <div class="form-group">
             <label for="image_disk_${id}">Disk controller:</label>
             <select id=image_disk_${id}></select>
@@ -44,6 +50,68 @@
     </div>
 </script>
 
+<script type="jquery-xtmpl" id="vmInfoTmpl">
+<div class="row">
+    <div class="col-md-4">
+        <div class=form-group>
+            <label>IPv4 addresses:</label>
+            <div id="vmLeases_${id}"></div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class=form-group>
+            <label>Assigned tasks:</label>
+            <div id="vmTasks_${id}"></div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="btn-group btn-group-sm">
+            <button onclick='vmCleanup()' id="cleanup_${id}" class='btn btn-primary' data-toggle="tooltip" data-placement="bottom" title="Cleanup VM's data"><span class='glyphicon glyphicon-remove'></span></button>
+            <button onclick='vmSave()' id="save_${id}" class='btn btn-primary' data-toggle="tooltip" data-placement="bottom" title="Save VM base image"><span class='glyphicon glyphicon-floppy-disk'></span></button>
+        </div>
+        <div class="btn-group btn-group-sm">
+            <button onclick='vmStart()' id="start_${id}" class='btn btn-success' data-toggle="tooltip" data-placement="bottom" title="Start VM"><span class='glyphicon glyphicon-play'></span></button>
+            <button onclick='vmPoweroff()' id="poweroff_${id}" class='btn btn-warning' data-toggle="tooltip" data-placement="bottom" title="Power off"><span class='glyphicon glyphicon-off'></span></button>
+            <button onclick='vmShutdown()' id="shutdown_${id}" class='btn btn-warning' data-toggle="tooltip" data-placement="bottom" title="Shutdown (ACPI button)"><span class='glyphicon glyphicon-circle-arrow-down'></span></button>
+            <button onclick='vmReset()' id="reset_${id}" class='btn btn-warning' data-toggle="tooltip" data-placement="bottom" title="Reset"><span class='glyphicon glyphicon-refresh'></span></button>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function vmStart() {
+        request("/api/vm/start/", {token: window.token, vm_id: ${id}}, function() {
+            showVmList();
+        });
+    }
+    function vmReset() {
+        request("/api/vm/reset/", {token: window.token, vm_id: ${id}}, function() {
+            showVmList();
+        });
+    }
+    function vmCleanup() {
+        request("/api/vm/cleanup/", {token: window.token, vm_id: ${id}}, function() {
+            showVmList();
+        });
+    }
+    function vmPoweroff() {
+        request("/api/vm/poweroff/", {token: window.token, vm_id: ${id}}, function() {
+            showVmList();
+        });
+    }
+    function vmShutdown() {
+        request("/api/vm/shutdown/", {token: window.token, vm_id: ${id}}, function() {
+            showVmList();
+        });
+    }
+    function vmSave() {
+        request("/api/vm/save_image/", {token: window.token, vm_id: ${id}}, function() {
+            showVmList();
+        });
+    }
+{{html "</sc"+"ript>"}}
+</script>
+
 <script type="text/javascript">
     function showActions_image(id) {
         if ($("#actions_" + id).hasClass("hidden")) {
@@ -59,6 +127,12 @@
             makeFieldEditable(id, 'image', 'description');
 
             request("/api/image/get_by_id/", {token: window.token, image_id: id}, function(image) {
+                fillSelect(new SelectListModel(['private', 'group', 'public'], image.type), "#form_" + id, "#image_access_" + id);
+
+                $("#image_access_" + id).change(function () {
+                    request('/api/image/edit/', {token: window.token, image_id: id, type: $("#image_access_" + id).val()}, function () {
+                    });
+                });
                 request("/api/image/get_image_types/", {token: window.token}, function(r) {
                     fillSelect(new SelectListModel(r, image.type), "#form_" + id, "#image_type_" + id);
 
@@ -103,7 +177,6 @@
     function showActions_network(id) {
         if ($("#actions_" + id).hasClass("hidden")) {
             $("#actions_" + id).empty();
-            $("#actions_" + id).append("<div class='btn-group btn-group-sm'>");
             var ids = [
                 {id: id}
             ];
@@ -118,5 +191,36 @@
     }
 
     function showActions_template(id) {
+    }
+
+    function showActions_vm(id) {
+        if ($("#actions_" + id).hasClass("hidden")) {
+            $("#actions_" + id).empty();
+            var ids = [
+                {id: id}
+            ];
+            $("#vmInfoTmpl").tmpl(ids).appendTo("#actions_" + id);
+            $("#actions_" + id).removeClass("hidden");
+            clearTimeout(window.refresh_timeout);
+            makeFieldEditable(id, 'vm', 'name');
+            makeFieldEditable(id, 'vm', 'description');
+
+            request('/api/vm/get_by_id/', {token: window.token, vm_id: id}, function(r) {
+                for (i = 0; i < r["leases"].length; i++) {
+                    $("#vmLeases_" + id).append(r['leases'][i]["address"]);
+                }
+                for (i = 0; i < r["tasks"].length; i++) {
+                    $("#vmTasks_" + id).append("<small><b>" + r['tasks'][i]["action"] + "</b>: " + r['tasks'][i]["state"] + "</small><br/>");
+                }
+            });
+
+            $(function () {
+                $("[data-toggle='tooltip']").tooltip();
+            });
+        } else {
+            $("#actions_" + id).addClass("hidden");
+            makeFieldUneditable(id, 'name');
+            makeFieldUneditable(id, 'description');
+        }
     }
 </script>
