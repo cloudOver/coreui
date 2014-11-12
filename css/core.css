@@ -1,0 +1,14 @@
+.errormessage {
+    position: relative;
+    top: 1%;
+    left: 50%;
+    margin-left: -150px;
+    width: 300px;
+    z-index: 9999;
+}
+
+.iteminfo {
+    border: #aaaaaa 1px solid;
+    border-radius: 5px;
+
+}

@@ -1,2 +1,2 @@
 // OverCluster-Core url (Core API)
-window.coreUrl = "http://10.16.19.30:8000/";
+window.coreUrl = "http://192.245.169.152:8000/";

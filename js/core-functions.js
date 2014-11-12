@@ -11,7 +11,11 @@ function request(func, args, callback) {
             }
             var response = $.parseJSON(xhr.responseText);
             if (response.status != "ok") {
-                alert("Error ocured: " + response.status);
+                var message = $('<div class="alert alert-danger errormessage" style="display: none;">');
+                var close = $('<button type="button" class="close" data-dismiss="alert">x</button>');
+                message.append(close);
+                message.append(response.status);
+                message.appendTo($('body')).fadeIn(300).delay(5000).fadeOut(300);
                 return;
             }
             callback(response.data);
@@ -28,7 +32,7 @@ function makeTable(model, elementId) {
     }
 
     html = "";
-    html += "<div class=\"table-responsive\"><table id=\"generic_table\" class=\"table table-stripped table-hover\"><tr>";
+    html += "<div class=\"table-responsive\"><table id=\"generic_table\" class=\"table table-condensed table-stripped table-hover\"><tr>";
     html += model.getHeader();
     $(elementId).append("</tr>");
 
@@ -47,15 +51,21 @@ function makeTable(model, elementId) {
     });
 }
 
-function refreshContent(func, timeout) {
+function refreshContent(func) {
     clearTimeout(window.refresh_timeout);
     window.refresh_timeout = setTimeout(func, 10000);
 }
 
-function fillSelect(model, parentForm, elementId) {
-    $(parentForm).find(elementId).empty();
+function appendSelect(model, parentForm, elementId) {
     for (i = 0; i < model.data.length; i++)
         $(parentForm).find(elementId).append(model.getRow(i));
+
+    $(parentForm).find(elementId).selectator();
+}
+
+function fillSelect(model, parentForm, elementId) {
+    $(parentForm).find(elementId).empty();
+    appendSelect(model, parentForm, elementId);
 }
 
 function highlightMenu(buttonId) {

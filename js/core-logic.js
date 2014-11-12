@@ -10,6 +10,7 @@ if ($.cookie("core_login") != null) {
         }
     });
 }
+$("#navbar").load("navbar.html");
 
 function onlogin(tokens) {
     // If token named "coreui" exists, use it. Otherwise request to create it
@@ -31,7 +32,6 @@ function onlogin(tokens) {
             $("#controllers").append($('<div>').load("components/" + r[i] + "/controller.html"));
         }
     });
-    $("#navbar").load("navbar.html");
     // Finally, hide our modal
     $("#loginModal").modal('hide');
 }

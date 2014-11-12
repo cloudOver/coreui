@@ -35,6 +35,24 @@
             request('/api/image/get_list/', {token: window.token}, function (r) {
                 fillSelect(new SelectCoreModel(r, "name"), modal, "#vmImage");
             });
+            request('/api/image/get_list/', {token: window.token, type: 'transient'}, function (r) {
+                fillSelect(new SelectCoreModel(r, "name"), modal, "#vmImage");
+            });
+            request('/api/network/list_user_networks/', {token: window.token}, function(nets) {
+                $(modal).find("#vmLeases").empty();
+                for (i = 0; i < nets.length; i++) {
+                    $(modal).find("#vmLeases").append("<optgroup id='network_leases_" + nets[i]["id"] + "' label='" + nets[i]["name"] + "'></optgroup>");
+                    request('/api/network/list_leases/', {token: window.token, network_id: nets[i]["id"]}, function(r) {
+                        fillSelect(new SelectCoreModel(r, "address"), modal, "#network_leases_" + r[0]['user_network_id']);
+                        //fillSelect(new SelectCoreModel(r, "address"), modal, "#vmLeases");
+                        $(modal).find("#vmLeases").selectator();
+                    });
+                }
+                $(modal).find("#vmLeases").selectator();
+            });
+            request('/api/image/get_list/', {token: window.token, type: 'permanent'}, function (r) {
+                fillSelect(new SelectCoreModel(r, "name"), modal, "#vmDisks");
+            });
         });
         $(modal).modal('show');
     }
@@ -44,7 +62,7 @@
     function showImageList() {
         highlightMenu("#image_list");
         request("/api/image/get_list/", {token: window.token}, function(r) {
-            makeTable(new TableCoreModel(r, ["id", "name", "description", "size", "state"], "image"), "#content");
+            makeTable(new TableCoreModel(r, ["name", "description", "size", "state", "access"], "image"), "#content");
             refreshContent("showImageList()");
         });
     }

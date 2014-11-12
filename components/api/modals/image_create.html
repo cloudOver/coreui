@@ -21,17 +21,17 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="imageType">Type:</label><br/>
-                                <select class="form-control" id="imageType"></select>
+                                <select class="form-control chosen-select" id="imageType"></select>
                             </div>
                             <div class="form-group">
                                 <label for="imageFormat">File format:</label><br/>
-                                <select class="form-control" id="imageFormat"></select>
+                                <select class="form-control chosen-select" id="imageFormat"></select>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="imageDiskController">Disk controller:</label><br/>
-                                <select class="form-control" id="imageDiskController"></select>
+                                <select class="form-control chosen-select" id="imageDiskController"></select>
                             </div>
                         </div>
                     </div>
@@ -66,9 +66,16 @@
                     format: format,
                     disk_controller: disk_controller},
                 function(r) {
-                    showImageList();
-                    $(modal).modal('hide');
+                    $("#vmLeases").find("option").each(function() {
+                        alert($(this).val());
+                        request("/api/network/attach/", {token: window.token, vm_id: r["id"], lease_id: $(this).val()}, function(r) {});
+                    });
+                    $(modal).find("#vmDisks option").each(function() {
+                        request("/api/image/attach/", {token: window.token, vm_id: r["id"], image_id: $(this).val()}, function(r) {});
+                    });
                     $(modal).find("#imageForm")[0].reset();
                 });
+        showImageList();
+        $(modal).modal('hide');
     })
 </script>

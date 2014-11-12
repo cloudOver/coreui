@@ -43,7 +43,7 @@ function TableCoreModel(data, fields, model_name) {
             html += "<td id=\"item_" + this.data[n]["id"] + "_" + fields[i] + "\">" + this.data[n][fields[i]] + "</td>";
         }
         html += "</tr>";
-        html += "<tr><td id='actions_" + this.data[n]["id"] + "' class='hidden " + css_class + " jumbotron' colspan='" + this.fields.length + "'></td></tr>";
+        html += "<tr><td id='actions_" + this.data[n]["id"] + "' class='hidden " + css_class + "' colspan='" + this.fields.length + "'></td></tr>";
         return html;
     }
 

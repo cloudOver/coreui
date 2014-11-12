@@ -12,8 +12,6 @@
                         <br/>
                         <textarea id="vmDescription" class="form-control input-sm" placeholder="Optional description"></textarea>
                     </div>
-
-
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
@@ -25,6 +23,23 @@
                             <div class="form-group">
                                 <label for="vmImage">Base virtual drive:</label><br/>
                                 <select class="form-control" id="vmImage"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12"><a href="#" onclick="$('#vmMore').toggle(300)">More...</a></div>
+                    </div>
+                    <div class="row" id="vmMore">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="vmLeases">Network leases:</label><br/>
+                                <select multiple class="form-control" id="vmLeases"></select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="vmDisks">Additional, permanent disks:</label><br/>
+                                <select multiple class="form-control" id="vmDisks"></select>
                             </div>
                         </div>
                     </div>
@@ -52,8 +67,10 @@
                     template_id: template_id,
                     base_image_id: base_image_id},
                 function(r) {
-                    $(modal).modal('hide');
                     $(modal).find("#vmForm")[0].reset();
                 });
-    })
+        showVmList();
+        $(modal).modal('hide');
+    });
+    $('#vmMore').toggle(1);
 </script>

@@ -1,27 +1,25 @@
 <script type="jquery-xtmpl" id="imageInfoTmpl">
 <div class="row">
-    <div id="form_${id}" class="col-md-5">
+    <div id="form_${id}" class="col-md-3">
         <div class="form-group">
             <label for="image_type_${id}">Image type:</label>
-            <select id=image_type_${id}></select>
+            <select id=image_type_${id} class="form-control chosen-select"></select>
         </div>
         <div class="form-group">
             <label for="image_access_${id}">Access:</label>
-            <select id=image_access_${id}></select>
+            <select id=image_access_${id} class="form-control chosen-select"></select>
         </div>
-    </div>
-    <div id="form_${id}" class="col-md-5">
         <div class="form-group">
             <label for="image_disk_${id}">Disk controller:</label>
-            <select id=image_disk_${id}></select>
+            <select id=image_disk_${id} class="form-control chosen-select"></select>
         </div>
         <div class="form-group">
             <label for="image_video_${id}">Virtual video graphics card:</label>
-            <select id=image_video_${id}></select>
+            <select id=image_video_${id} class="form-control chosen-select"></select>
         </div>
         <div class="form-group">
             <label for="image_network_${id}">Virtual network card driver:</label>
-            <select id=image_network_${id}></select>
+            <select id=image_network_${id} class="form-control chosen-select"></select>
         </div>
         <script type="text/javascript">
             function imageRemove() {
@@ -30,6 +28,9 @@
                 });
             }
         {{html "</sc"+"ript>"}}
+    </div>
+    <div id="form_${id}" class="col-md-7">
+        <div id="imageTasks_${id}"></div>
     </div>
     <div class="col-md-2 btn-group-vertical btn-group-sm">
         <button onclick='imageRemove()' id="remove_${id}" class='btn btn-danger'><span class='glyphicon glyphicon-remove'></span></button>
@@ -53,6 +54,10 @@
 <script type="jquery-xtmpl" id="vmInfoTmpl">
 <div class="row">
     <div class="col-md-4">
+        <div class="form-group">
+            <label>VNC password:</label>
+            <div id=vncPassword_${id}>none</div>
+        </div>
         <div class=form-group>
             <label>IPv4 addresses:</label>
             <div id="vmLeases_${id}"></div>
@@ -68,6 +73,7 @@
         <div class="btn-group btn-group-sm">
             <button onclick='vmCleanup()' id="cleanup_${id}" class='btn btn-primary' data-toggle="tooltip" data-placement="bottom" title="Cleanup VM's data"><span class='glyphicon glyphicon-remove'></span></button>
             <button onclick='vmSave()' id="save_${id}" class='btn btn-primary' data-toggle="tooltip" data-placement="bottom" title="Save VM base image"><span class='glyphicon glyphicon-floppy-disk'></span></button>
+            <button onclick='toggleVnc()' id="console_${id}" class='btn btn-default' data-toggle="tooltip" data-placement="bottom" title="Toggle vnc console"><span class='glyphicon glyphicon-hd-video'></span></button>
         </div>
         <div class="btn-group btn-group-sm">
             <button onclick='vmStart()' id="start_${id}" class='btn btn-success' data-toggle="tooltip" data-placement="bottom" title="Start VM"><span class='glyphicon glyphicon-play'></span></button>
@@ -109,6 +115,11 @@
             showVmList();
         });
     }
+    function toggleVnc() {
+        request("/api/vm/console/", {token: window.token, vm_id: ${id}, enable: 1}, function(r) {
+            showVmList();
+        });
+    }
 {{html "</sc"+"ript>"}}
 </script>
 
@@ -127,45 +138,55 @@
             makeFieldEditable(id, 'image', 'description');
 
             request("/api/image/get_by_id/", {token: window.token, image_id: id}, function(image) {
-                fillSelect(new SelectListModel(['private', 'group', 'public'], image.type), "#form_" + id, "#image_access_" + id);
+                // Fill tasks
+                makeTable(new TableCoreModel(image['tasks'], ["type", "action", "state", "creation_time"], null), "#imageTasks_" + id);
 
+                // Show access
+                fillSelect(new SelectListModel(['private', 'group', 'public'], image.type), "#form_" + id, "#image_access_" + id);
                 $("#image_access_" + id).change(function () {
-                    request('/api/image/edit/', {token: window.token, image_id: id, type: $("#image_access_" + id).val()}, function () {
+                    request('/api/image/edit/', {token: window.token, image_id: id, access: $("#image_access_" + id).val()}, function () {
                     });
-                });
+                }).selectator();
+
+                // Show types
                 request("/api/image/get_image_types/", {token: window.token}, function(r) {
                     fillSelect(new SelectListModel(r, image.type), "#form_" + id, "#image_type_" + id);
 
                     $("#image_type_" + id).change(function () {
                         request('/api/image/edit/', {token: window.token, image_id: id, type: $("#image_type_" + id).val()}, function () {
                         });
-                    });
+                    }).selectator();
                 });
+
+                // Show video devices
                 request("/api/image/get_video_devices/", {token: window.token}, function(r) {
                     fillSelect(new SelectListModel(r, image.video_device), "#form_" + id, "#image_video_" + id);
 
                     $("#image_video_" + id).change(function () {
                         request('/api/image/edit/', {token: window.token, image_id: id, video_device: $("#image_video_" + id).val()}, function () {
                         });
-                    });
+                    }).selectator();
                 });
+
+                // Show network devices
                 request("/api/image/get_network_devices/", {token: window.token}, function(r) {
                     fillSelect(new SelectListModel(r, image.network_device), "#form_" + id, "#image_network_" + id);
 
                     $("#image_network_" + id).change(function () {
                         request('/api/image/edit/', {token: window.token, image_id: id, network_device: $("#image_network_" + id).val()}, function () {
                         });
-                    });
+                    }).selectator();
                 });
+
+                // Show disk controllers
                 request("/api/image/get_disk_controllers/", {token: window.token}, function(r) {
                     fillSelect(new SelectListModel(r, image.disk_controller), "#form_" + id, "#image_disk_" + id);
 
                     $("#image_disk_" + id).change(function () {
                         request('/api/image/edit/', {token: window.token, image_id: id, disk_controller: $("#image_disk_" + id).val()}, function () {
                         });
-                    });
+                    }).selectator();
                 });
-
             });
         } else {
             $("#actions_" + id).addClass("hidden");
@@ -208,9 +229,13 @@
             request('/api/vm/get_by_id/', {token: window.token, vm_id: id}, function(r) {
                 makeTable(new TableCoreModel(r['tasks'], ["type", "action", "state"], null), "#vmTasks_" + id);
                 makeTable(new TableCoreModel(r['leases'], ["address"], null), "#vmLeases_" + id);
-                for (i = 0; i < r["leases"].length; i++) {
-                    $("#vmLeases_" + id).append(r['leases'][i]["address"]);
+                if (r["vnc_enabled"] == true) {
+                    $("#console_" + id).addClass("btn-success");
+                } else {
+                    $("#console_" + id).addClass("btn-default");
                 }
+                $("#vncPassword_" + id).empty();
+                $("#vncPassword_" + id).append(r['vnc_passwd']);
             });
 
             $(function () {
