@@ -31,29 +31,31 @@ function makeTable(model, elementId) {
         return;
     }
 
-    html = "";
-    html += "<div class=\"table-responsive\"><table id=\"generic_table\" class=\"table table-condensed table-stripped table-hover\"><tr>";
+    var html = "";
+    html += "<div class=\"table-responsive\"><table class=\"table table-condensed table-stripped table-hover\"><tr>";
     html += model.getHeader();
     $(elementId).append("</tr>");
 
     for (n = 0; n < model.data.length; n++) {
         html += model.getRow(n);
     }
-    html += "</table><div id=\"tableController\"></div></div>";
+    html += "</table><div id=\"" + elementId.substring(1) + "_controller\"></div></div>";
 
     $(elementId).animate({opacity: 0}, 100, function() {
         $(elementId).empty().append(html).animate({opacity: 1}, 100);
-        request("/api/api/list_api_modules/", {token: window.token}, function(r) {
-            for (i = 0; i < r.length; i++) {
-                $("#tableController").append($('<div>').load("actions/" + r[i] + ".html"));
-            }
-        });
+        if (model.model_name != null) {
+            request("/api/api/list_api_modules/", {token: window.token}, function (r) {
+                for (i = 0; i < r.length; i++) {
+                    $(elementId + "_controller").append($('<div>').load("actions/" + r[i] + ".html"));
+                }
+            });
+        }
     });
 }
 
 function refreshContent(func) {
-    clearTimeout(window.refresh_timeout);
-    window.refresh_timeout = setTimeout(func, 10000);
+    //clearTimeout(window.refresh_timeout);
+    //window.refresh_timeout = setTimeout(func, 10000);
 }
 
 function appendSelect(model, parentForm, elementId) {

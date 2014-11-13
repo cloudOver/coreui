@@ -54,9 +54,12 @@
 <script type="jquery-xtmpl" id="vmInfoTmpl">
 <div class="row">
     <div class="col-md-4">
-        <div class="form-group">
-            <label>VNC password:</label>
-            <div id=vncPassword_${id}>none</div>
+        <div class="form-inline">
+            <div class="input-group">
+                <span class="input-group-addon">Vnc password:</span>
+                <input type=text class=form-control id=vncPassword_${id} onfocus="this.blur()" readonly="readonly" />
+                <span onclick='toggleVnc()' id="console_${id}" class='input-group-addon default' data-toggle="tooltip" data-placement="bottom" title="Toggle vnc console"><span class='glyphicon glyphicon-picture'></span></span>
+            </div>
         </div>
         <div class=form-group>
             <label>IPv4 addresses:</label>
@@ -73,7 +76,6 @@
         <div class="btn-group btn-group-sm">
             <button onclick='vmCleanup()' id="cleanup_${id}" class='btn btn-primary' data-toggle="tooltip" data-placement="bottom" title="Cleanup VM's data"><span class='glyphicon glyphicon-remove'></span></button>
             <button onclick='vmSave()' id="save_${id}" class='btn btn-primary' data-toggle="tooltip" data-placement="bottom" title="Save VM base image"><span class='glyphicon glyphicon-floppy-disk'></span></button>
-            <button onclick='toggleVnc()' id="console_${id}" class='btn btn-default' data-toggle="tooltip" data-placement="bottom" title="Toggle vnc console"><span class='glyphicon glyphicon-hd-video'></span></button>
         </div>
         <div class="btn-group btn-group-sm">
             <button onclick='vmStart()' id="start_${id}" class='btn btn-success' data-toggle="tooltip" data-placement="bottom" title="Start VM"><span class='glyphicon glyphicon-play'></span></button>
@@ -230,12 +232,12 @@
                 makeTable(new TableCoreModel(r['tasks'], ["type", "action", "state"], null), "#vmTasks_" + id);
                 makeTable(new TableCoreModel(r['leases'], ["address"], null), "#vmLeases_" + id);
                 if (r["vnc_enabled"] == true) {
-                    $("#console_" + id).addClass("btn-success");
+                    $("#console_" + id).addClass("success");
                 } else {
-                    $("#console_" + id).addClass("btn-default");
+                    $("#console_" + id).addClass("default");
                 }
                 $("#vncPassword_" + id).empty();
-                $("#vncPassword_" + id).append(r['vnc_passwd']);
+                $("#vncPassword_" + id).val(r['vnc_passwd']);
             });
 
             $(function () {

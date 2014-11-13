@@ -66,13 +66,6 @@
                     format: format,
                     disk_controller: disk_controller},
                 function(r) {
-                    $("#vmLeases").find("option").each(function() {
-                        alert($(this).val());
-                        request("/api/network/attach/", {token: window.token, vm_id: r["id"], lease_id: $(this).val()}, function(r) {});
-                    });
-                    $(modal).find("#vmDisks option").each(function() {
-                        request("/api/image/attach/", {token: window.token, vm_id: r["id"], image_id: $(this).val()}, function(r) {});
-                    });
                     $(modal).find("#imageForm")[0].reset();
                 });
         showImageList();
