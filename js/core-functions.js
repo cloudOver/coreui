@@ -11,7 +11,7 @@ function request(func, args, callback) {
             }
             var response = $.parseJSON(xhr.responseText);
             if (response.status != "ok") {
-                var message = $('<div class="alert alert-danger errormessage" style="display: none;">');
+                var message = $('<div class="alert alert-danger errormessage" style="position: absolute; display: none;">');
                 var close = $('<button type="button" class="close" data-dismiss="alert">x</button>');
                 message.append(close);
                 message.append(response.status);

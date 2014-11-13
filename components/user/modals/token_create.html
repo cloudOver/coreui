@@ -1,0 +1,37 @@
+<div class="modal fade" id="tokenCreateModal" tabindex="-1" role="dialog" aria-labelledby="imageCreateLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button onclick="$('#tokenCreateModal').modal('hide')" type="button" class="close"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="tokenCreateLabel">Create new tkoen</h4>
+            </div>
+            <div class="modal-body">
+                <form id="tokenForm" role="form">
+                    <div class="form-group">
+                        <label for="tokenName">Token name: </label><input type="text" id="tokenName" class="form-control">
+                        <br/>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn" onclick="$('#tokenCreateModal').modal('hide')">Cancel</button>
+                <button id="tokenSubmit" type="button" class="btn btn-primary">Create</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $("#tokenCreateModal").find("#tokenSubmit").click(function(e) {
+        modal = "#tokenCreateModal";
+        name = $(modal).find("#tokenName").val();
+        request('/user/token/create/', {login: window.login,
+                                        pw_hash: window.pw_hash,
+                                        name: name},
+                function(r) {
+                    $(modal).find("#tokenForm")[0].reset();
+                });
+        showTokenList();
+        $(modal).modal('hide');
+    })
+</script>

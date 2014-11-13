@@ -1,0 +1,23 @@
+<div id="modals"></div>
+
+<script type="text/javascript">
+    $("#modals").append($("<div>").load("components/user/modals/token_create.html"));
+
+    function showTokenList() {
+        highlightMenu("#user_tokens");
+        request("/user/token/get_list/", {login: window.login, pw_hash: window.pw_hash}, function(r) {
+            makeTable(new TableCoreModel(r, ["name", "token", "valid_to", "function_filter"], "token"), "#content");
+        });
+    }
+
+    function showTokenCreate() {
+        highlightMenu("#token_create");
+        showTokenList();
+        modal = "#tokenCreateModal";
+        $(modal).modal('show');
+    }
+
+
+    $("#user_tokens").click(function(e) { showTokenList(); });
+    $("#create_token").click(function(e) { showTokenCreate(); });
+</script>
