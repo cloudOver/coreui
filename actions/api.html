@@ -54,22 +54,19 @@
 <script type="jquery-xtmpl" id="vmInfoTmpl">
 <div class="row">
     <div class="col-md-4">
-        <div class="form-inline">
-            <div class="input-group">
-                <span class="input-group-addon">Vnc password:</span>
-                <input type=text class=form-control id=vncPassword_${id} onfocus="this.blur()" readonly="readonly" />
-                <span onclick='toggleVnc()' id="console_${id}" class='input-group-addon default' data-toggle="tooltip" data-placement="bottom" title="Toggle vnc console"><span class='glyphicon glyphicon-picture'></span></span>
-            </div>
-        </div>
-        <div class=form-group>
-            <label>IPv4 addresses:</label>
-            <div id="vmLeases_${id}"></div>
+        <div class="form-group well">
+            <label>Assigned tasks:</label>
+            <div id="vmTasks_${id}"></div>
         </div>
     </div>
     <div class="col-md-4">
+        <div class="form-group well">
+            <label>IPv4 addresses:</label>
+            <div id="vmLeases_${id}"></div>
+        </div>
         <div class=form-group>
-            <label>Assigned tasks:</label>
-            <div id="vmTasks_${id}"></div>
+            <label>Permanent disks:</label>
+            <div id="vmDisks_${id}"></div>
         </div>
     </div>
     <div class="col-md-4">
@@ -82,6 +79,18 @@
             <button onclick='vmPoweroff()' id="poweroff_${id}" class='btn btn-warning' data-toggle="tooltip" data-placement="bottom" title="Power off"><span class='glyphicon glyphicon-off'></span></button>
             <button onclick='vmShutdown()' id="shutdown_${id}" class='btn btn-warning' data-toggle="tooltip" data-placement="bottom" title="Shutdown (ACPI button)"><span class='glyphicon glyphicon-circle-arrow-down'></span></button>
             <button onclick='vmReset()' id="reset_${id}" class='btn btn-warning' data-toggle="tooltip" data-placement="bottom" title="Reset"><span class='glyphicon glyphicon-refresh'></span></button>
+        </div>
+        <hr/>
+        <div class="form-inline">
+            <div class="input-group">
+                <span class="input-group-addon">vnc://</span>
+                <input type=text class=form-control id=vncHost_${id} />
+            </div>
+            <span onclick='toggleVnc()' id="console_${id}" class='btn' data-toggle="tooltip" data-placement="bottom" title="Toggle vnc console"><span class='glyphicon glyphicon-picture'></span></span>
+
+            <div class="input-group" id=vncPassword_${id}>
+                <label>Password: </label>
+            </div>
         </div>
     </div>
 </div>
@@ -231,13 +240,15 @@
             request('/api/vm/get_by_id/', {token: window.token, vm_id: id}, function(r) {
                 makeTable(new TableCoreModel(r['tasks'], ["type", "action", "state"], null), "#vmTasks_" + id);
                 makeTable(new TableCoreModel(r['leases'], ["address"], null), "#vmLeases_" + id);
+                makeTable(new TableCoreModel(r['disks'], ["name", "disk_dev", "disk_controller"], null), "#vmDisks_" + id);
                 if (r["vnc_enabled"] == true) {
-                    $("#console_" + id).addClass("success");
+                    $("#console_" + id).addClass("btn-success");
                 } else {
-                    $("#console_" + id).addClass("default");
+                    $("#console_" + id).addClass("btn-default");
                 }
-                $("#vncPassword_" + id).empty();
-                $("#vncPassword_" + id).val(r['vnc_passwd']);
+
+                $("#vncPassword_" + id).append(r['vnc_passwd']);
+                $("#vncHost_" + id).val(r['vnc_address'] + ':' + r['vnc_port']);
             });
 
             $(function () {
