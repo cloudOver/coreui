@@ -43,6 +43,12 @@
                 for (i = 0; i < nets.length; i++) {
                     $(modal).find("#vmLeases").append("<optgroup id='network_leases_" + nets[i]["id"] + "' label='" + nets[i]["name"] + "'></optgroup>");
                     request('/api/network/list_leases/', {token: window.token, network_id: nets[i]["id"]}, function(r) {
+                        // Remove attached leases
+                        for (l = r.length-1; l <= 0; l--) {
+                            if (r[l]["vm_id"] > 0) {
+                                r.splice(l, 1);
+                            }
+                        }
                         fillSelect(new SelectCoreModel(r, "address"), modal, "#network_leases_" + r[0]['user_network_id']);
                         //fillSelect(new SelectCoreModel(r, "address"), modal, "#vmLeases");
                         $(modal).find("#vmLeases").selectator();
@@ -51,6 +57,12 @@
                 $(modal).find("#vmLeases").selectator();
             });
             request('/api/image/get_list/', {token: window.token, type: 'permanent'}, function (r) {
+                // Remove attached disks
+                for (l = r.length-1; l <= 0; l--) {
+                    if (r[l]["vm_id"] > 0) {
+                        r.splice(l, 1);
+                    }
+                }
                 fillSelect(new SelectCoreModel(r, "name"), modal, "#vmDisks");
             });
         });
