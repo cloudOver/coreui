@@ -77,8 +77,8 @@ function highlightMenu(buttonId) {
     $("#menu").find(buttonId).addClass("list-group-item-warning");
 }
 
-function makeFieldEditable(item_id, model, field) {
-    $("#item_" + item_id + "_" + field).editable(function(value, settings) {
+function makeFieldEditableId(item_id, model, field, fieldId) {
+    $(fieldId).editable(function(value, settings) {
         fields = {};
         fields['token'] = window.token;
         fields[model + "_id"] = item_id;
@@ -88,6 +88,14 @@ function makeFieldEditable(item_id, model, field) {
     });
 }
 
+function makeFieldEditable(item_id, model, field) {
+    makeFieldEditableId(item_id, model, field, "#item_" + item_id + "_" + field);
+}
+
+function makeFieldUneditableId(item_id, fieldId) {
+    $("#item_" + item_id + "_" + fieldId).editable('disable');
+}
+
 function makeFieldUneditable(item_id, field) {
-    $("#item_" + item_id + "_" + field).editable('disable');
+    makeFieldUneditableId(item_id, "#item_" + item_id + "_" + field);
 }

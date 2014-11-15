@@ -51,88 +51,7 @@
     </div>
 </script>
 
-<script type="jquery-xtmpl" id="vmInfoTmpl">
-<div class="row">
-    <div class="col-md-4">
-        <div class="form-group well">
-            <label>Assigned tasks:</label>
-            <div id="vmTasks_${id}"></div>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="form-group well">
-            <label>IPv4 addresses:</label>
-            <div id="vmLeases_${id}"></div>
-        </div>
-        <div class=form-group>
-            <label>Permanent disks:</label>
-            <div id="vmDisks_${id}"></div>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="btn-group btn-group-sm">
-            <button onclick='vmCleanup()' id="cleanup_${id}" class='btn btn-primary' data-toggle="tooltip" data-placement="bottom" title="Cleanup VM's data"><span class='glyphicon glyphicon-remove'></span></button>
-            <button onclick='vmSave()' id="save_${id}" class='btn btn-primary' data-toggle="tooltip" data-placement="bottom" title="Save VM base image"><span class='glyphicon glyphicon-floppy-disk'></span></button>
-        </div>
-        <div class="btn-group btn-group-sm">
-            <button onclick='vmStart()' id="start_${id}" class='btn btn-success' data-toggle="tooltip" data-placement="bottom" title="Start VM"><span class='glyphicon glyphicon-play'></span></button>
-            <button onclick='vmPoweroff()' id="poweroff_${id}" class='btn btn-warning' data-toggle="tooltip" data-placement="bottom" title="Power off"><span class='glyphicon glyphicon-off'></span></button>
-            <button onclick='vmShutdown()' id="shutdown_${id}" class='btn btn-warning' data-toggle="tooltip" data-placement="bottom" title="Shutdown (ACPI button)"><span class='glyphicon glyphicon-circle-arrow-down'></span></button>
-            <button onclick='vmReset()' id="reset_${id}" class='btn btn-warning' data-toggle="tooltip" data-placement="bottom" title="Reset"><span class='glyphicon glyphicon-refresh'></span></button>
-        </div>
-        <hr/>
-        <div class="form-inline">
-            <div class="input-group">
-                <span class="input-group-addon">vnc://</span>
-                <input type=text class=form-control id=vncHost_${id} />
-            </div>
-            <span onclick='toggleVnc()' id="console_${id}" class='btn' data-toggle="tooltip" data-placement="bottom" title="Toggle vnc console"><span class='glyphicon glyphicon-picture'></span></span>
-
-            <div class="input-group" id=vncPassword_${id}>
-                <label>Password: </label>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script type="text/javascript">
-    function vmStart() {
-        request("/api/vm/start/", {token: window.token, vm_id: ${id}}, function() {
-            showVmList();
-        });
-    }
-    function vmReset() {
-        request("/api/vm/reset/", {token: window.token, vm_id: ${id}}, function() {
-            showVmList();
-        });
-    }
-    function vmCleanup() {
-        request("/api/vm/cleanup/", {token: window.token, vm_id: ${id}}, function() {
-            showVmList();
-        });
-    }
-    function vmPoweroff() {
-        request("/api/vm/poweroff/", {token: window.token, vm_id: ${id}}, function() {
-            showVmList();
-        });
-    }
-    function vmShutdown() {
-        request("/api/vm/shutdown/", {token: window.token, vm_id: ${id}}, function() {
-            showVmList();
-        });
-    }
-    function vmSave() {
-        request("/api/vm/save_image/", {token: window.token, vm_id: ${id}}, function() {
-            showVmList();
-        });
-    }
-    function toggleVnc() {
-        request("/api/vm/console/", {token: window.token, vm_id: ${id}, enable: 1}, function(r) {
-            showVmList();
-        });
-    }
-{{html "</sc"+"ript>"}}
-</script>
+<div id="apiModals"></div>
 
 <script type="text/javascript">
     function showActions_image(id) {
@@ -226,38 +145,70 @@
     }
 
     function showActions_vm(id) {
-        if ($("#actions_" + id).hasClass("hidden")) {
-            $("#actions_" + id).empty();
-            var ids = [
-                {id: id}
-            ];
-            $("#vmInfoTmpl").tmpl(ids).appendTo("#actions_" + id);
-            $("#actions_" + id).removeClass("hidden");
-            clearTimeout(window.refresh_timeout);
-            makeFieldEditable(id, 'vm', 'name');
-            makeFieldEditable(id, 'vm', 'description');
-
-            request('/api/vm/get_by_id/', {token: window.token, vm_id: id}, function(r) {
-                makeTable(new TableCoreModel(r['tasks'], ["type", "action", "state"], null), "#vmTasks_" + id);
-                makeTable(new TableCoreModel(r['leases'], ["address"], null), "#vmLeases_" + id);
-                makeTable(new TableCoreModel(r['disks'], ["name", "disk_dev", "disk_controller"], null), "#vmDisks_" + id);
-                if (r["vnc_enabled"] == true) {
-                    $("#console_" + id).addClass("btn-success");
-                } else {
-                    $("#console_" + id).addClass("btn-default");
-                }
-
-                $("#vncPassword_" + id).append(r['vnc_passwd']);
-                $("#vncHost_" + id).val(r['vnc_address'] + ':' + r['vnc_port']);
-            });
+        $("#apiModals").load('components/api/modals/vm_info.html', function() {
+            $('#vmDetails').toggle(1)
+            $('#vmAttach').toggle(1);
+            $("#vmInfoModal").modal('show');
 
             $(function () {
                 $("[data-toggle='tooltip']").tooltip();
             });
-        } else {
-            $("#actions_" + id).addClass("hidden");
-            makeFieldUneditable(id, 'name');
-            makeFieldUneditable(id, 'description');
-        }
+
+            $("#reset").click(function() {request("/api/vm/reset/", {token: window.token, vm_id: id}, function(){}); $("#vmInfoModal").modal('hide'); showVmList()});
+            $("#cleanup").click(function() {request("/api/vm/cleanup/", {token: window.token, vm_id: id}, function(){}); $("#vmInfoModal").modal('hide'); showVmList()});
+            $("#shutdown").click(function() {request("/api/vm/shutdown/", {token: window.token, vm_id: id}, function(){}); $("#vmInfoModal").modal('hide'); showVmList()});
+            $("#poweroff").click(function() {request("/api/vm/poweroff/", {token: window.token, vm_id: id}, function(){}); $("#vmInfoModal").modal('hide'); showVmList()});
+            $("#save").click(function() {request("/api/vm/save_image/", {token: window.token, vm_id: id}, function(){}); $("#vmInfoModal").modal('hide'); showVmList()});
+            $("#start").click(function() {request("/api/vm/start/", {token: window.token, vm_id: id}, function(){}); $("#vmInfoModal").modal('hide'); showVmList()});
+
+            request('/api/image/get_list/', {token: window.token}, function (r) {
+                fillSelect(new SelectCoreModel(r, "name"), modal, "#vmAttachImage");
+            });
+
+            request('/api/vm/get_by_id/', {token: window.token, vm_id: id}, function(r) {
+                $("#vmInfoName").append(r['name']);
+                $("#vmInfoDescription").append(r['description']);
+                $("#vmInfoState").append(r['state']);
+                $("#vmInfoID").append(r['id']);
+
+
+                makeFieldEditableId(id, "vm", "name", "#vmInfoName");
+                makeFieldEditableId(id, "vm", "description", "#vmInfoDescription");
+
+                makeTable(new TableCoreModel(r['tasks'], ["type", "action", "state"], null), "#vmTasks");
+                makeTable(new TableCoreModel(r['leases'], ["address"], null), "#vmLeases");
+                makeTable(new TableCoreModel(r['disks'], ["name", "disk_dev", "disk_controller"], null), "#vmDisks");
+                if (r["state"] == "running") {
+                    if (r["vnc_enabled"] == true) {
+                        $("#console").addClass("btn-success");
+                    } else {
+                        $("#console").addClass("btn-default");
+                    }
+                    $("#reset").removeClass("hidden");
+                    $("#poweroff").removeClass("hidden");
+                    $("#shutdown").removeClass("hidden");
+                } else if (r["state"] == "stopped") {
+                    $("#save").removeClass("hidden");
+                    $("#cleanup").removeClass("hidden");
+                    $("#console").removeClass("hidden");
+                    $("#start").removeClass("hidden");
+                } else {
+                    $("#cleanup").removeClass("hidden");
+                }
+
+                $("#vncPassword").append(r['vnc_passwd']);
+                $("#vncHost").val(r['vnc_address'] + ':' + r['vnc_port']);
+            });
+
+            request('/api/image/get_list/', {token: window.token, type: 'permanent'}, function (r) {
+                // Remove attached disks
+                for (l = r.length-1; l <= 0; l--) {
+                    if (r[l]["vm_id"] > 0) {
+                        r.splice(l, 1);
+                    }
+                }
+                fillSelect(new SelectCoreModel(r, "name"), modal, "#vmAttachDisks");
+            });
+        });
     }
 </script>
