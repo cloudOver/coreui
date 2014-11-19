@@ -21,7 +21,7 @@ function TableCoreModel(data, fields, model_name) {
         html = "";
         var onclick = "";
         if (this.model_name != null) {
-            onclick = " onclick=\"showActions_" + this.model_name + "(" + this.data[n]["id"] + ")\"";
+            onclick = " onclick=\"showActions_" + this.model_name + "('" + this.data[n]["id"] + "')\"";
         }
         var css_class = " ";
 
@@ -50,6 +50,30 @@ function TableCoreModel(data, fields, model_name) {
 
 }
 
+function TableListModel(data, title, model_name) {
+    /*
+     data - Response from Core with all fields that are to be shown in table
+     actions - action related to each record. Actions are loaded from separate file in components/[EXTENSION]/actions/[MODEL]
+     */
+    this.title = title;
+    this.data = data;
+    this.model_name = model_name;
+
+    this.getHeader = function() {
+        for (i = 0; i < this.data.length; i++) {
+            d = {};
+            d[title] = this.data[i];
+            this.data[i] = d;
+        }
+
+        this.coreModel = new TableCoreModel(this.data, [title, ], this.model_name);
+        return this.coreModel.getHeader();
+    }
+    this.getRow = function(n) {
+        return this.coreModel.getRow(n);
+    }
+}
+
 function SelectCoreModel(data, field) {
     /// This model handles results stored as standard Core model (dictionary)
     this.field = field;
@@ -73,7 +97,7 @@ function SelectListModel(data, default_value) {
 
     this.getRow = function (n) {
         var selected = "";
-        if (default_value == this.data[n]) {
+        if (default_value === this.data[n]) {
             selected = "selected";
         }
         return "<option " + selected + ">" + this.data[n] + "</option>";

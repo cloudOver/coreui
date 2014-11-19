@@ -1,43 +1,3 @@
-<script type="jquery-xtmpl" id="imageInfoTmpl">
-<div class="row">
-    <div id="form_${id}" class="col-md-3">
-        <div class="form-group">
-            <label for="image_type_${id}">Image type:</label>
-            <select id=image_type_${id} class="form-control chosen-select"></select>
-        </div>
-        <div class="form-group">
-            <label for="image_access_${id}">Access:</label>
-            <select id=image_access_${id} class="form-control chosen-select"></select>
-        </div>
-        <div class="form-group">
-            <label for="image_disk_${id}">Disk controller:</label>
-            <select id=image_disk_${id} class="form-control chosen-select"></select>
-        </div>
-        <div class="form-group">
-            <label for="image_video_${id}">Virtual video graphics card:</label>
-            <select id=image_video_${id} class="form-control chosen-select"></select>
-        </div>
-        <div class="form-group">
-            <label for="image_network_${id}">Virtual network card driver:</label>
-            <select id=image_network_${id} class="form-control chosen-select"></select>
-        </div>
-        <script type="text/javascript">
-            function imageRemove() {
-                request("/api/image/delete/", {token: window.token, image_id: ${id}}, function() {
-                    showImageList();
-                });
-            }
-        {{html "</sc"+"ript>"}}
-    </div>
-    <div id="form_${id}" class="col-md-7">
-        <div id="imageTasks_${id}"></div>
-    </div>
-    <div class="col-md-2 btn-group-vertical btn-group-sm">
-        <button onclick='imageRemove()' id="remove_${id}" class='btn btn-danger'><span class='glyphicon glyphicon-remove'></span></button>
-    </div>
-</div>
-</script>
-
 <script type="jquery-xtmpl" id="networkInfoTmpl">
     <div class="btn-group-vertical btn-group-sm">
         <button onclick='networkRemove()' id="remove_${id}" class='btn btn-danger'><span class='glyphicon glyphicon-remove'></span></button>
@@ -55,74 +15,76 @@
 
 <script type="text/javascript">
     function showActions_image(id) {
-        if ($("#actions_" + id).hasClass("hidden")) {
-            $("#actions_" + id).empty();
-            $("#actions_" + id).append("<div class='btn-group btn-group-sm'>");
-            var ids = [
-                {id: id}
-            ];
-            $("#imageInfoTmpl").tmpl(ids).appendTo("#actions_" + id);
-            $("#actions_" + id).removeClass("hidden");
-            clearTimeout(window.refresh_timeout);
-            makeFieldEditable(id, 'image', 'name');
-            makeFieldEditable(id, 'image', 'description');
+        $("#apiModals").load('components/api/modals/image_info.html', function() {
+            $('#imageDetails').toggle(1);
+            $("#imageInfoModal").modal('show');
 
-            request("/api/image/get_by_id/", {token: window.token, image_id: id}, function(image) {
-                // Fill tasks
-                makeTable(new TableCoreModel(image['tasks'], ["type", "action", "state", "creation_time"], null), "#imageTasks_" + id);
+            $(function () {
+                $("[data-toggle='tooltip']").tooltip();
+            });
+
+            $("#remove").click(function() {request("/api/image/delete/", {token: window.token, image_id: id}, function(){}); $("#vmInfoModal").modal('hide'); showVmList()});
+
+            request('/api/image/get_by_id/', {token: window.token, image_id: id}, function(image) {
+                $("#imageInfoName").append(image['name']);
+                $("#imageInfoDescription").append(image['description']);
+                $("#imageInfoState").append(image['state']);
+                $("#imageInfoID").append(image['id']);
+
+
+                makeFieldEditableId(id, "image", "name", "#imageInfoName");
+                makeFieldEditableId(id, "image", "description", "#imageInfoDescription");
+
+                makeTable(new TableCoreModel(image['tasks'], ["type", "action", "state"], null), "#vmTasks");
 
                 // Show access
-                fillSelect(new SelectListModel(['private', 'group', 'public'], image.type), "#form_" + id, "#image_access_" + id);
-                $("#image_access_" + id).change(function () {
-                    request('/api/image/edit/', {token: window.token, image_id: id, access: $("#image_access_" + id).val()}, function () {
-                    });
+                fillSelect(new SelectListModel(['private', 'group', 'public'], image.access), "#imageForm", "#image_access");
+                $("#image_access").change(function () {
+                    request('/api/image/edit/', {token: window.token, image_id: id, access: $("#image_access").val()}, function () {});
                 }).selectator();
 
                 // Show types
                 request("/api/image/get_image_types/", {token: window.token}, function(r) {
-                    fillSelect(new SelectListModel(r, image.type), "#form_" + id, "#image_type_" + id);
-
-                    $("#image_type_" + id).change(function () {
-                        request('/api/image/edit/', {token: window.token, image_id: id, type: $("#image_type_" + id).val()}, function () {
-                        });
+                    fillSelect(new SelectListModel(r, image.type), "#imageForm", "#image_type");
+                    $("#image_type").change(function () {
+                        request('/api/image/edit/', {token: window.token, image_id: id, type: $("#image_type").val()}, function () {});
                     }).selectator();
                 });
-
                 // Show video devices
                 request("/api/image/get_video_devices/", {token: window.token}, function(r) {
-                    fillSelect(new SelectListModel(r, image.video_device), "#form_" + id, "#image_video_" + id);
-
-                    $("#image_video_" + id).change(function () {
-                        request('/api/image/edit/', {token: window.token, image_id: id, video_device: $("#image_video_" + id).val()}, function () {
-                        });
+                    fillSelect(new SelectListModel(r, image.video_device), "#imageForm", "#image_video");
+                    $("#image_video").change(function () {
+                        request('/api/image/edit/', {token: window.token, image_id: id, video_device: $("#image_video").val()}, function () {});
                     }).selectator();
                 });
-
                 // Show network devices
                 request("/api/image/get_network_devices/", {token: window.token}, function(r) {
-                    fillSelect(new SelectListModel(r, image.network_device), "#form_" + id, "#image_network_" + id);
-
-                    $("#image_network_" + id).change(function () {
-                        request('/api/image/edit/', {token: window.token, image_id: id, network_device: $("#image_network_" + id).val()}, function () {
+                    fillSelect(new SelectListModel(r, image.network_device), "#imageForm", "#image_network");
+                    $("#image_network").change(function () {
+                        request('/api/image/edit/', {token: window.token, image_id: id, network_device: $("#image_network").val()}, function () {
                         });
                     }).selectator();
                 });
-
                 // Show disk controllers
                 request("/api/image/get_disk_controllers/", {token: window.token}, function(r) {
-                    fillSelect(new SelectListModel(r, image.disk_controller), "#form_" + id, "#image_disk_" + id);
-
-                    $("#image_disk_" + id).change(function () {
-                        request('/api/image/edit/', {token: window.token, image_id: id, disk_controller: $("#image_disk_" + id).val()}, function () {
+                    fillSelect(new SelectListModel(r, image.disk_controller), "#imageForm", "#image_disk");
+                    $("#image_disk").change(function () {
+                        request('/api/image/edit/', {token: window.token, image_id: id, disk_controller: $("#image_disk").val()}, function () {
                         });
                     }).selectator();
                 });
             });
-        } else {
-            $("#actions_" + id).addClass("hidden");
-            makeFieldUneditable(id, 'name');
-            makeFieldUneditable(id, 'description');
-        }
+
+            /*request('/api/vm/get_list/', {token: window.token}, function (r) {
+                // Remove not stopped vms
+                for (l = r.length-1; l >= 0; l--) {
+                    if (r[l]["state"] != stopped) {
+                        r.splice(l, 1);
+                    }
+                }
+                fillSelect(new SelectCoreModel(r, "name"), modal, "#vmAttachDisks");
+            });*/
+        });
     }
 
     function showActions_network(id) {
@@ -161,10 +123,6 @@
             $("#save").click(function() {request("/api/vm/save_image/", {token: window.token, vm_id: id}, function(){}); $("#vmInfoModal").modal('hide'); showVmList()});
             $("#start").click(function() {request("/api/vm/start/", {token: window.token, vm_id: id}, function(){}); $("#vmInfoModal").modal('hide'); showVmList()});
 
-            request('/api/image/get_list/', {token: window.token}, function (r) {
-                fillSelect(new SelectCoreModel(r, "name"), modal, "#vmAttachImage");
-            });
-
             request('/api/vm/get_by_id/', {token: window.token, vm_id: id}, function(r) {
                 $("#vmInfoName").append(r['name']);
                 $("#vmInfoDescription").append(r['description']);
@@ -202,8 +160,8 @@
 
             request('/api/image/get_list/', {token: window.token, type: 'permanent'}, function (r) {
                 // Remove attached disks
-                for (l = r.length-1; l <= 0; l--) {
-                    if (r[l]["vm_id"] > 0) {
+                for (l = r.length-1; l >= 0; l--) {
+                    if (r[l]["attached_to_id"] > 0) {
                         r.splice(l, 1);
                     }
                 }

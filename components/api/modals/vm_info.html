@@ -11,13 +11,13 @@
                         <div class="col-md-6">
                             <label for="vmInfoName">Virtual machine name: </label>
                             <div id="vmInfoName"></div>
-                            <label for="vmInfoDescription">Virtual machine name: </label>
+                            <label for="vmInfoDescription">Description: </label>
                             <div id="vmInfoDescription"></div>
                         </div>
                         <div class="col-md-6">
-                            <label for="vmInfoName">State: </label>
+                            <label for="vmInfoState">State: </label>
                             <div id="vmInfoState"></div>
-                            <label for="vmInfoDescription">ID: </label>
+                            <label for="vmInfoID">ID: </label>
                             <div id="vmInfoID"></div>
                         </div>
                     </div>
@@ -53,7 +53,7 @@
                     <br/>
                     <!-- Details - ips, actions and disks -->
                     <div class="row">
-                        <div class="col-md-12"><a href="#vm_create" onclick="$('#vmDetails').toggle(300)">Details...</a></div>
+                        <div class="col-md-12"><a href="#vm_list" onclick="$('#vmDetails').toggle(300)">Details...</a></div>
                     </div>
                     <div id="vmDetails" class="row">
                         <div class="col-md-4">
@@ -71,7 +71,7 @@
 
                     </div>
                     <div class="row">
-                        <div class="col-md-12"><a href="#vm_create" onclick="$('#vmAttach').toggle(300)">Attach...</a></div>
+                        <div class="col-md-12"><a href="#vm_list" onclick="$('#vmAttach').toggle(300)">Attach...</a></div>
                     </div>
                     <div class="row" id="vmAttach">
                         <div class="col-md-6">

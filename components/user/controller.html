@@ -17,7 +17,25 @@
         $(modal).modal('show');
     }
 
+    function showApiList() {
+        highlightMenu("#user_api");
+        $("#content").empty();
+        $("#content").append('<div class="row"><div class="col-md-6" id="version"><label>Version: </label></div><div class="col-md-6" id="api_modules"></div></div>');
+        $("#content").append('<hr/><h3>Api functions: </h3><div class="row"><div class="col-md-12" id="api_functions"></div></div>');
+        request('/api/api/core_version/', {token: window.token}, function(r) {
+            $("#version").append(r);
+        });
+        request('/api/api/list_api_modules/', {token: window.token}, function(r) {
+            makeTable(new TableListModel(r, 'Module', null), "#api_modules");
+        });
+        request('/api/api/list_functions/', {token: window.token}, function(r) {
+            makeTable(new TableCoreModel(r, ['name', 'doc', 'params'], null), "#api_functions");
+        });
+    }
+
 
     $("#user_tokens").click(function(e) { showTokenList(); });
     $("#create_token").click(function(e) { showTokenCreate(); });
+    $("#user_api").click(function(e) { showApiList(); });
+
 </script>
