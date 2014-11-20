@@ -19,9 +19,11 @@ function loadApi() {
             $("#menu").append($('<div>').load("components/" + r[i] + "/menu.html"));
             $("#menu").append($('<br/>'));
             $("#controllers").append($('<div>').load("components/" + r[i] + "/controller.html", function() {
-                if (document.location.href.indexOf("#") > 0) {
+                if (document.location.hash.length > 1) {
                     $(document.location.href.substring(document.location.href.indexOf("#"))).trigger('click');
                     $(document.location.href.substring(document.location.href.indexOf("#"))).parent().parent().parent().collapse('show');
+                } else {
+                    $("#content").load('main.html');
                 }
             }));
         }
