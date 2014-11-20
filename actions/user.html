@@ -1,9 +1,9 @@
 <script type="jquery-xtmpl" id="tokenInfoTmpl">
     <div class="btn-group-vertical btn-group-sm">
-        <button onclick='tokenRemove()' id="remove_${id}" class='btn btn-danger'><span class='glyphicon glyphicon-remove'></span></button>
+        <button onclick='tokenRemove()' class='btn btn-danger'><span class='glyphicon glyphicon-remove'></span></button>
         <script type="text/javascript">
             function tokenRemove() {
-                request("/user/token/delete/", {login: window.login, pw_hash: window.pw_hash, token_id: ${id}}, function() {
+                request("/user/token/delete/", {login: window.login, pw_hash: window.pw_hash, token_id: '${id}'}, function() {
                     showTokenList();
                 });
             }
