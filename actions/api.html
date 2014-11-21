@@ -23,13 +23,14 @@
                 $("[data-toggle='tooltip']").tooltip();
             });
 
-            $("#remove").click(function() {request("/api/image/delete/", {token: window.token, image_id: id}, function(){}); $("#vmInfoModal").modal('hide'); showVmList()});
+            $("#remove").click(function() {request("/api/image/delete/", {token: window.token, image_id: id}, function(){}); $("#vmInfoModal").modal('hide'); showImageList()});
 
             request('/api/image/get_by_id/', {token: window.token, image_id: id}, function(image) {
                 $("#imageInfoName").append(image['name']);
                 $("#imageInfoDescription").append(image['description']);
                 $("#imageInfoState").append(image['state']);
                 $("#imageInfoID").append(image['id']);
+                $("#imageInfoAttachedTo").append(image['attached_to_id']);
 
 
                 makeFieldEditableId(id, "image", "name", "#imageInfoName");
@@ -73,17 +74,17 @@
                         });
                     }).selectator();
                 });
-            });
 
-            /*request('/api/vm/get_list/', {token: window.token}, function (r) {
-                // Remove not stopped vms
-                for (l = r.length-1; l >= 0; l--) {
-                    if (r[l]["state"] != stopped) {
-                        r.splice(l, 1);
+                request('/api/vm/get_list/', {token: window.token}, function (r) {
+                    // Remove not stopped vms
+                    for (l = r.length-1; l >= 0; l--) {
+                        if (r[l]["state"] == "closed" || r[l]["base_image"]["id"] != id) {
+                            r.splice(l, 1);
+                        }
                     }
-                }
-                fillSelect(new SelectCoreModel(r, "name"), modal, "#vmAttachDisks");
-            });*/
+                    makeTable(new TableCoreModel(r, ["name"], null), "#vmImageBase");
+                });
+            });
         });
     }
 

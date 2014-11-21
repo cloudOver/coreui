@@ -32,6 +32,8 @@ function loadApi() {
 }
 
 function onlogin(tokens) {
+    window.login = $.cookie("core_login");
+    window.pw_hash = $.cookie("core_pw_hash");
     // If token named "coreui" exists, use it. Otherwise request to create it
     if (tokens.length > 0) {
         window.token = tokens[0].token;

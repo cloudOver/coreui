@@ -4,7 +4,7 @@
     function coreDavList() {
         highlightMenu("#coreDav_list");
         request("/user/token/get_list/", {login: window.login, pw_hash: window.pw_hash}, function(r) {
-            makeTable(new TableCoreModel(r, ["name", "token", "data"], "coreDav"), "#content");
+            makeTable(new TableCoreModel(r, ["name", "token"], "coreDav"), "#content");
         });
     }
 

@@ -13,6 +13,9 @@
                             <div id="imageInfoName"></div>
                             <label for="imageInfoDescription">Description: </label>
                             <div id="imageInfoDescription"></div>
+                            <div class="btn-group btn">
+                                <button id="remove" class='btn btn-primary' data-toggle="tooltip" data-placement="bottom" title="Remove image"><span class='glyphicon glyphicon-remove'></span> Remove</button>
+                            </div>
                         </div>
                         <div class="col-md-6">
                             <label for="imageInfoState">State: </label>
@@ -23,13 +26,10 @@
                             <div id="imageInfoAttached">None</div>
                         </div>
                     </div>
-                    <br/>
+                    <hr />
                     <!-- Buttons -->
                     <div class="row">
                         <div class="col-md-6">
-                            <div class="btn-group btn">
-                                <button id="remove" class='btn btn-primary' data-toggle="tooltip" data-placement="bottom" title="Remove image"><span class='glyphicon glyphicon-remove'></span></button>
-                            </div>
                             <div class="form-group">
                                 <label for="image_type">Image type:</label>
                                 <select id=image_type class="form-control"></select>
@@ -55,14 +55,14 @@
                         </div>
                     </div>
                     <br/>
-                    <!-- Details - ips, actions and disks -->
+                    <!-- Details  -->
                     <div class="row">
                         <div class="col-md-12"><a href="#image_list" onclick="$('#imageDetails').toggle(300)">Details...</a></div>
                     </div>
                     <div id="imageDetails" class="row">
                         <div class="col-md-6">
                             <label>Used as base image in VMs:</label>
-                            <div id="imageBase" class="well"></div>
+                            <div id="vmImageBase" class="well"></div>
                         </div>
                         <div class="col-md-6">
                             <label>Tasks:</label>

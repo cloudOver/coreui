@@ -1,0 +1,81 @@
+<div class="modal fade" id="vpnInfoModal" tabindex="-1" role="dialog" aria-labelledby="vpnInfoLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button onclick="$('#vpnInfoModal').modal('hide')" type="button" class="close"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="vpnInfoLabel">Virtual private network details</h4>
+            </div>
+            <div class="modal-body">
+                <form id="vpnForm" role="form">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label for="vpnInfoAddress">Internal network: </label>
+                            <div id="vpnInfoAddress"></div>
+                            <label for="vpnInfoID">ID: </label>
+                            <div id="vpnInfoID"></div>
+                            <label for="vpnInfoID">OpenVPN endpoint: </label>
+                            <div id="vpnInfoEndpoint"></div>
+                            <div class="btn-group btn">
+                                <button id="remove" class='btn btn-primary' data-toggle="tooltip" data-placement="bottom" title="Remove image"><span class='glyphicon glyphicon-remove'></span> Remove</button>
+                            </div>
+                        </div>
+                        <div class="col-md-9">
+                            <label for="attachedTo">Instances attached to this VPN:</label>
+                            <div id="attachedTo"></div>
+                            <hr/>
+                            <div class="form-group">
+                                <select id="attachToVm" width="80%"></select>
+                                <button id="attach" class="btn btn-success">Attach</button>
+                            </div>
+                            <hr/>
+                            <a href="#vpn_list" onclick="$('#vpn_caCrt').toggle(300);">Show CA certificate</a>
+                            <div class="well small" id="vpn_caCrt"></div><br/>
+                            <a href="#vpn_list" onclick="$('#vpn_clientCrt').toggle(300);">Show Client certificate</a>
+                            <div class="well small" id="vpn_clientCrt"></div><br/>
+                            <a href="#vpn_list" onclick="$('#vpn_clientKey').toggle(300);">Show Client key</a>
+                            <div class="well small" id="vpn_clientKey"></div>
+                        </div>
+                    </div>
+                    <br/>
+                    <!-- Buttons -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="btn-group btn">
+                                <button id="cleanup" class='hidden btn btn-primary' data-toggle="tooltip" data-placement="bottom" title="Cleanup VM's data"><span class='glyphicon glyphicon-remove'></span></button>
+                            </div>
+                        </div>
+                        <br/>
+                        <!-- Details - ips, actions and disks -->
+                        <!--<div class="row">
+                            <div class="col-md-12"><a href="#vm_list" onclick="$('#vmDetails').toggle(300)">Details...</a></div>
+                        </div>
+                        <div id="vmDetails" class="row">
+                            <div class="col-md-4">
+                                <label>IPv4 addresses:</label>
+                                <div id="vmLeases" class="well"></div>
+                            </div>
+                            <div class="col-md-4">
+                                <label>Permanent disks:</label>
+                                <div id="vmDisks" class="well"></div>
+                            </div>
+                            <div class="col-md-4">
+                                <label>Tasks:</label>
+                                <div id="vmTasks" class="well well-lg"></div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12"><a href="#vm_list" onclick="$('#vmAttach').toggle(300)">Attach...</a></div>
+                        </div>
+                        <div class="row" id="vmAttach">
+                            <div class="col-md-6">
+                                <select class="form-control" id="vmAttachDisks"></select>
+                            </div>
+                        </div>-->
+                </form>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
