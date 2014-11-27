@@ -9,8 +9,8 @@
                 <form id="vpnForm" role="form">
                     <div class="row">
                         <div class="col-md-4">
-                            <label for="vpnInfoAddress">Internal network: </label>
-                            <div id="vpnInfoAddress"></div>
+                            <label for="vpnInfoName">Name: </label>
+                            <div id="vpnInfoName"></div>
                             <label for="vpnInfoID">ID: </label>
                             <div id="vpnInfoID"></div>
                             <label for="vpnInfoID">OpenVPN endpoint: </label>
@@ -28,6 +28,7 @@
                                 <button id="attach" class="btn btn-success">Attach</button>
                             </div>
                             <hr/>
+                            <label>Client's credentials:</label><br/>
                             <a href="#vpn_list" onclick="$('#vpn_caCrt').toggle(300);">Show CA certificate</a>
                             <div class="well small" id="vpn_caCrt"></div><br/>
                             <a href="#vpn_list" onclick="$('#vpn_clientCrt').toggle(300);">Show Client certificate</a>

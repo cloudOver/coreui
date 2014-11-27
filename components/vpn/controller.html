@@ -6,15 +6,7 @@
     function showVpnList() {
         highlightMenu("#vpn_list");
         request("/vpn/network/get_list/", {token: window.token}, function(r) {
-            t = []
-            for (i = 0; i < r.length; i++) {
-                t[i] = {}
-                t[i]['id'] = r[i]['id']
-                t[i]['state'] = r[i]['state']
-                t[i]['address'] = r[i]['network']['address']
-                t[i]['mask'] = r[i]['network']['mask']
-            }
-            makeTable(new TableCoreModel(t, ["id", "state", "address", "mask"], "vpn"), "#content");
+            makeTable(new TableCoreModel(r, ["id", "name", "state"], "vpn"), "#content");
         });
     }
 
