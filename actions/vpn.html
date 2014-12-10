@@ -54,5 +54,13 @@
             });
         });
     }
+    function showActions_connection(id) {
+        $("#apiModals").load('components/vpn/modals/vpn_connection.html', function() {
+            $("#vpnConnectionModal").modal('show');
+            $("#vpnDisconnect").click(function(e) {
+                request('/vpn/network/detach/', {token: window.token, connection_id: id}, function(r) { $("#vpnConnectionModal").modal('hide'); showVpnConnections(); });
+            });
+        });
+    }
 
 </script>

@@ -59,8 +59,10 @@ function refreshContent(func) {
 }
 
 function appendSelect(model, parentForm, elementId) {
-    for (i = 0; i < model.data.length; i++)
+    for (i = 0; i < model.data.length; i++) {
         $(parentForm).find(elementId).append(model.getRow(i));
+    }
+
 
     $(parentForm).find(elementId).selectator();
 }

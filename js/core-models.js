@@ -31,7 +31,7 @@ function TableCoreModel(data, fields, model_name) {
             css_class = "danger";
         } else if (this.data[n].state == "stoped") {
             css_class = "default";
-        } else if (this.data[n].state == "downloading" || this.data[n].state == "stopping" || this.data[n].state == "starting") {
+        } else if (this.data[n].state == "downloading" || this.data[n].state == "stopping" || this.data[n].state == "starting" || this.data[n].state == "closing") {
             css_class = "warning";
         }
         html += "<tr id=\"item_" + this.data[n]["id"] + "\" class='" + css_class + "' " + onclick + ">";

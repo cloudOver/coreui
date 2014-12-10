@@ -20,14 +20,6 @@
                             </div>
                         </div>
                         <div class="col-md-8">
-                            <label for="attachedTo">Instances attached to this VPN:</label>
-                            <div id="attachedTo"></div>
-                            <hr/>
-                            <div class="form-group">
-                                <select id="attachToVm" width="80%"></select>
-                                <button id="attach" class="btn btn-success">Attach</button>
-                            </div>
-                            <hr/>
                             <label>Client's credentials:</label><br/>
                             <a href="#vpn_list" onclick="$('#vpn_caCrt').toggle(300);">Show CA certificate</a>
                             <div class="well small" id="vpn_caCrt"></div><br/>
@@ -45,34 +37,7 @@
                                 <button id="cleanup" class='hidden btn btn-primary' data-toggle="tooltip" data-placement="bottom" title="Cleanup VM's data"><span class='glyphicon glyphicon-remove'></span></button>
                             </div>
                         </div>
-                        <br/>
-                        <!-- Details - ips, actions and disks -->
-                        <!--<div class="row">
-                            <div class="col-md-12"><a href="#vm_list" onclick="$('#vmDetails').toggle(300)">Details...</a></div>
-                        </div>
-                        <div id="vmDetails" class="row">
-                            <div class="col-md-4">
-                                <label>IPv4 addresses:</label>
-                                <div id="vmLeases" class="well"></div>
-                            </div>
-                            <div class="col-md-4">
-                                <label>Permanent disks:</label>
-                                <div id="vmDisks" class="well"></div>
-                            </div>
-                            <div class="col-md-4">
-                                <label>Tasks:</label>
-                                <div id="vmTasks" class="well well-lg"></div>
-                            </div>
-
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12"><a href="#vm_list" onclick="$('#vmAttach').toggle(300)">Attach...</a></div>
-                        </div>
-                        <div class="row" id="vmAttach">
-                            <div class="col-md-6">
-                                <select class="form-control" id="vmAttachDisks"></select>
-                            </div>
-                        </div>-->
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">
