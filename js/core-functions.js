@@ -54,8 +54,8 @@ function makeTable(model, elementId) {
 }
 
 function refreshContent(func) {
-    clearTimeout(window.refresh_timeout);
-    window.refresh_timeout = setTimeout(func, 10000);
+    //clearTimeout(window.refresh_timeout);
+    //window.refresh_timeout = setTimeout(func, 10000);
 }
 
 function appendSelect(model, parentForm, elementId) {
