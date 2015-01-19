@@ -27,6 +27,7 @@
     function showVmCreate() {
         highlightMenu("#vm_create");
         showVmList();
+        clearTimeout(window.refresh_timeout);
         modal = "#vmCreateModal";
         $(modal).on('show.bs.modal', function(e) {
             request('/api/template/get_list/', {token: window.token}, function (r) {
@@ -78,6 +79,7 @@
     function showImageCreate() {
         highlightMenu("#image_create");
         showImageList();
+        clearTimeout(window.refresh_timeout);
         modal = "#imageCreateModal";
         $(modal).on('show.bs.modal', function(e) {
             request('/api/image/get_image_formats/', {token: window.token}, function (r) {
@@ -96,6 +98,7 @@
     function showImageUpload() {
         highlightMenu("#image_upload");
         showImageList();
+        clearTimeout(window.refresh_timeout);
         modal = "#imageUploadModal";
         $(modal).on('show.bs.modal', function(e) {
             request('/api/image/get_image_formats/', {token: window.token}, function (r) {
@@ -115,7 +118,7 @@
 
     function showNetworkList() {
         highlightMenu("#network_list");
-        clearTimeout(window.refresh_timeout);
+        refreshContent("showNetworkList()");
         request("/api/network/list_user_networks/", {token: window.token}, function(r) {
             makeTable(new TableCoreModel(r, ["id", "name", "address", "mask"], "network"), "#content");
         });
@@ -124,6 +127,7 @@
     function showNetworkCreate() {
         highlightMenu("#network_create");
         showNetworkList();
+        clearTimeout(window.refresh_timeout);
         modal = "#networkCreateModal";
         $(modal).modal('show');
     }
