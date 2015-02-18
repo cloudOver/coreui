@@ -141,8 +141,10 @@
                 if (r["state"] == "running") {
                     if (r["vnc_enabled"] == true) {
                         $("#console").addClass("btn-success");
+                        $("#console").click(function() {request("/api/vm/console/", {token: window.token, vm_id: id, enable: 1}, function(){} )});
                     } else {
                         $("#console").addClass("btn-default");
+                        $("#console").click(function() {request("/api/vm/console/", {token: window.token, vm_id: id, enable: 1}, function(){} )});
                     }
                     $("#vm_running").removeClass("hidden");
                     $("#vm_stopped").addClass("hidden");
