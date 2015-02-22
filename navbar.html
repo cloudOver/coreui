@@ -52,6 +52,7 @@
     });
     $("#settingsSave").click(function(e) {
         window.coreUrl = $("#coreUrl").val();
+        $.cookie("core_url", window.coreUrl);
         $("#settingsModal").modal('hide');
     });
 

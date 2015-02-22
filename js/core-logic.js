@@ -1,3 +1,7 @@
+if ($.cookie("core_url") != null) {
+    window.coreUrl = $.cookie("core_url");
+}
+
 if ($.cookie("core_login") != null) {
     window.login = $.cookie("core_login");
     window.pw_hash = $.cookie("core_pw_hash");
