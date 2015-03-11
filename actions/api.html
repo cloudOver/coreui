@@ -3,7 +3,7 @@
         <button onclick='networkRemove()' id="remove_${id}" class='btn btn-danger'><span class='glyphicon glyphicon-remove'></span></button>
         <script type="text/javascript">
             function networkRemove() {
-                request("/api/network/release/", {token: window.token, network_id: ${id}}, function() {
+                request("/api/network/delete/", {token: window.token, network_id: ${id}}, function() {
                     showNetworkList();
                 });
             }
@@ -141,7 +141,7 @@
                 if (r["state"] == "running") {
                     if (r["vnc_enabled"] == true) {
                         $("#console").addClass("btn-success");
-                        $("#console").click(function() {request("/api/vm/console/", {token: window.token, vm_id: id, enable: 1}, function(){} )});
+                        $("#console").click(function() {request("/api/vm/console/", {token: window.token, vm_id: id, enable: 0}, function(){} )});
                     } else {
                         $("#console").addClass("btn-default");
                         $("#console").click(function() {request("/api/vm/console/", {token: window.token, vm_id: id, enable: 1}, function(){} )});

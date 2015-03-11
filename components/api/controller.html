@@ -36,11 +36,11 @@
             request('/api/image/get_list/', {token: window.token, type: 'transient'}, function (r) {
                 fillSelect(new SelectCoreModel(r, "name"), modal, "#vmImage");
             });
-            request('/api/network/list_user_networks/', {token: window.token}, function(nets) {
+            request('/api/network/get_list/', {token: window.token}, function(nets) {
                 $(modal).find("#vmLeases").empty();
                 for (i = 0; i < nets.length; i++) {
                     $(modal).find("#vmLeases").append("<optgroup id='network_leases_" + nets[i]["id"] + "' label='" + nets[i]["name"] + "'></optgroup>");
-                    request('/api/network/list_leases/', {token: window.token, network_id: nets[i]["id"]}, function(r) {
+                    request('/api/lease/get_list/', {token: window.token, network_id: nets[i]["id"]}, function(r) {
                         // Remove attached leases
                         for (l = r.length-1; l >= 0; l--) {
                             if (r[l]["vm_id"] > 0) {
@@ -119,7 +119,7 @@
     function showNetworkList() {
         highlightMenu("#network_list");
         refreshContent("showNetworkList()");
-        request("/api/network/list_user_networks/", {token: window.token}, function(r) {
+        request("/api/network/get_list/", {token: window.token}, function(r) {
             makeTable(new TableCoreModel(r, ["id", "name", "address", "mask"], "network"), "#content");
         });
     }

@@ -30,11 +30,12 @@
         modal = "#networkCreateModal";
         name = $(modal).find("#networkName").val();
         mask = $(modal).find("#networkMask").val();
-        request('/api/network/request/', {token: window.token,
-                                          name: name,
-                                          mask: mask},
+        request('/api/network/create/', {token: window.token,
+                                         name: name,
+                                         mask: mask,
+                                         address: null},
                 function(r) {
-                    showVpnList();
+                    showNetworkList();
                     $(modal).find("#networkForm")[0].reset();
                 });
         $(modal).modal('hide');
