@@ -90,19 +90,12 @@
     }
 
     function showActions_network(id) {
-        if ($("#actions_" + id).hasClass("hidden")) {
-            $("#actions_" + id).empty();
-            var ids = [
-                {id: id}
-            ];
-            $("#networkInfoTmpl").tmpl(ids).appendTo("#actions_" + id);
-            $("#actions_" + id).removeClass("hidden");
-            clearTimeout(window.refresh_timeout);
-            makeFieldEditable(id, 'network', 'name');
-        } else {
-            $("#actions_" + id).addClass("hidden");
-            makeFieldUneditable(id, 'name');
-        }
+        $("#apiModals").load('components/api/modals/network_info.html', function() {
+            request('/api/network/get_by_id/', {token: window.token, network_id: id}, function(network) {
+                $('#networkName').append(network['name']);
+                $('#networkAddress').append(network['address'] + '/' + network['mask']);
+            });
+        });
     }
 
     function showActions_template(id) {

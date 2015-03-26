@@ -32,9 +32,10 @@
         mask = $(modal).find("#networkMask").val();
         request('/api/network/create/', {token: window.token,
                                          name: name,
-                                         mask: mask,
+                                         mask: parseInt(mask),
                                          address: null},
                 function(r) {
+                    request('/api/network/allocate/', {token: window.token, network_id: r['id']}, function(r) {});
                     showNetworkList();
                     $(modal).find("#networkForm")[0].reset();
                 });

@@ -68,7 +68,7 @@
                     base_image_id: base_image_id},
                 function(r) {
                     $(modal).find("#vmLeases option:selected").each(function() {
-                        request("/api/network/attach/", {token: window.token, vm_id: r["id"], lease_id: $(this).val()}, function(r) {});
+                        request("/api/lease/attach/", {token: window.token, vm_id: r["id"], lease_id: $(this).val()}, function(r) {});
                     });
                     $(modal).find("#vmDisks option:selected").each(function() {
                         request("/api/image/attach/", {token: window.token, vm_id: r["id"], image_id: $(this).val()}, function(r) {});
