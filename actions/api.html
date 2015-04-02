@@ -94,6 +94,7 @@
             request('/api/network/get_by_id/', {token: window.token, network_id: id}, function(network) {
                 $('#networkName').append(network['name']);
                 $('#networkAddress').append(network['address'] + '/' + network['mask']);
+                $('#networkInfoModal').modal('show');
             });
         });
     }
