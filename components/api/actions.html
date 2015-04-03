@@ -96,6 +96,14 @@
                 makeFieldEditableId(id, "network", "name", "#networkName");
                 $('#networkAddress').append(network['address'] + '/' + network['mask']);
                 $('#networkInfoModal').modal('show');
+                request('/api/lease/get_list/', {token: window.token, network_id: id}, function(leases) {
+                    $('#networkLeases').css('overflow', 'scroll');
+                    $('#networkLeases').css('height', '200px');
+                    for (i = 0; i < leases.length; i++) {
+                        $('#networkLeases').append($('<div>').text(leases[i]['address']));
+                    }
+                    $('#networkLeases').scroll();
+                });
             });
         });
     }
