@@ -1,0 +1,43 @@
+<script type="jquery-xtmpl" id="coreDavInfoTmpl">
+    <div class="btn-group">
+        <button onclick='coreDavEnable(1)' class='btn btn-success'><span class='glyphicon glyphicon-ok'></span></button>
+        <button onclick='coreDavEnable(0)' class='btn btn-danger'><span class='glyphicon glyphicon-remove'></span></button>
+        <script type="text/javascript">
+            function coreDavEnable(enable) {
+                request("/coreDav/webdav/enable/", {login: window.login, pw_hash: window.pw_hash, token_id: '${id}', enable: enable}, function() {
+                    coreDavList();
+                });
+            }
+
+        {{html "</sc"+"ript>"}}
+    </div>
+    <label id="status_${id}"></label>
+    <div id="address_${id}"></div>
+</script>
+
+<script type="text/javascript">
+    function showActions_coreDav(id) {
+        if ($("#actions_" + id).hasClass("hidden")) {
+            $("#actions_" + id).empty();
+            var ids = [
+                {id: id}
+            ];
+            $("#coreDavInfoTmpl").tmpl(ids).appendTo("#actions_" + id);
+            $("#actions_" + id).removeClass("hidden");
+            request('/user/token/get/', {login: window.login, pw_hash: window.pw_hash, token_id: id}, function(r) {
+                if (r['data']['webdav_enabled'] == 1) {
+                    $('#status_' + id).append(' enabled');
+                    request('/api/image/get_image_types/', {token: window.token}, function(types) {
+                        for (i = 0; i < types.length; i++)
+                            $('#address_' + id).append('<b>' + types[i] + ' images: </b> ' + window.coreUrl.replace('8000', '8700') + '/storage/' + types[i] + '/' + r['token'] + '/<br />');
+                    });
+                } else {
+                    $('#status_' + id).append(' disabled');
+                }
+            });
+        } else {
+            $("#actions_" + id).addClass("hidden");
+        }
+    }
+
+</script>
