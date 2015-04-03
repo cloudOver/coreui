@@ -2,7 +2,7 @@ function TableCoreModel(data, fields, model_name) {
     /*
     data - Response from Core with all fields that are to be shown in table
     fields - fields from response that are be shown in table
-    actions - action related to each record. Actions are loaded from separate file in components/[EXTENSION]/actions/[MODEL]
+    model_name - related model in OverCluster/Core
      */
     this.fields = fields;
     this.data = data;
@@ -53,7 +53,8 @@ function TableCoreModel(data, fields, model_name) {
 function TableListModel(data, title, model_name) {
     /*
      data - Response from Core with all fields that are to be shown in table
-     actions - action related to each record. Actions are loaded from separate file in components/[EXTENSION]/actions/[MODEL]
+     title - Table title
+     model_name = related model name in OverCluster/core
      */
     this.title = title;
     this.data = data;

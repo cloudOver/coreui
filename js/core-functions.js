@@ -61,7 +61,7 @@ function makeTable(model, elementId) {
         if (model.model_name != null) {
             request("/api/api/list_api_modules/", {token: window.token}, function (r) {
                 for (i = 0; i < r.length; i++) {
-                    $(elementId + "_controller").append($('<div>').load("actions/" + r[i] + ".html"));
+                    $(elementId + "_controller").append($('<div>').load("components/" + r[i] + "/actions.html"));
                 }
             });
         }
