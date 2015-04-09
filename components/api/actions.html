@@ -100,7 +100,11 @@
                     $('#networkLeases').css('overflow', 'scroll');
                     $('#networkLeases').css('height', '200px');
                     for (i = 0; i < leases.length; i++) {
-                        $('#networkLeases').append($('<div>').text(leases[i]['address']));
+                        if (leases[i]['vm_id'] == null) {
+                            $('#networkLeases').append($('<div>').text(leases[i]['address']));
+                        } else {
+                            $('#networkLeases').append($('<div>').append("<b>" + leases[i]['address'] + "</b>: " + leases[i]['vm_id']));
+                        }
                     }
                     $('#networkLeases').scroll();
                 });
@@ -158,7 +162,7 @@
                     $("#cleanup").removeClass("hidden");
                 }
 
-                $("#vncPassword").append(r['vnc_passwd']);
+                $("#vncPassword").val(r['vnc_passwd']);
                 $("#vncHost").val(r['vnc_address'] + ':' + r['vnc_port']);
             });
 
