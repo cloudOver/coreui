@@ -1,0 +1,54 @@
+<div id="modals"></div>
+
+<script type="text/javascript">
+    $("#modals").append($("<div>").load("components/coreTalk/modals/userdata_create.html"));
+
+    function showUserDataList() {
+        highlightMenu("#userdata_list");
+        request("/coreTalk/userdata/get_list/", {token: window.token}, function(r) {
+            makeTable(new TableCoreModel(r, ["id", "name"], "userdata"), "#content");
+        });
+    }
+
+    function showUserDataCreate() {
+        highlightMenu("#userdata_create");
+        showUserDataList();
+        clearTimeout(window.refresh_timeout);
+        modal = "#userdataCreateModal";
+        $(modal).modal('show');
+    }
+
+
+    function showVpnConnect() {
+        highlightMenu("#vpn_connect");
+        showVpnConnections();
+        clearTimeout(window.refresh_timeout);
+        modal = "#vpnConnectModal";
+        $(modal).modal('show');
+
+        request('/api/vm/get_list/', {token: window.token}, function(r) {
+            // Remove not stopped vms
+            for (l = r.length-1; l >= 0; l--) {
+                if (r[l]["state"] != "stopped") {
+                    r.splice(l, 1);
+                }
+            }
+            fillSelect(new SelectCoreModel(r, "name"), "#vpnConnectModal", "#vmId");
+        });
+        request("/vpn/network/get_list/", {token: window.token}, function(r) {
+            for (l = r.length-1; l >= 0; l--) {
+                if (r[l]["state"] != "running") {
+                    r.splice(l, 1);
+                }
+            }
+            fillSelect(new SelectCoreModel(r, "name"), "#vpnConnectModal", "#vpnId");
+        });
+    }
+
+
+    $("#userdata_list").click(function(e) { showUserDataList(); });
+    $("#userdata_create").click(function(e) { showUserDataCreate(); });
+    $("#vpn_connections").click(function(e) { showVpnConnections(); });
+    $("#vpn_connect").click(function(e) { showVpnConnect(); });
+
+</script>

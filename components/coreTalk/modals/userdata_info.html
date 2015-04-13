@@ -1,0 +1,29 @@
+<div class="modal fade" id="userdataInfoModal" tabindex="-1" role="dialog" aria-labelledby="userdataInfoLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button onclick="$('#userdataInfoModal').modal('hide')" type="button" class="close"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="userdataInfoLabel">Edit user data</h4>
+            </div>
+            <div class="modal-body">
+                <form id="userdataForm" role="form">
+                    <div class="form-group">
+                        <div>
+                            <label for="userdataName">Name:</label>
+                            <div id="userdataName"></div>
+                        </div>
+                        <br />
+                        <div>
+                            <label for="userdataData">Data:</label>
+                            <div id="userdataData"></div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn" onclick="$('#userdataInfoModal').modal('hide')">Cancel</button>
+                <button id="userdataRemove" type="button" class="btn btn-danger">Remove</button>
+            </div>
+        </div>
+    </div>
+</div>
