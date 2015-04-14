@@ -20,9 +20,9 @@
                 var l = document.createElement("a");
                 l.href = window.coreUrl;
                 $("#vpnInfoEndpoint").append(l.hostname);
-                $("#vpnInfoEndpoint").append(":" + actions['port']);
-                $("#vpnInfoID").append(actions['id']);
-                $("#vpnInfoName").append(actions['name']);
+                $("#vpnInfoEndpoint").append(":" + vpn['port']);
+                $("#vpnInfoID").append(vpn['id']);
+                $("#vpnInfoName").append(vpn['name']);
 
                 request('/vpn/network/get_connection_list/', {token: window.token, vpn_id: id}, function(r) {
                     makeTable(new TableCoreModel(r, ["vm_id", "state"], null), "#attachedTo")

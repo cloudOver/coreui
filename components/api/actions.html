@@ -34,8 +34,8 @@
                 $("#imageInfoAttachedTo").append(image['attached_to_id']);
 
 
-                makeFieldEditableId(id, "image", "name", "#imageInfoName");
-                makeFieldEditableId(id, "image", "description", "#imageInfoDescription");
+                makeFieldEditableId(id, "api", "image", "name", "#imageInfoName");
+                makeFieldEditableId(id, "api", "image", "description", "#imageInfoDescription");
 
                 makeTable(new TableCoreModel(image['tasks'], ["type", "action", "state"], null), "#vmTasks");
 
@@ -93,7 +93,7 @@
         $("#apiModals").load('components/api/modals/network_info.html', function() {
             request('/api/network/get_by_id/', {token: window.token, network_id: id}, function(network) {
                 $('#networkName').append(network['name']);
-                makeFieldEditableId(id, "network", "name", "#networkName");
+                makeFieldEditableId(id, "api", "network", "name", "#networkName");
                 $('#networkAddress').append(network['address'] + '/' + network['mask']);
                 $('#networkInfoModal').modal('show');
                 request('/api/lease/get_list/', {token: window.token, network_id: id}, function(leases) {
@@ -139,8 +139,8 @@
                 $("#vmInfoID").append(r['id']);
 
 
-                makeFieldEditableId(id, "vm", "name", "#vmInfoName");
-                makeFieldEditableId(id, "vm", "description", "#vmInfoDescription");
+                makeFieldEditableId(id, "api", "vm", "name", "#vmInfoName");
+                makeFieldEditableId(id, "api", "vm", "description", "#vmInfoDescription");
 
                 makeTable(new TableCoreModel(r['tasks'], ["type", "action", "state"], null), "#vmTasks");
                 makeTable(new TableCoreModel(r['leases'], ["address"], null), "#vmLeases");

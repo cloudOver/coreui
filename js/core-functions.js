@@ -94,25 +94,29 @@ function highlightMenu(buttonId) {
     $("#menu").find(buttonId).addClass("list-group-item-warning");
 }
 
-function makeFieldEditableId(item_id, model, field, fieldId) {
+/// Make field editable, selected by given ID
+function makeFieldEditableId(item_id, module, model, property, fieldId) {
     $(fieldId).editable(function(value, settings) {
         fields = {};
         fields['token'] = window.token;
         fields[model + "_id"] = item_id;
-        fields[field] = value;
-        request("/api/" + model + "/edit/", fields, function() {});
+        fields[property] = value;
+        request("/" + module + "/" + model + "/edit/", fields, function() {});
         return value;
     });
 }
 
-function makeFieldEditable(item_id, model, field) {
-    makeFieldEditableId(item_id, model, field, "#item_" + item_id + "_" + field);
+/// Make field editable, selected by automaticly generated id. Used only in tables
+function makeFieldEditable(item_id, model, property) {
+    makeFieldEditableId(item_id, model, property, "#item_" + item_id + "_" + property);
 }
 
+/// Remove editable from field
 function makeFieldUneditableId(item_id, fieldId) {
     $("#item_" + item_id + "_" + fieldId).editable('disable');
 }
 
+/// Remove editable from field, by generated id
 function makeFieldUneditable(item_id, field) {
     makeFieldUneditableId(item_id, "#item_" + item_id + "_" + field);
 }

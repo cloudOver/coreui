@@ -15,9 +15,6 @@
                             <div id="vpnInfoID"></div>
                             <label for="vpnInfoID">OpenVPN endpoint: </label>
                             <div id="vpnInfoEndpoint"></div>
-                            <div class="btn-group btn">
-                                <button id="remove" class='btn btn-primary' data-toggle="tooltip" data-placement="bottom" title="Remove image"><span class='glyphicon glyphicon-remove'></span> Remove</button>
-                            </div>
                         </div>
                         <div class="col-md-8">
                             <label>Client's credentials:</label><br/>
@@ -32,6 +29,8 @@
                 </form>
             </div>
             <div class="modal-footer">
+                <button type="button" class="btn" onclick="$('#vpnInfoModal').modal('hide')">Cancel</button>
+                <button id="remove" type="button" class="btn btn-danger">Remove</button>
             </div>
         </div>
     </div>
