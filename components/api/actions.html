@@ -95,6 +95,12 @@
                 $('#networkName').append(network['name']);
                 makeFieldEditableId(id, "api", "network", "name", "#networkName");
                 $('#networkAddress').append(network['address'] + '/' + network['mask']);
+                $('#networkRemove').click(function(e) {
+                    request('/api/network/delete/', {token: window.token, network_id: id}, function(r) {
+                        $('#networkInfoModal').modal('hide');
+                        showNetworkList();
+                    });
+                });
                 $('#networkInfoModal').modal('show');
                 request('/api/lease/get_list/', {token: window.token, network_id: id}, function(leases) {
                     $('#networkLeases').css('overflow', 'scroll');

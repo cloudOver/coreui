@@ -31,24 +31,8 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" onclick="$('#networkInfoModal').modal('hide')">Close</button>
+                <button id="networkRemove" type="button" class="btn btn-danger">Remove</button>
             </div>
         </div>
     </div>
 </div>
-
-<script type="text/javascript">
-    $("#networkInfoModal").find("#networkSubmit").click(function(e) {
-        modal = "#networkInfoModal";
-        name = $(modal).find("#networkName").val();
-        mask = $(modal).find("#networkMask").val();
-        request('/api/network/create/', {token: window.token,
-                    name: name,
-                    mask: mask,
-                    address: null},
-                function(r) {
-                    showNetworkList();
-                    $(modal).find("#networkForm")[0].reset();
-                });
-        $(modal).modal('hide');
-    });
-</script>
