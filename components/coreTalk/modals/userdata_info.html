@@ -1,5 +1,5 @@
 <div class="modal fade" id="userdataInfoModal" tabindex="-1" role="dialog" aria-labelledby="userdataInfoLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <button onclick="$('#userdataInfoModal').modal('hide')" type="button" class="close"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
@@ -8,26 +8,36 @@
             <div class="modal-body">
                 <form id="userdataForm" role="form">
                     <div class="form-group">
-                        <div>
-                            <label for="userdataName">ID:</label>
-                            <div id="userdataId"></div>
-                        </div>
-                        <br />
-                        <div>
-                            <label for="userdataName">Name:</label>
-                            <div id="userdataName"></div>
-                        </div>
-                        <br />
-                        <div>
-                            <label for="userdataData">Data:</label>
-                            <div id="userdataData"></div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div>
+                                    <label for="userdataName">ID:</label>
+                                    <div id="userdataId"></div>
+                                </div>
+                                <br />
+                                <div>
+                                    <label for="userdataName">Name:</label>
+                                    <div id="userdataName"></div>
+                                </div>
+                                <br />
+                                <div>
+                                    <label for="userdataData">Data:</label>
+                                    <div id="userdataData"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <label for="attachUserdata">Attach userdata to virtual machine:</label>
+                                <select id="attachUserdata" class="form-control" width="200px"></select>
+                                <button id="attach" class="btn btn-success">Attach</button>
+                                <button id="detach" class="btn btn-danger">Detach</button>
+                            </div>
                         </div>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn" onclick="$('#userdataInfoModal').modal('hide')">Cancel</button>
-                <button id="userdataRemove" type="button" class="btn btn-danger">Remove</button>
+                <button type="button" class="btn" onclick="$('#userdataInfoModal').modal('hide')">Close</button>
+                <button id="userdataRemove" type="button" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span> Remove</button>
             </div>
         </div>
     </div>
