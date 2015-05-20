@@ -6,7 +6,7 @@
     function showTokenList() {
         highlightMenu("#user_tokens");
         request("/user/token/get_list/", {login: window.login, pw_hash: window.pw_hash}, function(r) {
-            makeTable(new TableCoreModel(r, ["name", "token", "valid_to", "function_filter"], "token"), "#content");
+            makeTable(new TableCoreModel(r, ["name", "token", "valid_to"], "token"), "#content");
         });
     }
 
