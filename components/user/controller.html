@@ -11,9 +11,12 @@
     }
 
     function showTokenCreate() {
+        modal = "#tokenCreateModal";
         highlightMenu("#token_create");
         showTokenList();
-        modal = "#tokenCreateModal";
+        request('/user/permission/get_list/', {login: window.login, pw_hash: window.pw_hash}, function (r) {
+            fillSelect(new SelectCoreModel(r, "function"), modal, "#permissionList");
+        });
         $(modal).modal('show');
     }
 
