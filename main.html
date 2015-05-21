@@ -51,4 +51,7 @@
             }
         });
     });
+    request('/api/template/capabilities/', {token: window.token}, function(caps) {
+        $("#capabilities").append("<b>Available storage: </b>" + caps/1024 + " GB");
+    });
 </script>
