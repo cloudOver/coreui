@@ -11,7 +11,7 @@
                         <label for="tokenName">Token name: </label><input type="text" id="tokenName" class="form-control">
                     </div>
                     <div class="form-group">
-                        <label for="tokenPermissions">Permissions (select none to ignore permissions for token):</label><br/>
+                        <label for="permissionList">Permissions (select none to ignore permissions for token):</label><br/>
                         <select multiple class="form-control" id="permissionList"></select>
                     </div>
                 </form>
@@ -32,9 +32,15 @@
                                         pw_hash: window.pw_hash,
                                         name: name},
                 function(r) {
-                    $(modal).find("#tokenForm")[0].reset();
+                    $(modal).find("#permissionList option:selected").each(function() {
+                        request("/user/permission/attach/", {login: window.login,
+                                                             pw_hash: window.pw_hash,
+                                                             token_id: r["id"],
+                                                             function: $(this).text()}, function(r) {});
+                        $(modal).find("#tokenForm")[0].reset();
+                    });
                 });
         showTokenList();
         $(modal).modal('hide');
-    })
+    });
 </script>

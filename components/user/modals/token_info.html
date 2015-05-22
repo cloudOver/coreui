@@ -1,20 +1,26 @@
-<div class="modal fade" id="tokenCreateModal" tabindex="-1" role="dialog" aria-labelledby="imageCreateLabel" aria-hidden="true">
+<div class="modal fade" id="tokenInfoModal" tabindex="-1" role="dialog" aria-labelledby="imageCreateLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button onclick="$('#tokenCreateModal').modal('hide')" type="button" class="close"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title" id="tokenCreateLabel">Create new token</h4>
+                <button onclick="$('#tokenInfoModal').modal('hide')" type="button" class="close"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="tokenInfoLabel">Create new token</h4>
             </div>
             <div class="modal-body">
                 <form id="tokenForm" role="form">
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="tokenName">Token name: </label><div id="tokenName"></div>
+                                <label for="tokenName">Token name: </label>
+                                <div id="tokenName"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="tokenValidTo">Valid to: </label>
+                                <div id="tokenValidTo"></div>
                             </div>
                             <div class="form-group">
                                 <label for="tokenPermissions">Permissions (select none to ignore permissions for token):</label><br/>
-                                <select multiple class="form-control" id="permissionList"></select>
+                                <select multiple class="form-control" id="tokenPermissions"></select>
+                                <button class="btn btn-default" id="tokenPermissionsAttach">Attach</button>
                             </div>
                         </div>
                         <div class="col-md-6" id="tokenPermissionList">
@@ -24,7 +30,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn" onclick="$('#tokenCreateModal').modal('hide')">Close</button>
+                <button type="button" class="btn" onclick="$('#tokenInfoModal').modal('hide')">Close</button>
                 <button id="tokenRemove" type="button" class="btn btn-danger">Remove</button>
             </div>
         </div>
