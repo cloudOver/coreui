@@ -19,6 +19,6 @@
     }
 
 
-    $("#userdata_list").click(function(e) { showUserDataList(); });
-    $("#userdata_create").click(function(e) { showUserDataCreate(); });
+    $("#userdata_list").click(function(e) { e.preventDefault(); showUserDataList(); });
+    $("#userdata_create").click(function(e) { e.preventDefault(); showUserDataCreate(); });
 </script>

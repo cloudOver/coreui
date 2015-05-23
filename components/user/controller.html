@@ -36,9 +36,14 @@
         });
     }
 
+    function showAccountDetails() {
+        $("#content").load('main.html');
+    }
 
-    $("#user_tokens").click(function(e) { showTokenList(); });
-    $("#create_token").click(function(e) { showTokenCreate(); });
-    $("#user_api").click(function(e) { showApiList(); });
+
+    $("#user_tokens").click(function(e) { e.preventDefault(); showTokenList(); });
+    $("#create_token").click(function(e) { e.preventDefault(); showTokenCreate(); });
+    $("#user_account").click(function(e) { e.preventDefault(); showAccountDetails(); });
+    $("#user_api").click(function(e) { e.preventDefault(); showApiList(); });
 
 </script>

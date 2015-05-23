@@ -134,14 +134,14 @@
 
 
 
-    $("#vm_list").click(function(e) { showVmList(); });
-    $("#template_list").click(function(e) { showTemplateList(); });
-    $("#vm_create").click(function(e) { showVmCreate() });
+    $("#vm_list").click(function(e) { e.preventDefault(); showVmList(); });
+    $("#template_list").click(function(e) { e.preventDefault(); showTemplateList(); });
+    $("#vm_create").click(function(e) { e.preventDefault(); showVmCreate() });
 
-    $("#image_list").click(function(e) { showImageList() });
-    $("#image_create").click(function(e) { showImageCreate() });
-    $("#image_upload").click(function(e) { showImageUpload() });
+    $("#image_list").click(function(e) { e.preventDefault(); showImageList() });
+    $("#image_create").click(function(e) { e.preventDefault(); showImageCreate() });
+    $("#image_upload").click(function(e) { e.preventDefault(); showImageUpload() });
 
-    $("#network_list").click(function(e) { showNetworkList() });
-    $("#network_create").click(function(e) { showNetworkCreate() });
+    $("#network_list").click(function(e) { e.preventDefault(); showNetworkList() });
+    $("#network_create").click(function(e) { e.preventDefault(); showNetworkCreate() });
 </script>
