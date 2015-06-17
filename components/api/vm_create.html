@@ -1,0 +1,44 @@
+<div ng-controller="CoreCtrl" class="container text-center">
+    <form id="create" class="form-control">
+        <div>
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active"><a aria-controls="basic" role="tab" data-toggle="tab">Basic</a></li>
+                <li role="presentation"><a aria-controls="hardware" role="tab" data-toggle="tab">Hardware</a></li>
+                <li role="presentation"><a aria-controls="networking" role="tab" data-toggle="tab">Networking</a></li>
+                <li role="presentation"><a aria-controls="images" role="tab" data-toggle="tab">External drives</a></li>
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="basic">
+                    name, description
+                </div>
+                <div role="tabpanel" class="tab-pane" id="hardware">
+                    templates, base_image
+                </div>
+                <div role="tabpanel" class="tab-pane" id="networking">
+                    networks and leases
+                </div>
+                <div role="tabpanel" class="tab-pane" id="images">
+                    external drives
+                </div>
+            </div>
+        </div>
+        <button type="submit">Create</button>
+    </form>
+</div>
+
+<script>
+    function viewController($scope, $location, $http) {
+        $scope.edit = function(vm) {
+            alert(vm.id);
+            $location.path('/api/vm/edit/' + vm.id + '/');
+
+        };
+        request('/api/vm/get_list/', {token: $.cookie("core_token")}, function(vms) {
+            $scope.vms = vms;
+            $scope.$apply();
+        });
+    }
+</script>

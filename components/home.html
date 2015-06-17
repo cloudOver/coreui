@@ -38,7 +38,7 @@
                         </tr>
                     </table>
                     <hr/>
-                    Storage: {{ storage }} MB
+                    <b>Available storage:</b> {{ storage }} MB
                 </div>
             </div>
         </div>
@@ -46,7 +46,7 @@
 </div>
 
 <script>
-function viewController($scope) {
+function viewController($scope, $location, $http) {
     request('/api/template/capabilities/', {token: $.cookie("core_token")}, function(caps) {
         request('/api/template/get_list/', {token: $.cookie("core_token")}, function(templ) {
             $scope.templates = [];

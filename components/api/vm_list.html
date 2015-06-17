@@ -2,6 +2,7 @@
     <div class="row">
         <div class="col-md-12 panel">
             <div class="panel-heading">Virtual machines</div>
+            <button id="vm_create" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span>Create new</button>
             <div class="panel-body">
                 <table class="table table-stripped" ng-table="vmsTable">
                     <thead>
@@ -32,9 +33,11 @@
 </div>
 
 <script>
-    function viewController($scope) {
+    function viewController($scope, $location, $http) {
         $scope.edit = function(vm) {
             alert(vm.id);
+            $location.path('/api/vm/edit/' + vm.id + '/');
+
         };
         request('/api/vm/get_list/', {token: $.cookie("core_token")}, function(vms) {
             $scope.vms = vms;
