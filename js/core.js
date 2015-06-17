@@ -1,5 +1,6 @@
 var app = angular.module('coreUi', [
-    'ngRoute'
+    'chart.js',
+    'ngRoute',
 ]);
 
 
@@ -16,13 +17,14 @@ app.config(['$routeProvider', function ($routeProvider) {
 
 
 app.controller('CoreCtrl', function ($scope, $location, $http) {
-    window.login = $.cookie("core_login");
-    window.pw_hash = $.cookie("core_hash");
-    window.token = $.cookie("core_token");
-    $.cookie('core_login', null);
-    if (!window.login || !window.pw_hash || ! window.token) {
+    window.core_login = $.cookie("core_login");
+    window.core_hash = $.cookie("core_hash");
+    window.core_token = $.cookie("core_token");
+    if (!window.core_login || !window.core_hash || ! window.core_token) {
         document.location = "login.html";
     }
+
+    viewController($scope);
 });
 
 app.controller('LogoutCtrl', function ($scope, $location, $http) {
