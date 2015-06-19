@@ -1,4 +1,4 @@
-var app = angular.module('coreUi', [
+window.app = angular.module('coreUi', [
     'chart.js',
     'ngRoute',
 ]);
@@ -7,7 +7,7 @@ var app = angular.module('coreUi', [
 /**
  * Configure the Routes
  */
-app.config(['$routeProvider', function ($routeProvider) {
+window.app.config(['$routeProvider', function ($routeProvider) {
     $routeProvider.when("/", {templateUrl: "components/home.html", controller: "CoreCtrl"})
                   .when("/api/vm/", {templateUrl: "components/api/vm_list.html", controller: "CoreCtrl"})
                   .when("/api/vm/create/", {templateUrl: "components/api/vm_create.html", controller: "CoreCtrl"})
@@ -18,7 +18,7 @@ app.config(['$routeProvider', function ($routeProvider) {
 }]);
 
 
-app.controller('CoreCtrl', function ($scope, $location, $http) {
+window.app.controller('CoreCtrl', function ($scope, $location, $http) {
     window.core_login = $.cookie("core_login");
     window.core_hash = $.cookie("core_hash");
     window.core_token = $.cookie("core_token");
@@ -29,7 +29,7 @@ app.controller('CoreCtrl', function ($scope, $location, $http) {
     viewController($scope, $location, $http);
 });
 
-app.controller('LogoutCtrl', function ($scope, $location, $http) {
+window.app.controller('LogoutCtrl', function ($scope, $location, $http) {
     $.cookie("core_login", null);
     $.cookie("core_hash", null);
     $.cookie("core_token", null);

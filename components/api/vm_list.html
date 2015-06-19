@@ -1,32 +1,35 @@
 <div ng-controller="CoreCtrl">
     <div class="row">
-        <div class="col-md-12 panel">
-            <div class="panel-heading">Virtual machines</div>
-            <button id="vm_create" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span>Create new</button>
-            <div class="panel-body">
-                <table class="table table-stripped" ng-table="vmsTable">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Name</th>
-                            <th>Description</th>
-                            <th>State</th>
-                            <th>Template</th>
-                            <th>Base image</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr ng-repeat="vm in vms" ng-click="edit(vm)">
-                            <td>{{ vm.id }}</td>
-                            <td data-title="'Name'" sortable="'name'">{{ vm.name }}</td>
-                            <td>{{ vm.description }}</td>
-                            <td data-title="'State'" sortable="'state'">{{ vm.state }}</td>
-                            <td data-title="'Template'" sortable="'template'">{{ vm.template.name }}</td>
-                            <td data-title="'Base image'" sortable="'base_image'">{{ vm.base_image.name }}</td>
-                            <td><button ng-click="edit(vm)">Edit</button></td>
-                        </tr>
-                    </tbody>
-                </table>
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Virtual machines
+                    <button ng-click="vm_create()" id="vm_create" class="pull-right btn btn-sm btn-success"><span class="glyphicon glyphicon-plus"></span>Create new</button>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-stripped" ng-table="vmsTable">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Description</th>
+                                <th>State</th>
+                                <th>Template</th>
+                                <th>Base image</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="vm in vms" ng-click="vm_edit(vm)">
+                                <td>{{ vm.id }}</td>
+                                <td data-title="'Name'" sortable="'name'">{{ vm.name }}</td>
+                                <td>{{ vm.description }}</td>
+                                <td data-title="'State'" sortable="'state'">{{ vm.state }}</td>
+                                <td data-title="'Template'" sortable="'template'">{{ vm.template.name }}</td>
+                                <td data-title="'Base image'" sortable="'base_image'">{{ vm.base_image.name }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -34,10 +37,12 @@
 
 <script>
     function viewController($scope, $location, $http) {
-        $scope.edit = function(vm) {
+        $scope.vm_edit = function(vm) {
             alert(vm.id);
             $location.path('/api/vm/edit/' + vm.id + '/');
-
+        };
+        $scope.vm_create = function() {
+            $location.path('/api/vm/create/');
         };
         request('/api/vm/get_list/', {token: $.cookie("core_token")}, function(vms) {
             $scope.vms = vms;

@@ -1,43 +1,203 @@
 <div ng-controller="CoreCtrl" class="container text-center">
-    <form id="create" class="form-control">
-        <div>
-            <!-- Nav tabs -->
-            <ul class="nav nav-tabs" role="tablist">
-                <li role="presentation" class="active"><a aria-controls="basic" role="tab" data-toggle="tab">Basic</a></li>
-                <li role="presentation"><a aria-controls="hardware" role="tab" data-toggle="tab">Hardware</a></li>
-                <li role="presentation"><a aria-controls="networking" role="tab" data-toggle="tab">Networking</a></li>
-                <li role="presentation"><a aria-controls="images" role="tab" data-toggle="tab">External drives</a></li>
-            </ul>
-
-            <!-- Tab panes -->
-            <div class="tab-content">
-                <div role="tabpanel" class="tab-pane active" id="basic">
-                    name, description
-                </div>
-                <div role="tabpanel" class="tab-pane" id="hardware">
-                    templates, base_image
-                </div>
-                <div role="tabpanel" class="tab-pane" id="networking">
-                    networks and leases
-                </div>
-                <div role="tabpanel" class="tab-pane" id="images">
-                    external drives
+    <form id="create" ng-controller="CoreCtrl">
+        <div class="row">
+            <div class="col-md-1 hidden-sm">
+            </div>
+            <div class="col-md-5 col-sm-6">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        VM details
+                    </div>
+                    <div class="panel-body">
+                        <label for="name" class="sr-only">Name</label>
+                        <input type="text" id="name" ng-model="name" class="form-control" placeholder="Name" required autofocus>
+                        <hr/>
+                        <label for="description" class="sr-only">Description</label>
+                        <textarea type="text" id="description" ng-model="description" class="form-control" placeholder="Short description"></textarea>
+                    </div>
                 </div>
             </div>
+            <div class="col-md-5 col-sm-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Virtual hardware
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="pull-right">Resources:</div>
+                            </div>
+                            <div class="col-md-8">
+                                <select ng-model="template" required ng-options="template.name for template in templates" class="selectpicker" id="template">
+                                    <option value="">-- select --</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="pull-right">Base image:</div>
+                            </div>
+                            <div class="col-md-8">
+                                <select ng-model="base_image" required id="baseImage" ng-options="image.name for image in images | filter:{type: 'transient'}" class="selectpicker">
+                                    <option value="">-- select main disk image --</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="pull-right">Remote screen:</div>
+                            </div>
+                            <div class="col-md-8">
+                                <select ng-model="vnc" class="selectpicker" id="vnc">
+                                    <option value="1">Yes</option>
+                                    <option value="0" selected>No</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-1 hidden-sm"></div>
         </div>
-        <button type="submit">Create</button>
+        <div class="row">
+            <div class="col-md-1 hidden-sm"></div>
+            <div class="col-md-5 col-sm-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Networking
+                    </div>
+                    <div class="panel-body">
+                        <button class="btn btn-primary btn-sm btn-block" id="addNIC" ng-click="addNIC()"><span class="glyphicon glyphicon-plus"></span>Add NIC</button>
+                        <br/>
+                        <fieldset data-ng-repeat="nic in nics">
+                            <div class="row">
+                                <div class="col-md-10">
+                                    <select ng-model="nic.lease" ng-options="lease.address for lease in leases | filter:{vm_id: 'null'}" class="selectpicker">
+                                        <option value="">-- select lease --</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-2">
+                                    <button class="btn btn-sm btn-danger btn-block" ng-click="removeNIC(nic)"><span class="glyphicon glyphicon-remove"></span></button>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5 col-sm-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        External storages
+                    </div>
+                    <div class="panel-body">
+                        <button class="btn btn-primary btn-sm btn-block" id="addStorage" ng-click="addStorage()"><span class="glyphicon glyphicon-plus"></span>Add storage</button>
+                        <br/>
+                        <fieldset data-ng-repeat="storage in storages">
+                            <div class="row">
+                                <div class="col-md-10">
+                                    <select ng-model="storage.image" ng-options="image.name for image in images | filter:{type: 'permanent', attached_to_id: 'null'}" class="selectpicker">
+                                        <option value="">-- select storage --</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-2">
+                                    <button class="btn btn-sm btn-danger btn-block" ng-click="removeStorage(storage)"><span class="glyphicon glyphicon-remove"></span></button>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-1 hidden-sm"></div>
+        </div>
+        <a href="#/api/vm/">&lt; VM list</a>
+        &nbsp;&nbsp;&nbsp;
+        <button type="submit" ng-click="vmCreate()" class="btn btn-lg btn-success">Create</button>
     </form>
 </div>
 
 <script>
     function viewController($scope, $location, $http) {
-        $scope.edit = function(vm) {
-            alert(vm.id);
-            $location.path('/api/vm/edit/' + vm.id + '/');
+        $scope.nics =  [];
+        $scope.networks = [];
+        $scope.leases = [];
+        $scope.storages = [];
+        $scope.vnc = 0;
+        $("#addStorage").prop('disabled', true);
+        $("#addNIC").prop('disabled', true);
+        $("#template").prop('disabled', true);
+        //$("#baseImage").prop('disabled', true);
 
+        $scope.addNIC = function() {
+            $scope.nics.push({});
+            setTimeout('$(".selectpicker").selectpicker();', 100);
         };
-        request('/api/vm/get_list/', {token: $.cookie("core_token")}, function(vms) {
-            $scope.vms = vms;
+
+
+        $scope.removeNIC = function(nic) {
+            var i = $scope.nics.indexOf(nic);
+            $scope.nics.splice(i, 1);
+        };
+
+
+        $scope.addStorage = function() {
+            $scope.storages.push({});
+            setTimeout('$(".selectpicker").selectpicker();', 100);
+        };
+
+
+        $scope.removeStorage = function(storage) {
+            var i = $scope.storages.indexOf(storage);
+            $scope.storages.splice(i, 1);
+        };
+
+        $scope.vmCreate = function() {
+            alert($scope.name);
+            request('/api/vm/create/', {token: $.cookie("core_token"),
+                                        name: $scope.name,
+                                        description: $scope.description,
+                                        template_id: $scope.template.id,
+                                        base_image_id: $scope.base_image.id,
+            }, function(vm) {
+                for (i = 0; i < $scope.nics.length; i++) {
+                    request('/api/lease/attach/', {token: $.cookie("core_token"), lease_id: $scope.nics[i].id, vm_id: vm.id}, function(r) {});
+                }
+                for (i = 0; i < $scope.storages.length; i++) {
+                    request('/api/image/attach/', {token: $.cookie("core_token"), image_id: $scope.images[i].id, vm_id: vm.id}, function(r) {});
+                }
+            });
+        };
+
+
+        request('/api/image/get_list/', {token: $.cookie("core_token")}, function(images) {
+            $scope.images = images;
+            $scope.$apply();
+            $("#addStorage").prop('disabled', false);
+            $("#baseImage").prop('disabled', false);
+            $("#baseImage").selectpicker();
+        });
+
+
+        request('/api/template/get_list/', {token: $.cookie("core_token")}, function(templates) {
+            $scope.templates = templates;
+            $scope.$apply();
+            $("#template").prop('disabled', false);
+            $("#template").selectpicker();
+            $("#vnc").selectpicker();
+        });
+
+
+        request('/api/network/get_list/', {token: $.cookie("core_token")}, function(networks) {
+            $scope.networks = networks;
+            $scope.$apply();
+            for (i = 0; i < networks.length; i++) {
+                request('/api/lease/get_list/', {token: $.cookie("core_token"), network_id: networks[i].id}, function(leases) {
+                    for (i = 0; i < leases.length; i++) {
+                        $scope.leases.push(leases[i]);
+                    }
+                    $scope.$apply();
+                    $("#addNIC").prop('disabled', false);
+                });
+            }
             $scope.$apply();
         });
     }
