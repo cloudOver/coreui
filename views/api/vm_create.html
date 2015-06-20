@@ -151,7 +151,6 @@
         };
 
         $scope.vmCreate = function() {
-            alert($scope.name);
             request('/api/vm/create/', {token: $.cookie("core_token"),
                                         name: $scope.name,
                                         description: $scope.description,
@@ -164,6 +163,11 @@
                 for (i = 0; i < $scope.storages.length; i++) {
                     request('/api/image/attach/', {token: $.cookie("core_token"), image_id: $scope.images[i].id, vm_id: vm.id}, function(r) {});
                 }
+                if ($scope.vnc == 1) {
+                    request('/api/vm/console/', {token: $.cookie("core_token"), enable: 1, vm_id: vm.id}, function(r) {});
+                }
+                $location.path('/api/vm/');
+                alert('ok');
             });
         };
 

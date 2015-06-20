@@ -1,0 +1,81 @@
+<div ng-controller="CoreCtrl" class="container text-center">
+    <form id="create" ng-controller="CoreCtrl">
+        <div class="row">
+            <div class="col-md-1 hidden-sm">
+            </div>
+            <div class="col-md-5 col-sm-6">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        Disk image details
+                    </div>
+                    <div class="panel-body">
+                        <label for="name" class="sr-only">Name</label>
+                        <input type="text" id="name" ng-model="name" class="form-control" placeholder="Name" required autofocus>
+                        <hr/>
+                        <label for="description" class="sr-only">Description</label>
+                        <textarea type="text" id="description" ng-model="description" class="form-control" placeholder="Short description"></textarea>
+                        <hr/>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5 col-sm-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Virtual hardware
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="pull-right">Type:</div>
+                            </div>
+                            <div class="col-md-8">
+                                <select ng-model="type" required id="type" ng-options="type for type in types" class="selectpicker"></select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="pull-right">Access:</div>
+                            </div>
+                            <div class="col-md-8">
+                                <select ng-model="access" class="selectpicker" id="access">
+                                    <option value="private" selected>Private</option>
+                                    <option value="group">Group</option>
+                                    <option value="public">Public</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="pull-right">Network card:</div>
+                            </div>
+                            <div class="col-md-8">
+                                <select ng-model="network_device" required ng-options="network_device for network_device in network_devices" class="selectpicker" id="network_device"></select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="pull-right">Disk controller:</div>
+                            </div>
+                            <div class="col-md-8">
+                                <select ng-model="disk_controller" required id="disk_controller" ng-options="disk_controller for disk_controller in disk_controllers" class="selectpicker"></select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="pull-right">Video card:</div>
+                            </div>
+                            <div class="col-md-8">
+                                <select ng-model="video_device" class="selectpicker" id="video_device"></select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-1 hidden-sm"></div>
+        </div>
+        <a href="#/api/vm/">Go back to image list</a>
+        &nbsp;&nbsp;&nbsp;
+        <button type="submit" ng-click="vmCreate()" class="btn btn-lg btn-success">Create</button>
+    </form>
+</div>

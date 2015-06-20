@@ -1,0 +1,37 @@
+<div ng-controller="CoreCtrl">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Virtual machines
+                    <button ng-click="obj_create()" id="obj_create" class="pull-right btn btn-sm btn-success"><span class="glyphicon glyphicon-plus"></span>Create new</button>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-stripped" ng-table="vmsTable">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Description</th>
+                                <th>State</th>
+                                <th>Size</th>
+                                <th>Type</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="obj in objs" ng-click="obj_edit(obj)">
+                                <td>{{ obj.id }}</td>
+                                <td data-title="'Name'" sortable="'name'">{{ obj.name }}</td>
+                                <td>{{ obj.description }}</td>
+                                <td>{{ obj.state }}</td>
+                                <td data-title="'Soze'" sortable="'size'">{{ obj_size }}</td>
+                                <td data-title="'Type'" sortable="'type'">{{ obj.type}}</td>
+                                <td data-title="'Base image'" sortable="'base_image'">{{ vm.base_image.name }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
