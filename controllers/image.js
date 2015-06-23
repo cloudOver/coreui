@@ -49,12 +49,14 @@ window.app.controller('ImageListCtrl', function ($scope, $location, $http) {
 
 
 window.app.controller('ImageCreateCtrl', function ($scope, $location, $http) {
-    $scope.image = {};
-    $scope.image.access = 'private';
-    $scope.image.type = 'transient';
-    $scope.image.video_device = 'cirrus';
-    $scope.image.network_device = 'virtio';
-    $scope.image.disk_controller = 'virtio';
+    if (!$scope.hasOwnProperty('image')) {
+        $scope.image = {};
+        $scope.image['access'] = 'private';
+        $scope.image['type'] = 'transient';
+        $scope.image['video_device'] = 'cirrus';
+        $scope.image['network_device'] = 'virtio';
+        $scope.image['disk_controller'] = 'virtio';
+    }
 
     $("#type").prop('disabled', true);
     $("#video_device").prop('disabled', true);
@@ -88,7 +90,8 @@ window.app.controller('ImageCreateCtrl', function ($scope, $location, $http) {
 
 
 window.app.controller('ImageEditCtrl', function ($scope, $location, $route, $routeParams) {
-    $scope.image = {};
+    if (!$scope.hasOwnProperty('image'))
+        $scope.image = {};
 
     $("#type").prop('disabled', true);
     $("#video_device").prop('disabled', true);
@@ -97,6 +100,7 @@ window.app.controller('ImageEditCtrl', function ($scope, $location, $route, $rou
     $scope.imageSave = function() {
 
     };
+
     get_image_types($scope);
     get_network_devices($scope);
     get_video_devices($scope);
@@ -106,9 +110,8 @@ window.app.controller('ImageEditCtrl', function ($scope, $location, $route, $rou
         for (var i in img) {
             $scope.image[i] = img[i];
         }
-        //$scope.image = img;
         $scope.$apply();
-        console.log($scope.image);
+        console.log($scope);
     });
 });
 

@@ -1,8 +1,19 @@
-<div ng-controller="ImageCreateCtrl" class="text-center">
+<div class="text-center">
     <div class="row">
         <div class="col-md-1 hidden-sm">
         </div>
         <div class="col-md-5 col-sm-6">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    Actions
+                </div>
+                <div class="panel-body">
+                    <div class="btn-group">
+                        <button class="btn btn-danger" ng-click="removeImage(image)"><span class="glyphicon glyphicon-remove"></span>Remove</button>
+                        <button class="btn btn-default" ng-click="cloneImage(image)"><span class="glyphicon glyphicon-copy"></span>Clone</button>
+                    </div>
+                </div>
+            </div>
             <div class="panel panel-primary">
                 <div class="panel-heading">
                     Disk image details
@@ -22,13 +33,19 @@
                         <div class="input-group-addon">Description</div>
                         <textarea type="text" id="description" ng-model="image.description" class="form-control" placeholder="Short description"></textarea>
                     </div>
+                    <hr/>
+                    <div class="input-group">
+                        <div class="input-group-addon">Size</div>
+                        <input type="number" readonly class="form-control" id="size" ng-model="image.size" value="1" step="0.1" aria-valuemin="0.1">
+                        <div class="input-group-addon">GB</div>
+                    </div>
                 </div>
             </div>
         </div>
         <div class="col-md-5 col-sm-6">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    Virtual hardware
+                    Hardware
                 </div>
                 <div class="panel-body">
                     <div class="row">
@@ -81,10 +98,28 @@
                     </div>
                 </div>
             </div>
+            <div class="panel panel-default">
+                <div class="panel-heading" onclick="$('#tasks').toggle();">
+                    Tasks <span class="glyphicon glyphicon-arrow-down"></span>
+                </div>
+                <div class="panel-body" id="tasks">
+                    <table class="table table-striped">
+                        <thead>
+                            <th>Type</th>
+                            <th>Action</th>
+                            <th>State</th>
+                        </thead>
+                        <tr data-ng-repeat="task in image.tasks">
+                            <td>{{task.type}}</td>
+                            <td>{{task.action}}</td>
+                            <td>{{task.state}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
         </div>
         <div class="col-md-1 hidden-sm"></div>
     </div>
-    {{ image }}
     <br/>
     <a href="#/api/image/">Go back to image list</a>
     &nbsp;&nbsp;&nbsp;
