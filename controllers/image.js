@@ -35,7 +35,7 @@ window.app.controller('ImageListCtrl', function ($scope, $location, $http) {
     var model = 'image';
     $scope.obj_edit = function(obj) {
         $location.path('/api/' + model + '/' + obj.id + '/');
-        $location.$apply();
+        $scope.$apply();
     };
     $scope.obj_create = function() {
         $location.path('/api/' + model + '/create/');
@@ -49,14 +49,12 @@ window.app.controller('ImageListCtrl', function ($scope, $location, $http) {
 
 
 window.app.controller('ImageCreateCtrl', function ($scope, $location, $http) {
-    if (!$scope.hasOwnProperty('image')) {
-        $scope.image = {};
-        $scope.image['access'] = 'private';
-        $scope.image['type'] = 'transient';
-        $scope.image['video_device'] = 'cirrus';
-        $scope.image['network_device'] = 'virtio';
-        $scope.image['disk_controller'] = 'virtio';
-    }
+    $scope.image = {};
+    $scope.image['access'] = 'private';
+    $scope.image['type'] = 'transient';
+    $scope.image['video_device'] = 'cirrus';
+    $scope.image['network_device'] = 'virtio';
+    $scope.image['disk_controller'] = 'virtio';
 
     $("#type").prop('disabled', true);
     $("#video_device").prop('disabled', true);
@@ -90,15 +88,25 @@ window.app.controller('ImageCreateCtrl', function ($scope, $location, $http) {
 
 
 window.app.controller('ImageEditCtrl', function ($scope, $location, $route, $routeParams) {
-    if (!$scope.hasOwnProperty('image'))
-        $scope.image = {};
+    $scope.image = {};
 
     $("#type").prop('disabled', true);
     $("#video_device").prop('disabled', true);
     $("#network_device").prop('disabled', true);
     $("#disk_controller").prop('disabled', true);
-    $scope.imageSave = function() {
 
+    var core_model = 'image';
+    $scope.imageSave = function() {
+        request('/api/' + core_model + '/describe/', {token: $.cookie('core_token')}, function(model) {
+            for (i = 0; i < model.editable.length; i++) {
+                var d = { token: $.cookie("core_token"), image_id: $scope.image.id };
+                console.log(model.editable[i]);
+                d[model.editable[i]] = $scope[core_model][model.editable[i]];
+                request('/api/' + core_model + '/edit/', d, function (r) {});
+            }
+            $location.path('/api/image/');
+            $scope.$apply();
+        });
     };
 
     get_image_types($scope);

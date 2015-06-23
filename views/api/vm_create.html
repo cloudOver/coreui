@@ -1,5 +1,5 @@
-<div ng-controller="CoreCtrl" class="container text-center">
-    <form id="create" ng-controller="CoreCtrl">
+<div class="container text-center">
+    <form id="create">
         <div class="row">
             <div class="col-md-1 hidden-sm">
             </div>
@@ -28,27 +28,26 @@
                                 <div class="pull-right">Resources:</div>
                             </div>
                             <div class="col-md-8">
-                                <select ng-model="template" required ng-options="template.name for template in templates" class="selectpicker" id="template">
-                                    <option value="">-- select --</option>
-                                </select>
+                                <select ng-model="template" required ng-options="template.name for template in templates" class="form-control" id="template" class="form-control"></select>
                             </div>
+                            {{ template | json }}
                         </div>
+                        <hr/>
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="pull-right">Base image:</div>
                             </div>
                             <div class="col-md-8">
-                                <select ng-model="base_image" required id="baseImage" ng-options="image.name for image in images | filter:{type: 'transient'}" class="selectpicker">
-                                    <option value="">-- select main disk image --</option>
-                                </select>
+                                <select ng-model="base_image" required id="baseImage" ng-options="image.name for image in images | filter:{type: 'transient'}" class="form-control"></select>
                             </div>
                         </div>
+                        <hr/>
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="pull-right">Remote screen:</div>
                             </div>
                             <div class="col-md-8">
-                                <select ng-model="vnc" class="selectpicker" id="vnc">
+                                <select ng-model="vnc" class="form-control" id="vnc">
                                     <option value="1">Yes</option>
                                     <option value="0" selected>No</option>
                                 </select>
@@ -72,7 +71,7 @@
                         <fieldset data-ng-repeat="nic in nics">
                             <div class="row">
                                 <div class="col-md-10">
-                                    <select ng-model="nic.lease" ng-options="lease.address for lease in leases | filter:{vm_id: 'null'}" class="selectpicker">
+                                    <select ng-model="nic.lease" ng-options="lease.address for lease in leases | filter:{vm_id: 'null'}" class="form-control">
                                         <option value="">-- select lease --</option>
                                     </select>
                                 </div>
@@ -95,7 +94,7 @@
                         <fieldset data-ng-repeat="storage in storages">
                             <div class="row">
                                 <div class="col-md-10">
-                                    <select ng-model="storage.image" ng-options="image.name for image in images | filter:{type: 'permanent', attached_to_id: 'null'}" class="selectpicker">
+                                    <select ng-model="storage.image" ng-options="image.name for image in images | filter:{type: 'permanent', attached_to_id: 'null'}" class="form-control">
                                         <option value="">-- select storage --</option>
                                     </select>
                                 </div>
@@ -114,95 +113,3 @@
         <button type="submit" ng-click="vmCreate()" class="btn btn-lg btn-success">Create</button>
     </form>
 </div>
-
-<script>
-    function viewController($scope, $location, $http) {
-        $scope.nics =  [];
-        $scope.networks = [];
-        $scope.leases = [];
-        $scope.storages = [];
-        $scope.vnc = 0;
-        $("#addStorage").prop('disabled', true);
-        $("#addNIC").prop('disabled', true);
-        $("#template").prop('disabled', true);
-        //$("#baseImage").prop('disabled', true);
-
-        $scope.addNIC = function() {
-            $scope.nics.push({});
-            setTimeout('$(".selectpicker").selectpicker();', 100);
-        };
-
-
-        $scope.removeNIC = function(nic) {
-            var i = $scope.nics.indexOf(nic);
-            $scope.nics.splice(i, 1);
-        };
-
-
-        $scope.addStorage = function() {
-            $scope.storages.push({});
-            setTimeout('$(".selectpicker").selectpicker();', 100);
-        };
-
-
-        $scope.removeStorage = function(storage) {
-            var i = $scope.storages.indexOf(storage);
-            $scope.storages.splice(i, 1);
-        };
-
-        $scope.vmCreate = function() {
-            request('/api/vm/create/', {token: $.cookie("core_token"),
-                                        name: $scope.name,
-                                        description: $scope.description,
-                                        template_id: $scope.template.id,
-                                        base_image_id: $scope.base_image.id,
-            }, function(vm) {
-                for (i = 0; i < $scope.nics.length; i++) {
-                    request('/api/lease/attach/', {token: $.cookie("core_token"), lease_id: $scope.nics[i].id, vm_id: vm.id}, function(r) {});
-                }
-                for (i = 0; i < $scope.storages.length; i++) {
-                    request('/api/image/attach/', {token: $.cookie("core_token"), image_id: $scope.images[i].id, vm_id: vm.id}, function(r) {});
-                }
-                if ($scope.vnc == 1) {
-                    request('/api/vm/console/', {token: $.cookie("core_token"), enable: 1, vm_id: vm.id}, function(r) {});
-                }
-                $location.path('/api/vm/');
-                alert('ok');
-            });
-        };
-
-
-        request('/api/image/get_list/', {token: $.cookie("core_token")}, function(images) {
-            $scope.images = images;
-            $scope.$apply();
-            $("#addStorage").prop('disabled', false);
-            $("#baseImage").prop('disabled', false);
-            $("#baseImage").selectpicker();
-        });
-
-
-        request('/api/template/get_list/', {token: $.cookie("core_token")}, function(templates) {
-            $scope.templates = templates;
-            $scope.$apply();
-            $("#template").prop('disabled', false);
-            $("#template").selectpicker();
-            $("#vnc").selectpicker();
-        });
-
-
-        request('/api/network/get_list/', {token: $.cookie("core_token")}, function(networks) {
-            $scope.networks = networks;
-            $scope.$apply();
-            for (i = 0; i < networks.length; i++) {
-                request('/api/lease/get_list/', {token: $.cookie("core_token"), network_id: networks[i].id}, function(leases) {
-                    for (i = 0; i < leases.length; i++) {
-                        $scope.leases.push(leases[i]);
-                    }
-                    $scope.$apply();
-                    $("#addNIC").prop('disabled', false);
-                });
-            }
-            $scope.$apply();
-        });
-    }
-</script>
