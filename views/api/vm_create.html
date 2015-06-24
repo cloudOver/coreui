@@ -1,4 +1,4 @@
-<div class="container text-center">
+<div class="text-center">
     <form id="create">
         <div class="row">
             <div class="col-md-1 hidden-sm">
@@ -16,51 +16,6 @@
                         <textarea type="text" id="description" ng-model="description" class="form-control" placeholder="Short description"></textarea>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-5 col-sm-6">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        Virtual hardware
-                    </div>
-                    <div class="panel-body">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="pull-right">Resources:</div>
-                            </div>
-                            <div class="col-md-8">
-                                <select ng-model="template" required ng-options="template.name for template in templates" class="form-control" id="template" class="form-control"></select>
-                            </div>
-                            {{ template | json }}
-                        </div>
-                        <hr/>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="pull-right">Base image:</div>
-                            </div>
-                            <div class="col-md-8">
-                                <select ng-model="base_image" required id="baseImage" ng-options="image.name for image in images | filter:{type: 'transient'}" class="form-control"></select>
-                            </div>
-                        </div>
-                        <hr/>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="pull-right">Remote screen:</div>
-                            </div>
-                            <div class="col-md-8">
-                                <select ng-model="vnc" class="form-control" id="vnc">
-                                    <option value="1">Yes</option>
-                                    <option value="0" selected>No</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-1 hidden-sm"></div>
-        </div>
-        <div class="row">
-            <div class="col-md-1 hidden-sm"></div>
-            <div class="col-md-5 col-sm-6">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         Networking
@@ -86,6 +41,42 @@
             <div class="col-md-5 col-sm-6">
                 <div class="panel panel-default">
                     <div class="panel-heading">
+                        Virtual hardware
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="pull-right">Resources:</div>
+                            </div>
+                            <div class="col-md-8">
+                                <select ng-model="template" required ng-options="template.name for template in templates" class="form-control" id="template" class="form-control"></select>
+                            </div>
+                        </div>
+                        <hr/>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="pull-right">Base image:</div>
+                            </div>
+                            <div class="col-md-8">
+                                <select ng-model="base_image" required id="baseImage" ng-options="image.name for image in images | filter:{type: 'transient'}" class="form-control"></select>
+                            </div>
+                        </div>
+                        <hr/>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="pull-right">Remote screen:</div>
+                            </div>
+                            <div class="col-md-8">
+                                <select ng-model="vnc" class="form-control" id="vnc">
+                                    <option value="1">Yes</option>
+                                    <option value="0" selected>No</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
                         External storages
                     </div>
                     <div class="panel-body">
@@ -108,6 +99,7 @@
             </div>
             <div class="col-md-1 hidden-sm"></div>
         </div>
+
         <a href="#/api/vm/">&lt; VM list</a>
         &nbsp;&nbsp;&nbsp;
         <button type="submit" ng-click="vmCreate()" class="btn btn-lg btn-success">Create</button>

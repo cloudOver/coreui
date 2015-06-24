@@ -30,6 +30,24 @@ function get_disk_controllers($scope) {
     });
 }
 
+function prepare_new($scope, $location, $http) {
+    $scope.image = {};
+    $scope.image['access'] = 'private';
+    $scope.image['type'] = 'transient';
+    $scope.image['video_device'] = 'cirrus';
+    $scope.image['network_device'] = 'virtio';
+    $scope.image['disk_controller'] = 'virtio';
+
+    $("#type").prop('disabled', true);
+    $("#video_device").prop('disabled', true);
+    $("#network_device").prop('disabled', true);
+    $("#disk_controller").prop('disabled', true);
+
+    get_image_types($scope);
+    get_network_devices($scope);
+    get_video_devices($scope);
+    get_disk_controllers($scope);
+}
 
 window.app.controller('ImageListCtrl', function ($scope, $location, $http) {
     var model = 'image';
@@ -49,19 +67,10 @@ window.app.controller('ImageListCtrl', function ($scope, $location, $http) {
 
 
 window.app.controller('ImageCreateCtrl', function ($scope, $location, $http) {
-    $scope.image = {};
-    $scope.image['access'] = 'private';
-    $scope.image['type'] = 'transient';
-    $scope.image['video_device'] = 'cirrus';
-    $scope.image['network_device'] = 'virtio';
-    $scope.image['disk_controller'] = 'virtio';
+    $scope.create = true;
+    prepare_new($scope, $location, $http);
 
-    $("#type").prop('disabled', true);
-    $("#video_device").prop('disabled', true);
-    $("#network_device").prop('disabled', true);
-    $("#disk_controller").prop('disabled', true);
-
-    $scope.imageCreate = function() {
+    $scope.imageNew = function() {
         request('/api/image/create/', {token: $.cookie("core_token"),
             name: $scope.image.name,
             description: $scope.image.description,
@@ -80,10 +89,36 @@ window.app.controller('ImageCreateCtrl', function ($scope, $location, $http) {
             });
         });
     };
-    get_image_types($scope);
-    get_network_devices($scope);
-    get_video_devices($scope);
-    get_disk_controllers($scope);
+});
+
+
+window.app.controller('ImageUploadCtrl', function ($scope, $location, $http) {
+    $scope.upload = true;
+    prepare_new($scope, $location, $http);
+
+    $scope.imageNew = function() {
+        request('/api/image/create/', {token: $.cookie("core_token"),
+            name: $scope.image.name,
+            description: $scope.image.description,
+            size: 1,
+            disk_controller: $scope.image.disk_controller,
+            image_type: $scope.image.type,
+            access: $scope.image.access
+        }, function(img) {
+            request('/api/image/edit/', {token: $.cookie("core_token"),
+                image_id: img.id,
+                video_device: $scope.image.video_device,
+                network_device: $scope.image.network_device
+            }, function(r){
+                $location.path("/api/image/");
+                $scope.$apply();
+            });
+            request('/api/image/upload_url/', {token: $.cookie("core_token"),
+                image_id: img.id,
+                url: $scope.location
+            }, function(r) {})
+        });
+    };
 });
 
 
@@ -126,6 +161,7 @@ window.app.controller('ImageEditCtrl', function ($scope, $location, $route, $rou
 
 window.app.config(['$routeProvider', function ($routeProvider) {
     $routeProvider.when("/api/image/", {templateUrl: "views/api/image_list.html", controller: "ImageListCtrl"})
-        .when("/api/image/create/", {templateUrl: "views/api/image_create.html", controller: "ImageCreateCtrl"})
+        .when("/api/image/create/", {templateUrl: "views/api/image_new.html", controller: "ImageCreateCtrl"})
+        .when("/api/image/upload/", {templateUrl: "views/api/image_new.html", controller: "ImageUploadCtrl"})
         .when("/api/image/:id/", {templateUrl: "views/api/image_edit.html", controller: "ImageEditCtrl"});
 }]);

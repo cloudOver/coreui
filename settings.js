@@ -1,3 +1,3 @@
-window.coreUrl = "http://10.100.0.200:8000/";
+window.coreUrl = "http://192.245.169.152:8000/";
 window.debug = true;
-window.modules = ['image', 'vm', 'user'];
+window.modules = ['image', 'vm'];

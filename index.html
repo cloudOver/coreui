@@ -19,16 +19,13 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.7.2/js/bootstrap-select.js"></script>
 <script src="js/angular-chart.js"></script>
 <body ng-app=coreUi>
-<div ng-include="'views/navbar.html'"></div>
-<div ng-include="'views/sidemenu.html'"></div>
 <div class="container">
+    <div ng-include="'views/navbar.html'"></div>
     <div ng-view id="view"></div>
+    <div ng-include="'views/footer.html'"></div>
 </div>
-<div ng-include="'views/footer.html'"></div>
-<div id="controller"></div>
-
-<script src="settings.js"></script>
-<script src="js/request.js"></script>
-<script src="js/core.js"></script>
+    <script src="settings.js"></script>
+    <script src="js/request.js"></script>
+    <script src="js/core.js"></script>
 </body>
 </html> 

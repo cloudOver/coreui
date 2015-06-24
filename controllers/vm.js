@@ -48,6 +48,18 @@ window.app.controller('VmListCtrl', function ($scope, $location, $http) {
 });
 
 
+window.app.controller('VmTemplateCtrl', function ($scope, $location, $http) {
+    var model = 'template';
+    $scope.obj_create = function() {
+        $location.path('/api/' + model + '/create/');
+    };
+    request('/api/' + model + '/get_list/', {token: $.cookie("core_token")}, function(objs) {
+        $scope.objs = objs;
+        $scope.$apply();
+    });
+});
+
+
 window.app.controller('VmCreateCtrl', function ($scope, $location, $http) {
     $scope.nics =  [];
     $scope.networks = [];
@@ -92,7 +104,8 @@ window.app.controller('VmCreateCtrl', function ($scope, $location, $http) {
             base_image_id: $scope.base_image.id
         }, function(vm) {
             for (i = 0; i < $scope.nics.length; i++) {
-                request('/api/lease/attach/', {token: $.cookie("core_token"), lease_id: $scope.nics[i].id, vm_id: vm.id}, function(r) {});
+                console.log($scope.nics[i].lease.id)
+                request('/api/lease/attach/', {token: $.cookie("core_token"), lease_id: $scope.nics[i].lease.id, vm_id: vm.id}, function(r) {});
             }
             for (i = 0; i < $scope.storages.length; i++) {
                 request('/api/image/attach/', {token: $.cookie("core_token"), image_id: $scope.images[i].id, vm_id: vm.id}, function(r) {});
@@ -101,7 +114,7 @@ window.app.controller('VmCreateCtrl', function ($scope, $location, $http) {
                 request('/api/vm/console/', {token: $.cookie("core_token"), enable: 1, vm_id: vm.id}, function(r) {});
             }
             $location.path('/api/vm/');
-            alert('ok');
+            $scope.$apply();
         });
     };
 
@@ -112,14 +125,14 @@ window.app.controller('VmCreateCtrl', function ($scope, $location, $http) {
 
 
 window.app.controller('VmEditCtrl', function ($scope, $location, $route, $routeParams) {
-    /*$scope.image = {};
+    $scope.image = {};
 
     $("#type").prop('disabled', true);
     $("#video_device").prop('disabled', true);
     $("#network_device").prop('disabled', true);
     $("#disk_controller").prop('disabled', true);
 
-    var core_model = 'image';
+    var core_model = 'vm';
     $scope.imageSave = function() {
         request('/api/' + core_model + '/describe/', {token: $.cookie('core_token')}, function(model) {
             for (i = 0; i < model.editable.length; i++) {
@@ -138,18 +151,19 @@ window.app.controller('VmEditCtrl', function ($scope, $location, $route, $routeP
     get_video_devices($scope);
     get_disk_controllers($scope);
 
-    request('/api/image/get_by_id/', {token: $.cookie('core_token'), image_id: $route.current.params.id}, function(img) {
-        for (var i in img) {
-            $scope.image[i] = img[i];
+    request('/api/vm/get_by_id/', {token: $.cookie('core_token'), image_id: $route.current.params.id}, function(vm) {
+        for (var i in vm) {
+            $scope.vm[i] = vm[i];
         }
         $scope.$apply();
         console.log($scope);
-    });*/
+    });
 });
 
 
 window.app.config(['$routeProvider', function ($routeProvider) {
     $routeProvider.when("/api/vm/", {templateUrl: "views/api/vm_list.html", controller: "VmListCtrl"})
         .when("/api/vm/create/", {templateUrl: "views/api/vm_create.html", controller: "VmCreateCtrl"})
+        .when("/api/vm/template/", {templateUrl: "views/api/vm_template.html", controller: "VmTemplateCtrl"})
         .when("/api/vm/:id/", {templateUrl: "views/api/vm_edit.html", controller: "VmEditCtrl"});
 }]);

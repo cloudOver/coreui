@@ -1,0 +1,42 @@
+<div class="panel panel-default" data-ng-repeat="obj in objs">
+    <div class="panel-heading">
+        {{ obj.name }}
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-6">
+                <b>Description: </b>{{ obj.description }}
+                <br/>
+                <b>EC2 equivalent: </b>{{ obj.ec2name }}
+            </div>
+            <div class="col-md-6">
+                <table>
+                    <tr>
+                        <td>Cpu: </td>
+                        <td>{{ obj.cpu }}</td>
+                    </tr>
+                    <tr>
+                        <td>Memory: </td>
+                        <td>{{ obj.memory }}</td>
+                    </tr>
+                    <tr>
+                        <td>Points per hour: </td>
+                        <td>{{ obj.points }}</td>
+                    </tr>
+                    <tr>
+                        <td>Points per hour: </td>
+                        <td>{{ obj.points }}</td>
+                    </tr>
+                    <tr>
+                        <td>Domain type: </td>
+                        <td>{{ obj.domain_type }}</td>
+                    </tr>
+                    <tr>
+                        <td>Kernel: </td>
+                        <td>{{ obj.kernel}}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
