@@ -23,14 +23,43 @@
                         VM details
                     </div>
                     <div class="panel-body">
-                        <label for="name" class="sr-only">Name</label>
-                        <input type="text" id="name" ng-model="vm.name" class="form-control" placeholder="Name">
+                        <div class="input-group">
+                            <span class="input-group-addon">ID</span>
+                            <input type="text" id="id" ng-model="vm.id" class="form-control" placeholder="ID" readonly>
+                        </div>
                         <hr/>
-                        <label for="description" class="sr-only">Description</label>
-                        <textarea type="text" id="description" ng-model="vm.description" class="form-control" placeholder="Short description"></textarea>
+                        <div class="input-group">
+                            <span class="input-group-addon">Name</span>
+                            <input type="text" id="name" ng-model="vm.name" class="form-control" placeholder="Name">
+                        </div>
+                        <hr/>
+                        <div class="input-group">
+                            <span class="input-group-addon">Description</span>
+                            <textarea type="text" id="description" ng-model="vm.description" class="form-control" placeholder="Short description"></textarea>
+                        </div>
+                        <hr/>
+                        <div class="input-group">
+                            <span class="input-group-addon">State</span>
+                            <input type="text" id="state" ng-model="vm.state" class="form-control" readonly>
+                        </div>
+                        <hr/>
+                        <div class="input-group">
+                            <span class="input-group-addon">Start time</span>
+                            <input type="text" id="created" ng-model="vm.start_time" class="form-control" placeholder="Name" readonly>
+                        </div>
+                        <hr/>
+                        <div class="input-group">
+                            <span class="input-group-addon">Vnc address</span>
+                            <input type="text" id="vnc_addr" ng-attr-value="vnc://{{vm.vnc_address}}:{{vm.vnc_port}}" class="form-control" placeholder="Vnc port" readonly>
+                        </div>
+                        <br/>
+                        <div class="input-group">
+                            <span class="input-group-addon">Vnc password</span>
+                            <input type="text" id="vnc_passwd" ng-model="vm.vnc_passwd" class="form-control" readonly>
+                        </div>
                     </div>
                 </div>
-                <div class="panel panel-default">
+                <!--<div class="panel panel-default">
                     <div class="panel-heading">
                         Networking
                     </div>
@@ -53,7 +82,7 @@
                             </div>
                         </fieldset>
                     </div>
-                </div>
+                </div>-->
             </div>
             <div class="col-md-5 col-sm-6">
                 <div class="panel panel-default">
@@ -66,7 +95,7 @@
                                 <div class="pull-right">Resources:</div>
                             </div>
                             <div class="col-md-8">
-                                <select ng-model="template" required ng-options="template.name for template in templates" class="form-control" id="template" class="form-control"></select>
+                                {{ vm.template.name }}
                             </div>
                         </div>
                         <hr/>
@@ -75,7 +104,7 @@
                                 <div class="pull-right">Base image:</div>
                             </div>
                             <div class="col-md-8">
-                                <select ng-model="base_image" required id="baseImage" ng-options="image.name for image in images | filter:{type: 'transient'}" class="form-control"></select>
+                                {{ vm.base_image.id }}
                             </div>
                         </div>
                         <hr/>
@@ -84,15 +113,33 @@
                                 <div class="pull-right">Remote screen:</div>
                             </div>
                             <div class="col-md-8">
-                                <select ng-model="vnc" class="form-control" id="vnc">
-                                    <option value="1">Yes</option>
-                                    <option value="0" selected>No</option>
-                                </select>
+                                {{ vm.vnc_enabled }}
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="panel panel-default">
+                    <div class="panel panel-default">
+                        <div class="panel-heading" onclick="$('#tasks').toggle();">
+                            Tasks <span class="glyphicon glyphicon-menu-down"></span>
+                        </div>
+                        <div class="panel-body" id="tasks">
+                            <table class="table table-striped">
+                                <thead>
+                                <th>Type</th>
+                                <th>Action</th>
+                                <th>State</th>
+                                </thead>
+                                <tr data-ng-repeat="task in vm.tasks">
+                                    <td>{{task.type}}</td>
+                                    <td>{{task.action}}</td>
+                                    <td>{{task.state}}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!--<div class="panel panel-default">
                     <div class="panel-heading">
                         External storages
                     </div>
@@ -112,13 +159,13 @@
                             </div>
                         </fieldset>
                     </div>
-                </div>
+                </div>-->
             </div>
             <div class="col-md-1 hidden-sm"></div>
         </div>
 
         <a href="#/api/vm/">&lt; VM list</a>
         &nbsp;&nbsp;&nbsp;
-        <button type="submit" ng-click="vmCreate()" class="btn btn-lg btn-success">Create</button>
+        <button type="submit" ng-click="vmSave()" class="btn btn-lg btn-success">Save</button>
     </form>
 </div>

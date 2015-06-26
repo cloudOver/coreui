@@ -14,6 +14,7 @@
                             <th>Address</th>
                             <th>Leases</th>
                             <th>Attached instances</th>
+                            <th>Isolated</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -23,6 +24,7 @@
                             <td>{{ obj.address }}/{{ obj.mask }}</td>
                             <td>{{ obj.total_leases }}</td>
                             <td>{{ obj.used_leases }}</td>
+                            <td>{{ obj.is_isolated }}</td>
                         </tr>
                     </tbody>
                 </table>

@@ -152,17 +152,36 @@ window.app.controller('VmCreateCtrl', function ($scope, $location, $http) {
 window.app.controller('VmEditCtrl', function ($scope, $location, $route, $routeParams) {
     $scope.vm = {};
 
+    $scope.vmCleanup = function() {
+        request('/api/vm/cleanup/', {token: $.cookie('core_token'), vm_id: $route.current.params.id}, function(){});
+    };
+
+    $scope.vmReset = function() {
+        request('/api/vm/reset/', {token: $.cookie('core_token'), vm_id: $route.current.params.id}, function(){});
+    };
+
+    $scope.vmStart = function() {
+        request('/api/vm/start/', {token: $.cookie('core_token'), vm_id: $route.current.params.id}, function(){});
+    };
+
+    $scope.vmPoweroff = function() {
+        request('/api/vm/poweroff/', {token: $.cookie('core_token'), vm_id: $route.current.params.id}, function(){});
+    };
+
+    $scope.vmShutdown = function() {
+        request('/api/vm/shutdown/', {token: $.cookie('core_token'), vm_id: $route.current.params.id}, function(){});
+    };
 
     var core_model = 'vm';
-    $scope.imageSave = function() {
+    $scope.vmSave = function() {
         request('/api/' + core_model + '/describe/', {token: $.cookie('core_token')}, function(model) {
             for (i = 0; i < model.editable.length; i++) {
-                var d = { token: $.cookie("core_token"), image_id: $scope.image.id };
+                var d = { token: $.cookie("core_token"), vm_id: $scope.vm.id };
                 console.log(model.editable[i]);
                 d[model.editable[i]] = $scope[core_model][model.editable[i]];
                 request('/api/' + core_model + '/edit/', d, function (r) {});
             }
-            $location.path('/api/image/');
+            $location.path('/api/vm/');
             $scope.$apply();
         });
     };
@@ -174,6 +193,9 @@ window.app.controller('VmEditCtrl', function ($scope, $location, $route, $routeP
         $scope.$apply();
         console.log($scope);
     });
+
+    get_image_list($scope);
+    get_network_list($scope);
 });
 
 

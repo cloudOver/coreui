@@ -1,0 +1,67 @@
+<div class="text-center">
+    <div class="row">
+        <div class="col-md-1 hidden-sm">
+        </div>
+        <div class="col-md-5 col-sm-6">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    Actions
+                </div>
+                <div class="panel-body">
+                    <div class="btn-group">
+                        <button class="btn btn-danger" ng-click="networkRemove()"><span class="glyphicon glyphicon-remove"></span>Remove</button>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    Disk image details
+                </div>
+                <div class="panel-body">
+                    <div class="input-group">
+                        <div class="input-group-addon">ID</div>
+                        <input type="text" readonly id="id" ng-model="network.id" class="form-control" placeholder="ID" required autofocus>
+                    </div>
+                    <hr/>
+                    <div class="input-group">
+                        <div class="input-group-addon">Name</div>
+                        <input type="text" id="name" ng-model="network.name" class="form-control" placeholder="Name" required autofocus>
+                    </div>
+                    <hr/>
+                    <div ng-show="network.is_isolated">
+                        Network is isolated
+                    </div>
+                    <div ng-show="!network.is_isolated">
+                        Network is accessible through whole cloud
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-5 col-sm-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Leases
+                </div>
+                <div class="panel-body">
+                    <fieldset data-ng-repeat="lease in leases">
+                        <div class="row">
+                            <div class="col-md-4">
+                                {{ lease.address }}
+                            </div>
+                            <div class="col-md-8" ng-show="lease.vm_id">
+                                {{ lease.vm_id }}
+                            </div>
+                            <div class="col-md-8" ng-show="!lease.vm_id">
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-1 hidden-sm"></div>
+    </div>
+    <br/>
+    <a href="#/api/network/">Go back to network list</a>
+    &nbsp;&nbsp;&nbsp;
+    <button type="submit" ng-click="networkSave()" class="btn btn-lg btn-success">Save changes</button>
+</div>

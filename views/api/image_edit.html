@@ -9,8 +9,8 @@
                 </div>
                 <div class="panel-body">
                     <div class="btn-group">
-                        <button class="btn btn-danger" ng-click="removeImage(image)"><span class="glyphicon glyphicon-remove"></span>Remove</button>
-                        <button class="btn btn-default" ng-click="cloneImage(image)"><span class="glyphicon glyphicon-copy"></span>Clone</button>
+                        <button class="btn btn-danger" ng-click="removeImage()"><span class="glyphicon glyphicon-remove"></span>Remove</button>
+                        <!--<button class="btn btn-default" ng-click="cloneImage(image)"><span class="glyphicon glyphicon-copy"></span>Clone</button>-->
                     </div>
                 </div>
             </div>
@@ -21,7 +21,7 @@
                 <div class="panel-body">
                     <div class="input-group">
                         <div class="input-group-addon">ID</div>
-                        <input type="text" readonly id="id" ng-model="image.id" class="form-control" placeholder="Name" required autofocus>
+                        <input type="text" readonly id="id" ng-model="image.id" class="form-control" placeholder="ID" required autofocus>
                     </div>
                     <hr/>
                     <div class="input-group">
