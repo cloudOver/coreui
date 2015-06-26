@@ -36,7 +36,7 @@ function get_image_list($scope) {
 window.app.controller('VmListCtrl', function ($scope, $location, $http) {
     var model = 'vm';
     $scope.obj_edit = function(obj) {
-        $location.path('/api/' + model + '/edit/' + obj.id + '/');
+        $location.path('/api/' + model + '/' + obj.id + '/');
     };
     $scope.obj_create = function() {
         $location.path('/api/' + model + '/create/');
@@ -53,7 +53,32 @@ window.app.controller('VmTemplateCtrl', function ($scope, $location, $http) {
     $scope.obj_create = function() {
         $location.path('/api/' + model + '/create/');
     };
+    $scope.getData = function(obj) {
+        console.log(obj);
+        return [{
+                value: 10,
+                color: '#33ff66'
+            },
+            {
+                value: 20,
+                color: '#dddddd'
+            }
+        ];
+    };
+
     request('/api/' + model + '/get_list/', {token: $.cookie("core_token")}, function(objs) {
+        $scope.max_cpu = 0;
+        $scope.max_memory = 0;
+        $scope.max_points = 0;
+        for (i = 0; i < objs.length; i++) {
+            if (objs[i].cpu > $scope.max_cpu)
+                $scope.max_cpu = objs[i].cpu;
+            if (objs[i].memory > $scope.max_memory)
+                $scope.max_memory = objs[i].memory;
+            if (objs[i].points > $scope.max_points)
+                $scope.max_points = objs[i].points;
+        }
+
         $scope.objs = objs;
         $scope.$apply();
     });
@@ -125,12 +150,8 @@ window.app.controller('VmCreateCtrl', function ($scope, $location, $http) {
 
 
 window.app.controller('VmEditCtrl', function ($scope, $location, $route, $routeParams) {
-    $scope.image = {};
+    $scope.vm = {};
 
-    $("#type").prop('disabled', true);
-    $("#video_device").prop('disabled', true);
-    $("#network_device").prop('disabled', true);
-    $("#disk_controller").prop('disabled', true);
 
     var core_model = 'vm';
     $scope.imageSave = function() {
@@ -146,12 +167,7 @@ window.app.controller('VmEditCtrl', function ($scope, $location, $route, $routeP
         });
     };
 
-    get_image_types($scope);
-    get_network_devices($scope);
-    get_video_devices($scope);
-    get_disk_controllers($scope);
-
-    request('/api/vm/get_by_id/', {token: $.cookie('core_token'), image_id: $route.current.params.id}, function(vm) {
+    request('/api/vm/get_by_id/', {token: $.cookie('core_token'), vm_id: $route.current.params.id}, function(vm) {
         for (var i in vm) {
             $scope.vm[i] = vm[i];
         }

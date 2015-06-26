@@ -1,0 +1,51 @@
+<div class="row">
+    <div class="col-md-2 hidden-sm">
+    </div>
+    <div class="col-md-8 col-sm-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Create new network
+            </div>
+            <div class="panel-body text-center">
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="input-group">
+                                <span class="input-group-addon">Name: </span>
+                                <input type="text" id="name" class="form-control" ng-model="name"/>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <span class="input-group-addon">Mask: </span>
+                                <input type="text" id="mask" class="form-control" ng-model="mask"/>
+                            </div>
+                        </div>
+                    </div>
+                    <hr/>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="checkbox checkbox-inline">
+                                <label>
+                                    <input type="checkbox" ng-model="isolated"> Isolate this network from other networks
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <span class="input-group-addon">Access: </span>
+                                <select ng-model="access" class="form-control">
+                                    <option value="private">Private</option>
+                                    <option value="group">Group</option>
+                                    <option value="private">Public</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn btn-primary" ng-click="create()">Create</button>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2 hidden-sm"></div>
+</div>

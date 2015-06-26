@@ -1,41 +1,32 @@
 <div class="panel panel-default" data-ng-repeat="obj in objs">
     <div class="panel-heading">
-        {{ obj.name }}
+        <h5>{{ obj.name }}</h5>
     </div>
     <div class="panel-body">
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-3">
                 <b>Description: </b>{{ obj.description }}
-                <br/>
+                <hr/>
                 <b>EC2 equivalent: </b>{{ obj.ec2name }}
+                <hr/>
+                <b>Virtualization type: </b>{{ obj.domain_type }}
+                <hr/>
+                <b>Kernel: </b>{{ obj.kernel }}
             </div>
-            <div class="col-md-6">
-                <table>
-                    <tr>
-                        <td>Cpu: </td>
-                        <td>{{ obj.cpu }}</td>
-                    </tr>
-                    <tr>
-                        <td>Memory: </td>
-                        <td>{{ obj.memory }}</td>
-                    </tr>
-                    <tr>
-                        <td>Points per hour: </td>
-                        <td>{{ obj.points }}</td>
-                    </tr>
-                    <tr>
-                        <td>Points per hour: </td>
-                        <td>{{ obj.points }}</td>
-                    </tr>
-                    <tr>
-                        <td>Domain type: </td>
-                        <td>{{ obj.domain_type }}</td>
-                    </tr>
-                    <tr>
-                        <td>Kernel: </td>
-                        <td>{{ obj.kernel}}</td>
-                    </tr>
-                </table>
+            <div class="col-md-3 text-center">
+                <canvas id="cpu" class="chart chart-doughnut" ng-attr-data="[obj.cpu, max_cpu-obj.cpu]" labels="['CPU', '']"></canvas>
+                <br/>
+                CPU: {{ obj.cpu }}
+            </div>
+            <div class="col-md-3 text-center">
+                <canvas id="memory" class="chart chart-doughnut" ng-attr-data="[obj.memory, max_memory-obj.memory]" labels="['Memory', '']"></canvas>
+                <br/>
+                Memory: {{ obj.memory }}
+            </div>
+            <div class="col-md-3 text-center">
+                <canvas id="points" class="chart chart-doughnut" ng-attr-data="[obj.points, max_points-obj.points]" labels="['Memory', '']"></canvas>
+                <br/>
+                Points: {{ obj.points }}
             </div>
         </div>
     </div>
