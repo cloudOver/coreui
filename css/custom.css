@@ -6,3 +6,11 @@
     width: 300px;
     z-index: 9999;
 }
+
+body {
+    background-color: #eee;
+}
+
+.bottom-padding {
+    margin-bottom: 50px;
+}

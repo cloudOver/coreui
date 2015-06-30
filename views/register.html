@@ -1,0 +1,118 @@
+<style type="text/css">
+    body {
+        padding-top: 40px;
+        padding-bottom: 40px;
+        background-color: #eee;
+    }
+
+    .form-signin {
+        max-width: 330px;
+        padding: 15px;
+        margin: 0 auto;
+    }
+    .form-signin .form-signin-heading,
+    .form-signin .checkbox {
+        margin-bottom: 10px;
+    }
+    .form-signin .checkbox {
+        font-weight: normal;
+    }
+    .form-signin .form-control {
+        position: relative;
+        height: auto;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        padding: 10px;
+        font-size: 16px;
+    }
+    .form-signin .form-control:focus {
+        z-index: 2;
+    }
+    .form-signin input[type="email"] {
+        margin-bottom: -1px;
+        border-bottom-right-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+    .form-signin input[type="password"] {
+        margin-bottom: 10px;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+    }
+
+</style>
+<div class="container">
+    <form class="form-signin" id="form-register">
+        <h2 class="form-signin-heading">Register</h2>
+        <label for="inputLogin" class="sr-only">Login</label>
+        <input type="text" id="inputLogin" name="inputLogin" class="form-control" placeholder="User name" required autofocus>
+
+        <label for="inputPassword" class="sr-only">Password</label>
+        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+
+        <label for="inputPassword" class="sr-only">Repeat password</label>
+        <input type="password" id="inputRepeatPassword" class="form-control" placeholder="Repeat password" required>
+
+        <label for="inputName" class="sr-only">Name</label>
+        <input type="text" id="inputName" class="form-control" placeholder="Name" required>
+
+        <label for="inputSurname" class="sr-only">Surname</label>
+        <input type="text" id="inputSurname" class="form-control" placeholder="Surname" required>
+
+        <label for="inputEmail" class="sr-only">Surname</label>
+        <input type="email" id="inputEmail" class="form-control" placeholder="Email" required>
+
+        <button class="btn btn-lg btn-warning btn-block" type="submit">Register</button>
+        <br/>
+        <div class="text-right">
+            <a href="#/register/">Register</a>
+        </div>
+    </form>
+</div>
+
+<script type="text/javascript">
+    function redirect() {
+        document.location = "index.html#/";
+    }
+    $("#form-register").submit(function(e) {
+        e.preventDefault();
+        var login = $("#form-register #inputLogin").val();
+        var password = $("#form-register #inputPassword").val();
+        var repeatPassword = $("#form-register #inputRepeatPassword").val();
+        var name = $("#form-register #inputName").val();
+        var surname = $("#form-register #inputSurname").val();
+        var email = $("#form-register #inputEmail").val();
+
+        if (password != repeatPassword) {
+            alert("Password missmatch");
+            return;
+        }
+        request('/user/user/register/', {
+            name: name,
+            surname: surname,
+            password: password,
+            login: login,
+            email: email
+        }, function(r) {
+            request('/user/user/get_seed/', {login: login}, function(r) {
+                var pw_hash = $().crypt({method: "sha1", source: password + r.seed});
+                request('/user/token/get_list/', {login: login, pw_hash: pw_hash}, function (list) {
+                    $.cookie("core_login", login);
+                    $.cookie("core_hash", pw_hash);
+                    for (i = 0; i < list.length; i++) {
+                        if (list[i].name == "CoreUI") {
+                            $.cookie("core_token", list[i].token);
+                            redirect();
+                            return;
+                        }
+                    }
+
+                    request("/user/token/create/", {login: login, pw_hash: pw_hash, name: "CoreUI"}, function(r) {
+                        $.cookie("core_token", r['token']);
+                        redirect();
+                    });
+                });
+            });
+        });
+    });
+</script>

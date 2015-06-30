@@ -44,22 +44,21 @@
 <div class="container">
     <form class="form-signin" id="form-signin">
         <h2 class="form-signin-heading">CloudOver</h2>
-        <label for="inputLogin" class="sr-only">Email address</label>
+        <label for="inputLogin" class="sr-only">Login</label>
         <input type="text" id="inputLogin" name="inputLogin" class="form-control" placeholder="User name" required autofocus>
         <label for="inputPassword" class="sr-only">Password</label>
         <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
-        <!--<div class="checkbox">
-            <label>
-                <input type="checkbox" value="remember-me"> Remember me
-            </label>
-        </div>-->
         <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+        <br/>
+        <div class="text-right">
+            <a href="#/register/">Register</a>
+        </div>
     </form>
 </div>
 
 <script type="text/javascript">
     function redirect() {
-        document.location = "index.html";
+        document.location = "index.html#/";
     }
     $("#form-signin").submit(function(e) {
         e.preventDefault();

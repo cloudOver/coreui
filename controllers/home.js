@@ -1,4 +1,7 @@
 window.app.controller('HomeCtrl', function ($scope, $location, $http) {
+    if (!$.cookie('core_token')) {
+        document.location = 'login.html';
+    }
     request('/api/template/capabilities/', {token: $.cookie("core_token")}, function(caps) {
         request('/api/template/get_list/', {token: $.cookie("core_token")}, function(templ) {
             $scope.templates = [];

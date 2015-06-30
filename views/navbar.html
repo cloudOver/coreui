@@ -17,13 +17,15 @@
         <li><a href="#/"><span class="glyphicon glyphicon-home"></span> Dashboard</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="#/logout/"><span class="glyphicon glyphicon-log-out"></span> Log out</a></li>
+        <li id="login_name"></li>
+        <li><a href="#/logout/"><span class="glyphicon glyphicon-log-out"></span></a></li>
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
 
 <script>
+    $("#login_name").append('<a>' + $.cookie("core_login") + '</a>');
     for (i = 0; i < window.modules.length; i++) {
         $("#menu").append($("<li class=\"dropdown\">").load('menus/' + window.modules[i] + '.html'));
     }

@@ -1,9 +1,9 @@
 <div class="row">
     <div class="col-md-12">
         <div class="panel panel-default">
-            <div class="panel-heading">
-                Virtual machines
-                <button ng-click="obj_create()" id="obj_create" class="pull-right btn btn-sm btn-success"><span class="glyphicon glyphicon-plus"></span>Create new</button>
+            <div class="panel-heading text-right">
+                <h5 class="pull-left">Virtual machines</h5>
+                <button ng-click="obj_create()" id="obj_create" class="btn btn-sm btn-success"><span class="glyphicon glyphicon-plus"></span>Create new</button>
             </div>
             <div class="panel-body">
                 <table class="table table-stripped" ng-table="objTable">
@@ -22,7 +22,7 @@
                             <td>{{ obj.id }}</td>
                             <td data-title="'Name'" sortable="'name'">{{ obj.name }}</td>
                             <td>{{ obj.description }}</td>
-                            <td data-title="'State'" sortable="'state'">{{ obj.state }}</td>
+                            <td data-title="'State'" sortable="'state'" ng-class="{danger: obj.state=='failed'}">{{ obj.state }}</td>
                             <td data-title="'Template'" sortable="'template'">{{ obj.template.name }}</td>
                             <td data-title="'Base image'" sortable="'base_image'">{{ obj.base_image.name }}</td>
                         </tr>

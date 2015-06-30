@@ -30,6 +30,14 @@ function get_disk_controllers($scope) {
     });
 }
 
+function get_image_formats($scope) {
+    request('/api/image/get_image_formats/', {token: $.cookie("core_token")}, function(l) {
+        $scope.formats = l;
+        $scope.$apply();
+        $("#disk_controller").prop('disabled', false);
+    });
+}
+
 function prepare_new($scope, $location, $http) {
     $scope.image = {};
     $scope.image['access'] = 'private';
@@ -47,6 +55,7 @@ function prepare_new($scope, $location, $http) {
     get_network_devices($scope);
     get_video_devices($scope);
     get_disk_controllers($scope);
+    get_image_formats($scope);
 }
 
 window.app.controller('ImageListCtrl', function ($scope, $location, $http) {
@@ -74,7 +83,7 @@ window.app.controller('ImageCreateCtrl', function ($scope, $location, $http) {
         request('/api/image/create/', {token: $.cookie("core_token"),
             name: $scope.image.name,
             description: $scope.image.description,
-            size: $scope.image.size,
+            size: parseInt($scope.image.size)*1024*1024*1024,
             disk_controller: $scope.image.disk_controller,
             image_type: $scope.image.type,
             access: $scope.image.access
@@ -97,12 +106,14 @@ window.app.controller('ImageUploadCtrl', function ($scope, $location, $http) {
     prepare_new($scope, $location, $http);
 
     $scope.imageNew = function() {
+        alert($scope.image.format);
         request('/api/image/create/', {token: $.cookie("core_token"),
             name: $scope.image.name,
             description: $scope.image.description,
             size: 1,
             disk_controller: $scope.image.disk_controller,
             image_type: $scope.image.type,
+            format: $scope.image.format,
             access: $scope.image.access
         }, function(img) {
             request('/api/image/edit/', {token: $.cookie("core_token"),
@@ -119,6 +130,15 @@ window.app.controller('ImageUploadCtrl', function ($scope, $location, $http) {
             }, function(r) {})
         });
     };
+
+    $scope.checkFormat = function() {
+        for (i = 0; i < $scope.formats.length; i++) {
+            var pos = $scope.location.indexOf($scope.formats[i])
+            if (pos > 0 && pos == $scope.location.length - $scope.formats[i].length) {
+                $scope.image.format = $scope.formats[i];
+            }
+        }
+    };
 });
 
 
@@ -131,6 +151,12 @@ window.app.controller('ImageEditCtrl', function ($scope, $location, $route, $rou
     $("#disk_controller").prop('disabled', true);
 
     var core_model = 'image';
+    $scope.imageRemove = function() {
+       request('/api/image/delete/', { token: $.cookie("core_token"), image_id: $scope.image.id }, function() {
+           $location.path('/api/image/');
+           $scope.$apply();
+       }) ;
+    };
     $scope.imageSave = function() {
         request('/api/' + core_model + '/describe/', {token: $.cookie('core_token')}, function(model) {
             for (i = 0; i < model.editable.length; i++) {
@@ -148,6 +174,7 @@ window.app.controller('ImageEditCtrl', function ($scope, $location, $route, $rou
     get_network_devices($scope);
     get_video_devices($scope);
     get_disk_controllers($scope);
+    get_image_formats($scope);
 
     request('/api/image/get_by_id/', {token: $.cookie('core_token'), image_id: $route.current.params.id}, function(img) {
         for (var i in img) {

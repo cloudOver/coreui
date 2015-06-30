@@ -9,7 +9,7 @@
                 </div>
                 <div class="panel-body">
                     <div class="btn-group">
-                        <button class="btn btn-danger" ng-click="removeImage()"><span class="glyphicon glyphicon-remove"></span>Remove</button>
+                        <button class="btn btn-danger" ng-click="imageRemove()"><span class="glyphicon glyphicon-remove"></span>Remove</button>
                         <!--<button class="btn btn-default" ng-click="cloneImage(image)"><span class="glyphicon glyphicon-copy"></span>Clone</button>-->
                     </div>
                 </div>
@@ -38,6 +38,11 @@
                         <div class="input-group-addon">Size</div>
                         <input type="number" readonly class="form-control" id="size" ng-model="image.size" value="1" step="0.1" aria-valuemin="0.1">
                         <div class="input-group-addon">GB</div>
+                    </div>
+                    <hr/>
+                    <div class="input-group">
+                        <div class="input-group-addon">Format</div>
+                        <input type="text" readonly class="form-control" id="format" ng-model="image.format">
                     </div>
                 </div>
             </div>
@@ -109,10 +114,17 @@
                             <th>Action</th>
                             <th>State</th>
                         </thead>
-                        <tr data-ng-repeat="task in image.tasks">
+                        <tr data-ng-repeat="task in image.tasks" ng-class="{danger: task.state=='failed', success: task.state=='in progress', warning: task.state=='waiting'}">
                             <td>{{task.type}}</td>
                             <td>{{task.action}}</td>
-                            <td>{{task.state}}</td>
+                            <td ng-show="task.action != 'upload_url'">{{task.state}}</td>
+                            <td ng-show="task.action == 'upload_url'">
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar" aria-valuenow="44" aria-valuemin="0" aria-valuemax="100" ng-attr-style="width: {{task.data.progress*100}}%">
+                                    <!--    <span class="sr-only">60% Complete</span>-->
+                                    </div>
+                                </div>
+                            </td>
                         </tr>
                     </table>
                 </div>

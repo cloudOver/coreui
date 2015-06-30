@@ -21,7 +21,12 @@
                     </div>
                     <div class="input-group" ng-show="{{ upload }}">
                         <div class="input-group-addon">Location</div>
-                        <input type="text" class="form-control" id="location" ng-model="location" placeholder="http://">
+                        <input type="text" class="form-control" ng-change="checkFormat()" id="location" ng-model="location" placeholder="http://">
+                    </div>
+                    <hr/>
+                    <div class="input-group">
+                        <div class="input-group-addon">Format</div>
+                        <select ng-model="image.format" required id="format" ng-options="format for format in formats" class="form-control"></select>
                     </div>
                 </div>
             </div>
