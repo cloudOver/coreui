@@ -110,7 +110,6 @@ window.app.controller('ImageUploadCtrl', function ($scope, $location, $http) {
     prepare_new($scope, $location, $http);
 
     $scope.imageNew = function() {
-        alert($scope.image.format);
         request('/api/image/create/', {token: $.cookie("core_token"),
             name: $scope.image.name,
             description: $scope.image.description,

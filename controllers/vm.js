@@ -153,7 +153,10 @@ window.app.controller('VmEditCtrl', function ($scope, $location, $route, $routeP
     $scope.vm = {};
 
     $scope.vmCleanup = function() {
-        request('/api/vm/cleanup/', {token: $.cookie('core_token'), vm_id: $route.current.params.id}, function(){});
+        request('/api/vm/cleanup/', {token: $.cookie('core_token'), vm_id: $route.current.params.id}, function(){
+            $location.path('/api/vm/');
+            $scope.$apply();
+        });
     };
 
     $scope.vmReset = function() {
@@ -170,6 +173,14 @@ window.app.controller('VmEditCtrl', function ($scope, $location, $route, $routeP
 
     $scope.vmShutdown = function() {
         request('/api/vm/shutdown/', {token: $.cookie('core_token'), vm_id: $route.current.params.id}, function(){});
+    };
+
+    $scope.vmSaveImage = function() {
+        request('/api/vm/save_image/', {token: $.cookie('core_token'), vm_id: $route.current.params.id}, function(){});
+    };
+
+    $scope.vmConsole = function() {
+        request('/api/vm/console/', {token: $.cookie('core_token'), vm_id: $route.current.params.id, enable: !$scope.vm.vnc_enabled}, function(){});
     };
 
     var core_model = 'vm';

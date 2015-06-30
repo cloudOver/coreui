@@ -15,6 +15,8 @@
                             <button class="btn btn-primary" ng-show="vm.state == 'running'" ng-click="vmReset()"><span class="glyphicon glyphicon-refresh"></span> Reset</button>
                             <button class="btn btn-warning" ng-show="vm.state == 'running'" ng-click="vmShutdown()"><span class="glyphicon glyphicon-arrow-down"></span> Shut down</button>
                             <button class="btn btn-warning" ng-show="vm.state == 'running'" ng-click="vmPoweroff()"><span class="glyphicon glyphicon-off"></span> Power off</button>
+                            <button class="btn btn-success" ng-show="vm.state == 'stopped'" ng-click="vmSaveImage()"><span class="glyphicon glyphicon-save"></span> Save base image</button>
+                            <button class="btn btn-success" ng-click="vmConsole()"><span class="glyphicon glyphicon-hd-video"></span> VNC</button>
                         </div>
                     </div>
                 </div>
@@ -47,13 +49,13 @@
                             <span class="input-group-addon">Start time</span>
                             <input type="text" id="created" ng-model="vm.start_time" class="form-control" placeholder="Name" readonly>
                         </div>
-                        <hr/>
-                        <div class="input-group">
+                        <hr ng-show="vm.state == 'running' && vm.vnc_enabled"/>
+                        <div class="input-group" ng-show="vm.state == 'running' && vm.vnc_enabled">
                             <span class="input-group-addon">Vnc address</span>
                             <input type="text" id="vnc_addr" ng-attr-value="vnc://{{vm.vnc_address}}:{{vm.vnc_port}}" class="form-control" placeholder="Vnc port" readonly>
                         </div>
-                        <br/>
-                        <div class="input-group">
+                        <br ng-show="vm.state == 'running' && vm.vnc_enabled"/>
+                        <div class="input-group" ng-show="vm.state == 'running' && vm.vnc_enabled">
                             <span class="input-group-addon">Vnc password</span>
                             <input type="text" id="vnc_passwd" ng-model="vm.vnc_passwd" class="form-control" readonly>
                         </div>
