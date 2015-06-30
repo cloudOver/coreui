@@ -3,7 +3,10 @@
         <div class="panel panel-default">
             <div class="panel-heading text-right">
                 <h5 class="pull-left">Images</h5>
-                <button ng-click="obj_create()" id="obj_create" class="btn btn-sm btn-success"><span class="glyphicon glyphicon-plus"></span>Create new</button>
+                <div class="btn-group">
+                    <button ng-click="obj_create()" id="obj_create" class="btn btn-sm btn-success"><span class="glyphicon glyphicon-plus"></span>Create new</button>
+                    <button ng-click="obj_upload()" id="obj_upload" class="btn btn-sm btn-warning"><span class="glyphicon glyphicon-cloud-upload"></span>Upload</button>
+                </div>
             </div>
             <div class="panel-body">
                 <table class="table table-stripped table-hover" ng-table="vmsTable">

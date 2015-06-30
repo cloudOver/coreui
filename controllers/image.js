@@ -68,6 +68,10 @@ window.app.controller('ImageListCtrl', function ($scope, $location, $http) {
         $location.path('/api/' + model + '/create/');
         $scope.$apply();
     };
+    $scope.obj_upload = function() {
+        $location.path('/api/' + model + '/upload/');
+        $scope.$apply();
+    };
     request('/api/' + model + '/get_list/', {token: $.cookie("core_token")}, function(objs) {
         $scope.objs = objs;
         $scope.$apply();
