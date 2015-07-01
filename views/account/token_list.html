@@ -1,0 +1,28 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading text-right">
+                <h5 class="pull-left">Access tokens</h5>
+                <button ng-click="obj_create()" id="obj_create" class="btn btn-sm btn-success"><span class="glyphicon glyphicon-plus"></span>Create new</button>
+            </div>
+            <div class="panel-body">
+                <table class="table table-stripped table-hover" ng-table="vmsTable">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Token</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="obj in objs" ng-class="{danger: obj.state=='failed', success: obj.state=='downloading', info: obj.state=='waiting'}">
+                            <td>{{ obj.id }}</td>
+                            <td data-title="'Name'" sortable="'name'">{{ obj.name }}</td>
+                            <td>{{ obj.token }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
