@@ -27,7 +27,7 @@
                             <td data-title="'Name'" sortable="'name'">{{ obj.name }}</td>
                             <td>{{ obj.description }}</td>
                             <td>{{ obj.state }}</td>
-                            <td data-title="'Size'" sortable="'size'">{{ obj.size }}</td>
+                            <td data-title="'Size'" sortable="'size'">{{ obj.size/1024/1024/1024 }} GB</td>
                             <td data-title="'Type'" sortable="'type'">{{ obj.type }}</td>
                             <td data-title="'Access'" sortable="'access'">{{ obj.access }}</td>
                         </tr>

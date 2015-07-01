@@ -27,6 +27,7 @@
                     <div class="input-group">
                         <div class="input-group-addon">Format</div>
                         <select ng-model="image.format" required id="format" ng-options="format for format in formats" class="form-control"></select>
+                        <div class="input-group-addon"><span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="left" title="The format defines how data of an image is packed inside image."></span></div>
                     </div>
                 </div>
             </div>
@@ -41,8 +42,11 @@
                         <div class="col-md-4">
                             <div class="pull-right">Type:</div>
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-7">
                             <select ng-model="image.type" required id="type" ng-options="type for type in types" class="form-control"></select>
+                        </div>
+                        <div class="col-md-1">
+                            <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="left" title="Permanent images are used as external drives. Each permanent drive could be attached to only one instance at the same time. Use them to store data. The transient drives are used as instance's base image with OS. Object images are used by object storage and are not available for instances. You can change type of image later, in image details."></span>
                         </div>
                     </div>
                     <hr/>
@@ -50,12 +54,15 @@
                         <div class="col-md-4">
                             <div class="pull-right">Access:</div>
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-7">
                             <select ng-model="image.access" class="form-control" id="access">
                                 <option value="private" selected>Private</option>
                                 <option value="group">Group</option>
                                 <option value="public">Public</option>
                             </select>
+                        </div>
+                        <div class="col-md-1">
+                            <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="left" title="Define, who should have access to image"></span>
                         </div>
                     </div>
                     <hr/>
@@ -63,8 +70,11 @@
                         <div class="col-md-4">
                             <div class="pull-right">Network card:</div>
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-7">
                             <select ng-model="image.network_device" required ng-options="network_device for network_device in network_devices" class="form-control" id="network_device"></select>
+                        </div>
+                        <div class="col-md-1">
+                            <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="left" title="If the image is used as base image for instance, this field is used to define how hypervisor should emulate all network devices"></span>
                         </div>
                     </div>
                     <hr/>
@@ -72,8 +82,11 @@
                         <div class="col-md-4">
                             <div class="pull-right">Disk controller:</div>
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-7">
                             <select ng-model="image.disk_controller" required id="disk_controller" ng-options="disk_controller for disk_controller in disk_controllers" class="form-control"></select>
+                        </div>
+                        <div class="col-md-1">
+                            <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="left" title="If the image is used as base image for instance, this field is used to define how hypervisor should emulate all disk controllers"></span>
                         </div>
                     </div>
                     <hr/>
@@ -81,8 +94,11 @@
                         <div class="col-md-4">
                             <div class="pull-right">Video card:</div>
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-7">
                             <select ng-model="image.video_device" required ng-options="video_device for video_device in video_devices" class="form-control" id="video_device"></select>
+                        </div>
+                        <div class="col-md-1">
+                            <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="left" title="If the image is used as base image for instance, this field is used to define how hypervisor should emulate the video device"></span>
                         </div>
                     </div>
                 </div>
@@ -95,3 +111,9 @@
     <button type="submit" ng-click="imageNew()" class="btn btn-lg btn-success" ng-show="{{ create }}">Create</button>
     <button type="submit" ng-click="imageNew()" class="btn btn-lg btn-success" ng-show="{{ upload }}">Upload</button>
 </div>
+
+<script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    });
+</script>

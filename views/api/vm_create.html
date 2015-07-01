@@ -6,7 +6,7 @@
             <div class="col-md-5 col-sm-6">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
-                        VM details
+                        <h5>Instance details</h5>
                     </div>
                     <div class="panel-body">
                         <label for="name" class="sr-only">Name</label>
@@ -18,7 +18,7 @@
                 </div>
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        Networking
+                        <h5>Networking</h5>
                     </div>
                     <div class="panel-body">
                         <button class="btn btn-primary btn-sm btn-block" id="addNIC" ng-click="addNIC()"><span class="glyphicon glyphicon-plus"></span>Add NIC</button>
@@ -41,24 +41,33 @@
             <div class="col-md-5 col-sm-6">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        Virtual hardware
+                        <h5>Virtual hardware</h5>
                     </div>
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="pull-right">Resources:</div>
                             </div>
-                            <div class="col-md-8">
+                            <div class="col-md-7">
                                 <select ng-model="template" required ng-options="template.name for template in templates" class="form-control" id="template" class="form-control"></select>
                             </div>
+                            <div class="col-md-1">
+                                <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="left" title="Select hardware resources assigned to new instance. To see list of all templates with details, check Instances > Hardware templates"></span>
+                            </div>
+                        </div>
+                        <div ng-show="template != null">
+                            CPU: {{ template.cpu }}, Memory: {{ template.memory }} MB
                         </div>
                         <hr/>
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="pull-right">Base image:</div>
                             </div>
-                            <div class="col-md-8">
+                            <div class="col-md-7">
                                 <select ng-model="base_image" required id="baseImage" ng-options="image.name for image in images | filter:{type: 'transient'}" class="form-control"></select>
+                            </div>
+                            <div class="col-md-1">
+                                <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="left" title="This is basic disk image for instance. It should contain whole operating system (with bootloader and partition table). The clone of this disk is attached to instance on startup and removed (with all modifications) when instance is removed. To store permanent data, use External storages below and pemanent disks."></span>
                             </div>
                         </div>
                         <hr/>
@@ -66,18 +75,21 @@
                             <div class="col-md-4">
                                 <div class="pull-right">Remote screen:</div>
                             </div>
-                            <div class="col-md-8">
+                            <div class="col-md-7">
                                 <select ng-model="vnc" class="form-control" id="vnc">
                                     <option value="1">Yes</option>
                                     <option value="0" selected>No</option>
                                 </select>
+                            </div>
+                            <div class="col-md-1">
+                                <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="left" title="Enable the remote screen. Use any VNC client (xvncviewer, TightVNC) to connect with your instance's virtual screen, keyboard and mouse. Yuo can enable or disable it later, in instance details."></span>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        External storages
+                        <h5>External storages</h5>
                     </div>
                     <div class="panel-body">
                         <button class="btn btn-primary btn-sm btn-block" id="addStorage" ng-click="addStorage()"><span class="glyphicon glyphicon-plus"></span>Add storage</button>
@@ -105,3 +117,8 @@
         <button type="submit" ng-click="vmCreate()" class="btn btn-lg btn-success">Create</button>
     </form>
 </div>
+<script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    });
+</script>

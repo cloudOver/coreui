@@ -4,12 +4,12 @@
     <div class="col-md-8 col-sm-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                Create new network
+                <h5>Create new network</h5>
             </div>
             <div class="panel-body text-center">
                 <div class="form-group">
                     <div class="row">
-                        <div class="col-md-8">
+                        <div class="col-md-7">
                             <div class="input-group">
                                 <span class="input-group-addon">Name: </span>
                                 <input type="text" id="name" class="form-control" ng-model="name"/>
@@ -20,6 +20,9 @@
                                 <span class="input-group-addon">Mask: </span>
                                 <input type="text" id="mask" class="form-control" ng-model="mask"/>
                             </div>
+                        </div>
+                        <div class="col-md-1">
+                            <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="left" title="Mask defines size of network. Search for network addressation (CIDR) basics to understand what is defined by network mask. In default model of networking, the size of each network is four times less than standard IPv4 network with such mask."></span>
                         </div>
                     </div>
                     <hr/>
@@ -49,3 +52,9 @@
     </div>
     <div class="col-md-2 hidden-sm"></div>
 </div>
+
+<script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    });
+</script>

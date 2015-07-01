@@ -92,7 +92,7 @@ window.app.controller('VmCreateCtrl', function ($scope, $location, $http) {
     $scope.storages = [];
     $scope.vnc = 0;
 
-    $scope.template = {};
+    $scope.template = null;
     $scope.base_image = {};
 
     $("#addStorage").prop('disabled', true);
