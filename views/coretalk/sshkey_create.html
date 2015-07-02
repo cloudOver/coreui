@@ -1,0 +1,35 @@
+<div class="row">
+    <div class="col-md-2 hidden-sm">
+    </div>
+    <div class="col-md-8 col-sm-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h5>Add new public ssh key</h5>
+            </div>
+            <div class="panel-body text-center">
+                <div class="form-group">
+                    <div class="input-group">
+                        <span class="input-group-addon">Name</span>
+                        <input type="text" ng-model="name" class="form-control" />
+                    </div>
+                    <hr/>
+                    <div class="input-group">
+                        <span class="input-group-addon">Key</span>
+                        <textarea rows="10" ng-model="data" class="form-control" />
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Use ssh-keygen command to generate pair of private and public keys. The public key usualy could be found in .ssh/id_rsa.pub in Linux operating systems"></span>
+                        </span>
+                    </div>
+                </div>
+                <button class="btn btn-primary" ng-click="create()">Add</button>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2 hidden-sm"></div>
+</div>
+
+<script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    });
+</script>

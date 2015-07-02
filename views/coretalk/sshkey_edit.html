@@ -5,18 +5,18 @@
         <div class="col-md-5 col-sm-8">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h5>Script details</h5>
+                    <h5>Public key details</h5>
                 </div>
                 <div class="panel-body text-center">
                     <div class="form-group">
                         <div class="input-group">
                             <span class="input-group-addon">Name</span>
-                            <input type="text" ng-model="script.name" class="form-control" />
+                            <input type="text" ng-model="sshkey.name" class="form-control" />
                         </div>
                         <hr/>
                         <div class="input-group">
-                            <span class="input-group-addon">Script</span>
-                            <textarea rows="20" ng-model="script.data" class="form-control" />
+                            <span class="input-group-addon">Key</span>
+                            <textarea rows="20" ng-model="sshkey.key" class="form-control" />
                         </div>
                     </div>
                 </div>
@@ -38,7 +38,7 @@
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-md-8">
-                            <select ng-model="vm" ng-options="vm.id as (vm.name + '(' + vm.id + ')') for vm in vms" class="form-control"></select>
+                            <select ng-model="vm" ng-options="(vm.name + '(' + vm.id + ')') for vm in vms" class="form-control"></select>
                         </div>
                         <div class="col-md-4">
                             <button class="btn btn-success" ng-click="attach()">Attach</button>
@@ -49,7 +49,7 @@
         </div>
         <div class="col-md-2 hidden-sm"></div>
     </div>
-    <a href="#/coretalk/userdata/">Go back to script list</a>
+    <a href="#/coretalk/sshkey/">Go back to key list</a>
     &nbsp;&nbsp;&nbsp;
     <button class="btn btn-success" ng-click="save()"><span class="glyphicon glyphicon-save"></span> Save</button>
 </div>
