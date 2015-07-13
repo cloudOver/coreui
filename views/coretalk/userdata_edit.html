@@ -38,7 +38,7 @@
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-md-8">
-                            <select ng-model="vm" ng-options="vm.id as (vm.name + '(' + vm.id + ')') for vm in vms" class="form-control"></select>
+                            <select ng-model="vm" ng-options="(vm.name + '(' + vm.id + ')') for vm in vms" class="form-control"></select>
                         </div>
                         <div class="col-md-4">
                             <button class="btn btn-success" ng-click="attach()">Attach</button>
