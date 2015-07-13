@@ -1,4 +1,5 @@
 window.app.controller('HomeCtrl', function ($scope, $location, $http) {
+    alert($.cookie('core_token'));
     if (!$.cookie('core_token')) {
         document.location = 'login.html';
     }

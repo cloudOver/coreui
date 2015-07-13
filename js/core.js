@@ -13,7 +13,8 @@ for (i = 0; i < window.modules.length; i++) {
 $.getScript('controllers/home.js');
 
 window.app.config(['$routeProvider', function ($routeProvider) {
-    $routeProvider.when("/logout/", {templateUrl: "views/logout.html", controller: "LogoutCtrl"});
+    $routeProvider.when("/logout/", {templateUrl: "views/logout.html", controller: "LogoutCtrl"})
+.when("/", {templateUrl: "views/home.html", controller: "HomeCtrl"});
 }]);
 
 
