@@ -1,58 +1,56 @@
-<div ng-controller="CoreCtrl">
-    <div class="row">
-        <div class="col-md-6">
-            <div class="panel panel-default">
-                <div class="panel-heading">Your resources</div>
-                <div class="panel-body">
-                    <div class="row">
-                        <div class="col-md-4 text-center">
-                            <canvas id="memory" class="chart chart-doughnut" data="memory_data" responsive="true" labels="memory_labels" colours="memory_colours"></canvas>
-                            Memory
-                        </div>
-                        <div class="col-md-4 text-center">
-                            <canvas id="cpu" class="chart chart-doughnut" data="cpu_data" labels="cpu_labels" colours="cpu_colours"></canvas>
-                            CPU
-                        </div>
-                        <div class="col-md-4 text-center">
-                            <canvas id="storage" class="chart chart-doughnut" data="storage_data" labels="storage_labels" colours="storage_colours"></canvas>
-                            Storage
-                        </div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">Your resources</div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-4 text-center">
+                        <canvas id="memory" class="chart chart-doughnut" data="memory_data" responsive="true" labels="memory_labels" colours="memory_colours"></canvas>
+                        Memory
                     </div>
-                </div>
-            </div>
-
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h5>Create new...</h5>
-                </div>
-                <div class="panel-body">
-                    <div class="row">
-                        <div class="col-md-4 text-center"><a href="#/api/vm/create/"><button class="btn btn-success btn-lg"><span class="glyphicon glyphicon-tasks"></span> Instance</button></a></div>
-                        <div class="col-md-4 text-center"><a href="#/api/image/create/"><button class="btn btn-success btn-lg"><span class="glyphicon glyphicon-hdd"></span> Image</button></a></div>
-                        <div class="col-md-4 text-center"><a href="#/api/network/create/"><button class="btn btn-success btn-lg"><span class="glyphicon glyphicon-globe"></span> Network</button></a></div>
+                    <div class="col-md-4 text-center">
+                        <canvas id="cpu" class="chart chart-doughnut" data="cpu_data" labels="cpu_labels" colours="cpu_colours"></canvas>
+                        CPU
+                    </div>
+                    <div class="col-md-4 text-center">
+                        <canvas id="storage" class="chart chart-doughnut" data="storage_data" labels="storage_labels" colours="storage_colours"></canvas>
+                        Storage
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
-            <div class="panel panel-default">
-                <div class="panel-heading">Cloud capabilities</div>
-                <div class="panel-body">
-                    <table ng-table class="table table-condensed">
-                        <thead>
-                        <tr>
-                            <th>Template:</th>
-                            <th>Count</th>
-                        </tr>
-                        </thead>
-                        <tr ng-repeat="tmpl in templates">
-                            <td><b>{{ tmpl.name }}: </b></td>
-                            <td>{{ tmpl.caps }}</td>
-                        </tr>
-                    </table>
-                    <hr/>
-                    <b>Available storage:</b> {{ storage }} MB
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h5>Create new...</h5>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-4 text-center"><a href="#/api/vm/create/"><button class="btn btn-success btn-lg"><span class="glyphicon glyphicon-tasks"></span> Instance</button></a></div>
+                    <div class="col-md-4 text-center"><a href="#/api/image/create/"><button class="btn btn-success btn-lg"><span class="glyphicon glyphicon-hdd"></span> Image</button></a></div>
+                    <div class="col-md-4 text-center"><a href="#/api/network/create/"><button class="btn btn-success btn-lg"><span class="glyphicon glyphicon-globe"></span> Network</button></a></div>
                 </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">Cloud capabilities</div>
+            <div class="panel-body">
+                <table ng-table class="table table-condensed">
+                    <thead>
+                    <tr>
+                        <th>Template:</th>
+                        <th>Count</th>
+                    </tr>
+                    </thead>
+                    <tr ng-repeat="tmpl in templates">
+                        <td><b>{{ tmpl.name }}: </b></td>
+                        <td>{{ tmpl.caps }}</td>
+                    </tr>
+                </table>
+                <hr/>
+                <b>Available storage:</b> {{ storage }} MB
             </div>
         </div>
     </div>
