@@ -26,7 +26,7 @@ window.app.controller('HomeCtrl', function ($scope, $location, $http) {
         var c = new Chart(ctx).Doughnut([
             {
                 value: r['memory_used'],
-                color: '#33ff66'
+                color: '#33ff88'
             },
             {
                 value: r['memory_quota'] - r['memory_used'],

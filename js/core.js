@@ -10,17 +10,9 @@ window.app = angular.module('coreUi', [
 for (i = 0; i < window.modules.length; i++) {
     $.getScript('controllers/' + modules[i] + '.js');
 }
-$.getScript('controllers/home.js');
-
 window.app.config(['$routeProvider', function ($routeProvider) {
     $routeProvider.when("/logout/", {templateUrl: "views/logout.html", controller: "LogoutCtrl"})
-.when("/", {templateUrl: "views/home.html", controller: "HomeCtrl"});
 }]);
-
-
-window.app.controller('CoreCtrl', function ($scope, $location, $http) {
-    //viewController($scope, $location, $http);
-});
 
 window.app.controller('LogoutCtrl', function ($scope, $location, $http) {
     $.cookie("core_login", null);
