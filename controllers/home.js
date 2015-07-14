@@ -20,7 +20,7 @@ window.app.controller('HomeCtrl', function ($scope, $location, $http) {
     });
     request('/user/user/get_info/', {login: $.cookie("core_login"), pw_hash: $.cookie("core_hash")}, function(r) {
         $scope = angular.element($("#view")).scope();
-        $scope.apply();
+        $scope.$apply();
 
         var ctx = $("#memory").get(0).getContext("2d");
         var c = new Chart(ctx).Doughnut([
