@@ -160,27 +160,45 @@ window.app.controller('VmEditCtrl', function ($scope, $location, $route, $routeP
     };
 
     $scope.vmReset = function() {
-        request('/api/vm/reset/', {token: $.cookie('core_token'), vm_id: $route.current.params.id}, function(){});
+        request('/api/vm/reset/', {token: $.cookie('core_token'), vm_id: $route.current.params.id}, function(){
+            $location.path('/api/vm/');
+            $scope.$apply();
+        });
     };
 
     $scope.vmStart = function() {
-        request('/api/vm/start/', {token: $.cookie('core_token'), vm_id: $route.current.params.id}, function(){});
+        request('/api/vm/start/', {token: $.cookie('core_token'), vm_id: $route.current.params.id}, function(){
+            $location.path('/api/vm/');
+            $scope.$apply();
+        });
     };
 
     $scope.vmPoweroff = function() {
-        request('/api/vm/poweroff/', {token: $.cookie('core_token'), vm_id: $route.current.params.id}, function(){});
+        request('/api/vm/poweroff/', {token: $.cookie('core_token'), vm_id: $route.current.params.id}, function(){
+            $location.path('/api/vm/');
+            $scope.$apply();
+        });
     };
 
     $scope.vmShutdown = function() {
-        request('/api/vm/shutdown/', {token: $.cookie('core_token'), vm_id: $route.current.params.id}, function(){});
+        request('/api/vm/shutdown/', {token: $.cookie('core_token'), vm_id: $route.current.params.id}, function(){
+            $location.path('/api/vm/');
+            $scope.$apply();
+        });
     };
 
     $scope.vmSaveImage = function() {
-        request('/api/vm/save_image/', {token: $.cookie('core_token'), vm_id: $route.current.params.id}, function(){});
+        request('/api/vm/save_image/', {token: $.cookie('core_token'), vm_id: $route.current.params.id}, function(){
+            $location.path('/api/vm/');
+            $scope.$apply();
+        });
     };
 
     $scope.vmConsole = function() {
-        request('/api/vm/console/', {token: $.cookie('core_token'), vm_id: $route.current.params.id, enable: !$scope.vm.vnc_enabled}, function(){});
+        request('/api/vm/console/', {token: $.cookie('core_token'), vm_id: $route.current.params.id, enable: !$scope.vm.vnc_enabled}, function(){
+            $location.path('/api/vm/' + $route.current.params.id + '/');
+            $scope.$apply();
+        });
     };
 
     var core_model = 'vm';
