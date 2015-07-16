@@ -121,6 +121,40 @@
                     </div>
                 </div>
                 <div class="panel panel-default">
+                    <div class="panel-heading" onclick="$('#networks').toggle();">
+                        Network interfaces <span class="glyphicon glyphicon-menu-down"></span>
+                    </div>
+                    <div class="panel-body" id="networks" style="display: none">
+                        <table class="table table-striped">
+                            <thead>
+                            <th>IPv4</th>
+                            </thead>
+                            <tr data-ng-repeat="lease in vm.leases">
+                                <td>{{ lease.address }}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading" onclick="$('#storages').toggle();">
+                        External storages <span class="glyphicon glyphicon-menu-down"></span>
+                    </div>
+                    <div class="panel-body" id="storages" style="display: none">
+                        <table class="table table-striped">
+                            <thead>
+                            <th>Name</th>
+                            <th>Size</th>
+                            <th>Index</th>
+                            </thead>
+                            <tr data-ng-repeat="disk in vm.disks">
+                                <td>{{ disk.name }}</td>
+                                <td>{{ disk.size/1024/1024/1024 }} GB</td>
+                                <td>{{ disk.disk_dev }}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="panel panel-default">
                     <div class="panel-heading" onclick="$('#data').toggle();">
                         Additional options <span class="glyphicon glyphicon-menu-down"></span>
                     </div>

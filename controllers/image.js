@@ -58,6 +58,7 @@ function prepare_new($scope, $location, $http) {
     get_image_formats($scope);
 }
 
+
 window.app.controller('ImageListCtrl', function ($scope, $location, $http) {
     var model = 'image';
     $scope.obj_edit = function(obj) {
@@ -72,10 +73,16 @@ window.app.controller('ImageListCtrl', function ($scope, $location, $http) {
         $location.path('/api/' + model + '/upload/');
         $scope.$apply();
     };
-    request('/api/' + model + '/get_list/', {token: $.cookie("core_token")}, function(objs) {
-        $scope.objs = objs;
-        $scope.$apply();
-    });
+
+    function refreshList() {
+        request('/api/' + model + '/get_list/', {token: $.cookie("core_token")}, function(objs) {
+            $scope.objs = objs;
+            $scope.$apply();
+        });
+        clearTimeout(window.refresh);
+        window.refresh = setTimeout(refreshList, 4000);
+    }
+    refreshList();
 });
 
 

@@ -18,7 +18,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="obj in objs" ng-click="obj_edit(obj)" ng-class="{danger: obj.state=='failed', warning: obj.state=='stopped', info: obj.state=='init'}">
+                        <tr style="cursor: pointer;" ng-repeat="obj in objs" ng-click="obj_edit(obj)" ng-class="{danger: obj.state=='failed', warning: obj.state=='stopped', info: obj.state=='init'}">
                             <td>{{ obj.id }}</td>
                             <td data-title="'Name'" sortable="'name'">{{ obj.name }}</td>
                             <td>{{ obj.description }}</td>

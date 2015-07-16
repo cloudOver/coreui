@@ -1,6 +1,7 @@
 function get_network_list($scope) {
     request('/api/network/get_list/', {token: $.cookie("core_token")}, function(networks) {
         $scope.networks = networks;
+        $scope.leases = [];
         $scope.$apply();
         for (i = 0; i < networks.length; i++) {
             request('/api/lease/get_list/', {token: $.cookie("core_token"), network_id: networks[i].id}, function(leases) {
@@ -41,14 +42,22 @@ window.app.controller('VmListCtrl', function ($scope, $location, $http) {
     $scope.obj_create = function() {
         $location.path('/api/' + model + '/create/');
     };
-    request('/api/' + model + '/get_list/', {token: $.cookie("core_token")}, function(objs) {
-        $scope.objs = objs;
-        $scope.$apply();
-    });
+
+    function refreshList() {
+        request('/api/' + model + '/get_list/', {token: $.cookie("core_token")}, function(objs) {
+            $scope.objs = objs;
+            $scope.$apply();
+        });
+
+        clearTimeout(window.refresh);
+        window.refresh = setTimeout(refreshList, 4000);
+    }
+    refreshList();
 });
 
 
 window.app.controller('VmTemplateCtrl', function ($scope, $location, $http) {
+    clearTimeout(window.refresh);
     var model = 'template';
     $scope.obj_create = function() {
         $location.path('/api/' + model + '/create/');
@@ -86,6 +95,7 @@ window.app.controller('VmTemplateCtrl', function ($scope, $location, $http) {
 
 
 window.app.controller('VmCreateCtrl', function ($scope, $location, $http) {
+    clearTimeout(window.refresh);
     $scope.nics =  [];
     $scope.networks = [];
     $scope.leases = [];
@@ -150,6 +160,7 @@ window.app.controller('VmCreateCtrl', function ($scope, $location, $http) {
 
 
 window.app.controller('VmEditCtrl', function ($scope, $location, $route, $routeParams) {
+    clearTimeout(window.refresh);
     $scope.vm = {};
 
     $scope.vmCleanup = function() {

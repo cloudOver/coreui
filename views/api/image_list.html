@@ -12,7 +12,7 @@
                 <table class="table table-stripped table-hover" ng-table="vmsTable">
                     <thead>
                         <tr>
-                            <th>#</th>
+                            <th>ID</th>
                             <th>Name</th>
                             <th>Description</th>
                             <th>State</th>
@@ -22,7 +22,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="obj in objs" ng-click="obj_edit(obj)" ng-class="{danger: obj.state=='failed', success: obj.state=='downloading', info: obj.state=='waiting'}">
+                        <tr style="cursor: pointer;" ng-repeat="obj in objs" ng-click="obj_edit(obj)" ng-class="{danger: obj.state=='failed', success: obj.state=='downloading', info: obj.state=='waiting'}">
                             <td>{{ obj.id }}</td>
                             <td data-title="'Name'" sortable="'name'">{{ obj.name }}</td>
                             <td>{{ obj.description }}</td>
