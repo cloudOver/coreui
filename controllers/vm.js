@@ -139,7 +139,7 @@ window.app.controller('VmCreateCtrl', function ($scope, $location, $http) {
             base_image_id: $scope.base_image.id
         }, function(vm) {
             for (i = 0; i < $scope.nics.length; i++) {
-                console.log($scope.nics[i].lease.id)
+                console.log($scope.nics[i].lease.id);
                 request('/api/lease/attach/', {token: $.cookie("core_token"), lease_id: $scope.nics[i].lease.id, vm_id: vm.id}, function(r) {});
             }
             for (i = 0; i < $scope.storages.length; i++) {
