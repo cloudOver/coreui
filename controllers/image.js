@@ -87,6 +87,7 @@ window.app.controller('ImageListCtrl', function ($scope, $location, $http) {
 
 
 window.app.controller('ImageCreateCtrl', function ($scope, $location, $http) {
+    clearTimeout(window.refresh);
     $scope.create = true;
     prepare_new($scope, $location, $http);
 
@@ -113,6 +114,7 @@ window.app.controller('ImageCreateCtrl', function ($scope, $location, $http) {
 
 
 window.app.controller('ImageUploadCtrl', function ($scope, $location, $http) {
+    clearTimeout(window.refresh);
     $scope.upload = true;
     prepare_new($scope, $location, $http);
 
@@ -153,6 +155,7 @@ window.app.controller('ImageUploadCtrl', function ($scope, $location, $http) {
 
 
 window.app.controller('ImageEditCtrl', function ($scope, $location, $route, $routeParams) {
+    clearTimeout(window.refresh);
     $scope.image = {};
 
     $("#type").prop('disabled', true);
@@ -175,6 +178,20 @@ window.app.controller('ImageEditCtrl', function ($scope, $location, $route, $rou
                 d[model.editable[i]] = $scope[core_model][model.editable[i]];
                 request('/api/' + core_model + '/edit/', d, function (r) {});
             }
+            $location.path('/api/image/');
+            $scope.$apply();
+        });
+    };
+
+    $scope.imageDetach = function(vm_id, image_id) {
+        request('/api/image/detach/', {token: $.cookie("core_token"), image_id: image_id, vm_id: vm_id}, function(r) {
+            $location.path('/api/image/');
+            $scope.$apply();
+        });
+    };
+
+    $scope.imageAttach = function(vm_id, image_id) {
+        request('/api/image/attach/', {token: $.cookie("core_token"), image_id: image_id, vm_id: vm_id}, function(r) {
             $location.path('/api/image/');
             $scope.$apply();
         });
