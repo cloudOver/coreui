@@ -68,8 +68,9 @@
 
 <script type="text/javascript">
     function redirect() {
-        document.location = "index.html#/intro";
+        document.location = "index.html#/?show_intro";
     }
+
     $("#form-register").submit(function(e) {
         e.preventDefault();
         var login = $("#form-register #inputLogin").val();

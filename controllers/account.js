@@ -10,6 +10,7 @@ window.app.controller('TokenListCtrl', function ($scope, $location, $http) {
     });
 });
 
+
 window.app.controller('TokenCreateCtrl', function ($scope, $location, $http) {
     var model = 'userdata';
     $scope.obj_create = function() {
@@ -21,7 +22,21 @@ window.app.controller('TokenCreateCtrl', function ($scope, $location, $http) {
 });
 
 
+window.app.controller('ApiListCtrl', function ($scope, $location, $http) {
+    var model = 'userdata';
+    request('/api/api/list_functions/', {token: $.cookie("core_token")}, function(objs) {
+        $scope.functions = objs;
+        $scope.$apply();
+    });
+    request('/api/api/list_api_modules/', {token: $.cookie("core_token")}, function(objs) {
+        $scope.modules = objs;
+        $scope.$apply();
+    });
+});
+
+
 window.app.config(['$routeProvider', function ($routeProvider) {
     $routeProvider.when("/account/token/", {templateUrl: "views/account/token_list.html", controller: "TokenListCtrl"})
         .when("/account/token/create/", {templateUrl: "views/account/token_create.html", controller: "TokenCreateCtrl"})
+        .when("/account/api/", {templateUrl: "views/account/api_list.html", controller: "ApiListCtrl"})
 }]);

@@ -1,0 +1,48 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h5>Modules</h5>
+    </div>
+    <div class="panel-body">
+        <table class="table table-stripped" ng-table="vmsTable">
+            <tbody>
+            <tr ng-repeat="obj in modules" ng-click="obj_edit(obj)">
+                <td>{{ obj }}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h5>Functions</h5>
+    </div>
+    <div class="panel-body">
+        <table class="table table-stripped" ng-table="vmsTable">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Parameters</th>
+                <th>Description</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="obj in functions" ng-click="obj_edit(obj)">
+                <td>{{ obj.name }}</td>
+                <td>
+                    <ul>
+                        <li data-ng-repeat="p in obj.params">{{p}}</li>
+                    </ul>
+                </td>
+                <td><p style="white-space: pre;">{{ obj.doc }}</p></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    });
+</script>

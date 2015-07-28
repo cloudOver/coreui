@@ -1,3 +1,26 @@
+<div class="modal fade" id="intro">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Before you begin...</h4>
+            </div>
+            <div class="modal-body">
+                <img src="img/introscreen.png" width="90%">
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Got it!</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<script>
+    if (document.location.hash.indexOf('show_intro') > 0) {
+        $('#intro').modal('show');
+    }
+</script>
+
 <div class="row">
     <div class="col-md-6">
         <div class="panel panel-default">
