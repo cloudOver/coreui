@@ -16,7 +16,6 @@
                             <button class="btn btn-warning" ng-show="vm.state == 'running'" ng-click="vmShutdown()"><span class="glyphicon glyphicon-arrow-down"></span> Shut down</button>
                             <button class="btn btn-warning" ng-show="vm.state == 'running'" ng-click="vmPoweroff()"><span class="glyphicon glyphicon-off"></span> Power off</button>
                             <button class="btn btn-success" ng-show="vm.state == 'stopped'" ng-click="vmSaveImage()"><span class="glyphicon glyphicon-save"></span> Save base image</button>
-                            <button class="btn btn-success" ng-click="vmConsole()"><span class="glyphicon glyphicon-hd-video"></span> VNC</button>
                         </div>
                     </div>
                 </div>
@@ -49,42 +48,8 @@
                             <span class="input-group-addon">Start time</span>
                             <input type="text" id="created" ng-model="vm.start_time" class="form-control" placeholder="Name" readonly>
                         </div>
-                        <hr ng-show="vm.state == 'running' && vm.vnc_enabled"/>
-                        <div class="input-group" ng-show="vm.state == 'running' && vm.vnc_enabled">
-                            <span class="input-group-addon">Vnc address</span>
-                            <input type="text" id="vnc_addr" ng-attr-value="vnc://{{vm.vnc_address}}:{{vm.vnc_port}}" class="form-control" placeholder="Vnc port" readonly>
-                        </div>
-                        <br ng-show="vm.state == 'running' && vm.vnc_enabled"/>
-                        <div class="input-group" ng-show="vm.state == 'running' && vm.vnc_enabled">
-                            <span class="input-group-addon">Vnc password</span>
-                            <input type="text" id="vnc_passwd" ng-model="vm.vnc_passwd" class="form-control" readonly>
-                        </div>
                     </div>
                 </div>
-                <!--<div class="panel panel-default">
-                    <div class="panel-heading">
-                        Networking
-                    </div>
-                    <div class="panel-body">
-                        <fieldset data-ng-repeat="lease in vm.leases">
-                            {{ lease.address }}<br />
-                        </fieldset>
-                        <button class="btn btn-primary btn-sm btn-block" id="addNIC" ng-click="addNIC()"><span class="glyphicon glyphicon-plus"></span>Add NIC</button>
-                        <br/>
-                        <fieldset data-ng-repeat="nic in nics">
-                            <div class="row">
-                                <div class="col-md-10">
-                                    <select ng-model="nic.lease" ng-options="lease.address for lease in leases | filter:{vm_id: 'null'}" class="form-control">
-                                        <option value="">-- select lease --</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-2">
-                                    <button class="btn btn-sm btn-danger btn-block" ng-click="removeNIC(nic)"><span class="glyphicon glyphicon-remove"></span></button>
-                                </div>
-                            </div>
-                        </fieldset>
-                    </div>
-                </div>-->
             </div>
             <div class="col-md-5 col-sm-6">
                 <div class="panel panel-default">
@@ -97,7 +62,8 @@
                                 <div class="pull-right">Resources:</div>
                             </div>
                             <div class="col-md-8">
-                                {{ vm.template.name }}
+                                {{ vm.template.name }}<br/>
+                                <small>Cpu: {{vm.template.cpu }}, memory: {{ vm.template.memory}}</small>
                             </div>
                         </div>
                         <hr/>
@@ -106,7 +72,8 @@
                                 <div class="pull-right">Base image:</div>
                             </div>
                             <div class="col-md-8">
-                                {{ vm.base_image.id }}
+                                {{ vm.base_image.name }}<br/>
+                                <small>{{ vm.base_image.id }}</small>
                             </div>
                         </div>
                         <hr/>
@@ -115,7 +82,20 @@
                                 <div class="pull-right">Remote screen:</div>
                             </div>
                             <div class="col-md-8">
-                                {{ vm.vnc_enabled }}
+                                <button class="btn btn-sm btn-success" ng-show="vm.vnc_enabled" ng-click="vmConsole(0)">Enabled</button>
+                                <button class="btn btn-sm btn-default" ng-show="!vm.vnc_enabled" ng-click="vmConsole(1)">Disabled</button>
+
+                                <br ng-show="vm.vnc_enabled"/>
+                                <br ng-show="vm.vnc_enabled"/>
+                                <div class="input-group input-group-sm" ng-show="vm.vnc_enabled">
+                                    <span class="input-group-addon">Vnc address</span>
+                                    <input type="text" id="vnc_addr" ng-attr-value="vnc://{{vm.vnc_address}}:{{vm.vnc_port}}" class="form-control" placeholder="Vnc port" readonly>
+                                </div>
+                                <br ng-show="vm.vnc_enabled"/>
+                                <div class="input-group input-group-sm" ng-show="vm.vnc_enabled">
+                                    <span class="input-group-addon">Vnc password</span>
+                                    <input type="text" id="vnc_passwd" ng-model="vm.vnc_passwd" class="form-control" readonly>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -190,27 +170,6 @@
                         </table>
                     </div>
                 </div>
-                <!--<div class="panel panel-default">
-                    <div class="panel-heading">
-                        External storages
-                    </div>
-                    <div class="panel-body">
-                        <button class="btn btn-primary btn-sm btn-block" id="addStorage" ng-click="addStorage()"><span class="glyphicon glyphicon-plus"></span>Add storage</button>
-                        <br/>
-                        <fieldset data-ng-repeat="storage in storages">
-                            <div class="row">
-                                <div class="col-md-10">
-                                    <select ng-model="storage.image" ng-options="image.name for image in images | filter:{type: 'permanent', attached_to_id: 'null'}" class="form-control">
-                                        <option value="">-- select storage --</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-2">
-                                    <button class="btn btn-sm btn-danger btn-block" ng-click="removeStorage(storage)"><span class="glyphicon glyphicon-remove"></span></button>
-                                </div>
-                            </div>
-                        </fieldset>
-                    </div>
-                </div>-->
             </div>
             <div class="col-md-1 hidden-sm"></div>
         </div>
