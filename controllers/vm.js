@@ -143,7 +143,7 @@ window.app.controller('VmCreateCtrl', function ($scope, $location, $http) {
                 request('/api/lease/attach/', {token: $.cookie("core_token"), lease_id: $scope.nics[i].lease.id, vm_id: vm.id}, function(r) {});
             }
             for (i = 0; i < $scope.storages.length; i++) {
-                request('/api/image/attach/', {token: $.cookie("core_token"), image_id: $scope.storages[i].id, vm_id: vm.id}, function(r) {});
+                request('/api/image/attach/', {token: $.cookie("core_token"), image_id: $scope.storages[i].image.id, vm_id: vm.id}, function(r) {});
             }
             if ($scope.vnc == 1) {
                 request('/api/vm/console/', {token: $.cookie("core_token"), enable: 1, vm_id: vm.id}, function(r) {});
