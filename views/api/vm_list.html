@@ -9,22 +9,22 @@
                 <table class="table table-stripped" ng-table="objTable">
                     <thead>
                         <tr>
-                            <th>#</th>
                             <th>Name</th>
-                            <th>Description</th>
                             <th>State</th>
                             <th>Template</th>
                             <th>Base image</th>
+                            <th>Access</th>
+                            <th>#</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr style="cursor: pointer;" ng-repeat="obj in objs" ng-click="obj_edit(obj)" ng-class="{danger: obj.state=='failed', warning: obj.state=='stopped', info: obj.state=='init'}">
-                            <td>{{ obj.id }}</td>
-                            <td data-title="'Name'" sortable="'name'">{{ obj.name }}</td>
-                            <td>{{ obj.description }}</td>
+                            <td data-title="'Name'" sortable="'name'">{{ obj.name }}<br/><small>{{ obj.description }}</small></td>
                             <td data-title="'State'" sortable="'state'" ng-class="{danger: obj.state=='failed'}">{{ obj.state }}</td>
                             <td data-title="'Template'" sortable="'template'">{{ obj.template.name }}</td>
                             <td data-title="'Base image'" sortable="'base_image'">{{ obj.base_image.name }}</td>
+                            <td>{{ obj.access }}</td>
+                            <td>{{ obj.id }}</td>
                         </tr>
                     </tbody>
                 </table>
