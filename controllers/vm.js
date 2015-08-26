@@ -240,8 +240,8 @@ window.app.controller('VmEditCtrl', function ($scope, $location, $route, $routeP
 
 
 window.app.config(['$routeProvider', function ($routeProvider) {
-    $routeProvider.when("/api/vm/", {templateUrl: "views/api/vm_list.html", controller: "VmListCtrl"})
-        .when("/api/vm/create/", {templateUrl: "views/api/vm_create.html", controller: "VmCreateCtrl"})
-        .when("/api/vm/template/", {templateUrl: "views/api/vm_template.html", controller: "VmTemplateCtrl"})
-        .when("/api/vm/:id/", {templateUrl: "views/api/vm_edit.html", controller: "VmEditCtrl"});
+    $routeProvider.when("/api/vm/", {templateUrl: "/views/api/vm_list.html", controller: "VmListCtrl"})
+        .when("/api/vm/create/", {templateUrl: "/views/api/vm_create.html", controller: "VmCreateCtrl"})
+        .when("/api/vm/template/", {templateUrl: "/views/api/vm_template.html", controller: "VmTemplateCtrl"})
+        .when("/api/vm/:id/", {templateUrl: "/views/api/vm_edit.html", controller: "VmEditCtrl"});
 }]);
