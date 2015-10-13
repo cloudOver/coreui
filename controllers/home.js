@@ -18,7 +18,7 @@ window.app.controller('HomeCtrl', function ($scope, $location, $http) {
         $scope.storage = caps;
         $scope.$apply();
     });
-    request('/user/user/get_info/', {login: $.cookie("core_login"), pw_hash: $.cookie("core_hash")}, function(r) {
+    request('/user/user/get_quota/', {login: $.cookie("core_login"), pw_hash: $.cookie("core_hash")}, function(r) {
         $scope = angular.element($("#view")).scope();
         $scope.$apply();
 
