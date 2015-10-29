@@ -7,9 +7,10 @@ window.app = angular.module('coreUi', [
 /**
  * Configure the Routes
  */
-for (i = 0; i < window.modules.length; i++) {
+/*for (i = 0; i < window.modules.length; i++) {
     $.getScript('controllers/' + modules[i] + '.js');
-}
+}*/
+
 window.app.config(['$routeProvider', function ($routeProvider) {
     $routeProvider.when("/logout/", {templateUrl: "views/logout.html", controller: "LogoutCtrl"})
 }]);
