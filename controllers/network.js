@@ -17,18 +17,42 @@ window.app.controller('NetworkListCtrl', function ($scope, $location, $http) {
 window.app.controller('NetworkCreateCtrl', function ($scope, $location, $http) {
     $scope.access = 'private';
     $scope.mask = 24;
+
     $scope.create = function() {
+        var network_mode = $scope.mode;
+        var network_isolated = false;
+        var network_address = '0.0.0.0';
+
+        if ($scope.mode == 'routed_public') {
+            network_mode = 'routed';
+            network_isolated = false;
+            network_address = null;
+        } else if ($scope.mode == 'routed_isolated') {
+            network_mode = 'routed';
+            network_isolated = true;
+            network_address = null;
+        } else {
+            network_mode = $scope.mode;
+            network_isolated = false;
+        }
+
         request('/api/network/create/', {token: $.cookie("core_token"),
             name: $scope.name,
-            isolated: $scope.isolated,
+            isolated: network_isolated,
+            mode: network_mode,
             mask: parseInt($scope.mask),
-            address: null
+            address: network_address,
         }, function(resp) {
             request('/api/network/edit/', {token: $.cookie("core_token"), network_id: resp.id, access: $scope.access}, function() {});
-            request('/api/network/allocate/', {token: $.cookie("core_token"), network_id: resp.id}, function() {
+            if (network_mode == 'isolated') {
                 $location.path('/api/network/');
                 $scope.$apply();
-            });
+            } else {
+                request('/api/network/allocate/', {token: $.cookie("core_token"), network_id: resp.id}, function() {
+                    $location.path('/api/network/');
+                    $scope.$apply();
+                });
+            }
         });
     };
 });

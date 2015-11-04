@@ -14,7 +14,8 @@
                             <th>Address</th>
                             <th>Leases <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Lease is the equivalent of network card with assigned IP"></span></th>
                             <th>Attached instances</th>
-                            <th>Isolated</th>
+                            <th>Mode</th>
+                            <th>Firewall</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -24,6 +25,7 @@
                             <td>{{ obj.address }}/{{ obj.mask }}</td>
                             <td>{{ obj.total_leases }}</td>
                             <td>{{ obj.used_leases }}</td>
+                            <td>{{ obj.mode }}</td>
                             <td>{{ obj.is_isolated }}</td>
                         </tr>
                     </tbody>

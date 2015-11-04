@@ -156,6 +156,7 @@ window.app.controller('VmCreateCtrl', function ($scope, $location, $http) {
     get_template_list($scope);
     get_image_list($scope);
     get_network_list($scope);
+    $('.selectpicker').selectpicker();
 });
 
 

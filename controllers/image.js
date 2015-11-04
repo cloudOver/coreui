@@ -2,6 +2,7 @@ function get_image_types($scope) {
     request('/api/image/get_image_types/', {token: $.cookie("core_token")}, function(l) {
         $scope.types = l;
         $scope.$apply();
+        $('.selectpicker').selectpicker('refresh');
         $("#type").prop('disabled', false);
     });
 }
@@ -10,6 +11,7 @@ function get_video_devices($scope) {
     request('/api/image/get_video_devices/', {token: $.cookie("core_token")}, function(l) {
         $scope.video_devices = l;
         $scope.$apply();
+        $('.selectpicker').selectpicker('refresh');
         $("#video_device").prop('disabled', false);
     });
 }
@@ -18,6 +20,7 @@ function get_network_devices($scope) {
     request('/api/image/get_network_devices/', {token: $.cookie("core_token")}, function(l) {
         $scope.network_devices = l;
         $scope.$apply();
+        $('.selectpicker').selectpicker('refresh');
         $("#network_device").prop('disabled', false);
     });
 }
@@ -26,6 +29,7 @@ function get_disk_controllers($scope) {
     request('/api/image/get_disk_controllers/', {token: $.cookie("core_token")}, function(l) {
         $scope.disk_controllers = l;
         $scope.$apply();
+        $('.selectpicker').selectpicker('refresh');
         $("#disk_controller").prop('disabled', false);
     });
 }
@@ -34,6 +38,7 @@ function get_image_formats($scope) {
     request('/api/image/get_image_formats/', {token: $.cookie("core_token")}, function(l) {
         $scope.formats = l;
         $scope.$apply();
+        $('.selectpicker').selectpicker('refresh');
         $("#disk_controller").prop('disabled', false);
     });
 }

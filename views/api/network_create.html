@@ -27,20 +27,24 @@
                     </div>
                     <hr/>
                     <div class="row">
-                        <div class="col-md-8">
-                            <div class="checkbox checkbox-inline">
-                                <label>
-                                    <input type="checkbox" ng-model="isolated"> Isolate this network from other networks
-                                </label>
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-addon">Network mode: </span>
+                                <select ng-model="mode" class="selectpicker" data-width="auto">
+                                    <option value="routed_public" data-subtext="Shared with other hosts in cluster">Routed</option>
+                                    <option value="routed_isolated" data-subtext="Isolation is made by firewall at cloud level">Routed+Firewall</option>
+                                    <option value="public" data-subtext="Could be redirected to routed hosts">Public IP pool</option>
+                                    <option value="isolated" data-subtext="Full layer 2 network virtualization">Isolated</option>
+                                </select>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="input-group">
                                 <span class="input-group-addon">Access: </span>
-                                <select ng-model="access" class="form-control">
-                                    <option value="private">Private</option>
-                                    <option value="group">Group</option>
-                                    <option value="private">Public</option>
+                                <select ng-model="access" class="selectpicker" data-width="auto">
+                                    <option value="private" data-subtext="Only you have access to this object">Private</option>
+                                    <option value="group" data-subtext="Members from your group can use and modify this object">Group</option>
+                                    <option value="public" data-subtext="Anyone could modify this object">Public</option>
                                 </select>
                             </div>
                         </div>
@@ -55,6 +59,7 @@
 
 <script>
     $(function () {
+        $('.selectpicker').selectpicker();
         $('[data-toggle="tooltip"]').tooltip()
     });
 </script>

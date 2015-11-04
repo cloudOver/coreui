@@ -43,7 +43,7 @@
                             <div class="pull-right">Type:</div>
                         </div>
                         <div class="col-md-7">
-                            <select ng-model="image.type" required id="type" ng-options="type for type in types" class="form-control"></select>
+                            <select ng-model="image.type" select-model="image.type" required id="type" ng-options="type for type in types" class="selectpicker"></select>
                         </div>
                         <div class="col-md-1">
                             <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="left" title="Permanent images are used as external drives. Each permanent drive could be attached to only one instance at the same time. Use them to store data. The transient drives are used as instance's base image with OS. Object images are used by object storage and are not available for instances. You can change type of image later, in image details."></span>
@@ -55,10 +55,10 @@
                             <div class="pull-right">Access:</div>
                         </div>
                         <div class="col-md-7">
-                            <select ng-model="image.access" class="form-control" id="access">
-                                <option value="private" selected>Private</option>
-                                <option value="group">Group</option>
-                                <option value="public">Public</option>
+                            <select ng-model="image.access" id="access" class="selectpicker">
+                                <option value="private" data-subtext="Only you have access to this object">Private</option>
+                                <option value="group" data-subtext="Members from your group can use and modify this object">Group</option>
+                                <option value="public" data-subtext="Anyone could modify this object">Public</option>
                             </select>
                         </div>
                         <div class="col-md-1">
@@ -71,7 +71,7 @@
                             <div class="pull-right">Network card:</div>
                         </div>
                         <div class="col-md-7">
-                            <select ng-model="image.network_device" required ng-options="network_device for network_device in network_devices" class="form-control" id="network_device"></select>
+                            <select ng-model="image.network_device" required ng-options="network_device for network_device in network_devices" class="selectpicker" id="network_device"></select>
                         </div>
                         <div class="col-md-1">
                             <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="left" title="If the image is used as base image for instance, this field is used to define how hypervisor should emulate all network devices"></span>
@@ -83,7 +83,7 @@
                             <div class="pull-right">Disk controller:</div>
                         </div>
                         <div class="col-md-7">
-                            <select ng-model="image.disk_controller" required id="disk_controller" ng-options="disk_controller for disk_controller in disk_controllers" class="form-control"></select>
+                            <select ng-model="image.disk_controller" required id="disk_controller" ng-options="disk_controller for disk_controller in disk_controllers" class="selectpicker"></select>
                         </div>
                         <div class="col-md-1">
                             <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="left" title="If the image is used as base image for instance, this field is used to define how hypervisor should emulate all disk controllers"></span>
@@ -95,7 +95,7 @@
                             <div class="pull-right">Video card:</div>
                         </div>
                         <div class="col-md-7">
-                            <select ng-model="image.video_device" required ng-options="video_device for video_device in video_devices" class="form-control" id="video_device"></select>
+                            <select ng-model="image.video_device" required ng-options="video_device for video_device in video_devices" class="selectpicker" id="video_device"></select>
                         </div>
                         <div class="col-md-1">
                             <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="left" title="If the image is used as base image for instance, this field is used to define how hypervisor should emulate the video device"></span>
@@ -114,6 +114,7 @@
 
 <script>
     $(function () {
+        $('.selectpicker').selectpicker();
         $('[data-toggle="tooltip"]').tooltip()
     });
 </script>

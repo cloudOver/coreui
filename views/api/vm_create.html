@@ -26,7 +26,7 @@
                         <fieldset data-ng-repeat="nic in nics">
                             <div class="row">
                                 <div class="col-md-10">
-                                    <select ng-model="nic.lease" ng-options="lease.address for lease in leases | filter:{vm_id: 'null'}" class="form-control">
+                                    <select ng-model="nic.lease" ng-options="lease.address for lease in leases | filter:{vm_id: null}" class="form-control">
                                         <option value="">-- select lease --</option>
                                     </select>
                                 </div>
@@ -97,7 +97,7 @@
                         <fieldset data-ng-repeat="storage in storages">
                             <div class="row">
                                 <div class="col-md-10">
-                                    <select ng-model="storage.image" ng-options="image.name for image in images | filter:{type: 'permanent', attached_to_id: 'null'}" class="form-control">
+                                    <select ng-model="storage.image" ng-options="image.name for image in images | filter:{type: 'permanent', attached_to_id: null}" class="form-control">
                                         <option value="">-- select storage --</option>
                                     </select>
                                 </div>
