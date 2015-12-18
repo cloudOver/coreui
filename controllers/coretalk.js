@@ -8,7 +8,7 @@ window.app.controller('UserdataListCtrl', function ($scope, $location, $http) {
         $location.path('/coretalk/' + model + '/create/');
         $scope.$apply();
     };
-    request('/coreTalk/' + model + '/get_list/', {token: $.cookie("core_token")}, function(objs) {
+    request('/api/' + model + '/get_list/', {token: $.cookie("core_token")}, function(objs) {
         $scope.objs = objs;
         $scope.$apply();
     });
@@ -18,7 +18,7 @@ window.app.controller('UserdataCreateCtrl', function ($scope, $location, $http) 
     $scope.script = '';
     $scope.name = '';
     $scope.create = function() {
-        request('/coreTalk/userdata/create/', {token: $.cookie("core_token"),
+        request('/api/userdata/create/', {token: $.cookie("core_token"),
             name: $scope.name,
             data: $scope.script
         }, function(resp) {
@@ -29,11 +29,11 @@ window.app.controller('UserdataCreateCtrl', function ($scope, $location, $http) 
 });
 
 window.app.controller('UserdataEditCtrl', function ($scope, $location, $http, $route) {
-    request('/coreTalk/userdata/get_by_id/', {token: $.cookie('core_token'), userdata_id: $route.current.params.id}, function(r) {
+    request('/api/userdata/get_by_id/', {token: $.cookie('core_token'), userdata_id: $route.current.params.id}, function(r) {
         $scope.script = r;
         $scope.$apply();
     });
-    request('/coreTalk/userdata/get_list/', {token: $.cookie('core_token')}, function(r) {
+    request('/api/userdata/get_list/', {token: $.cookie('core_token')}, function(r) {
         $scope.scripts = r;
         $scope.$apply();
     });
@@ -43,7 +43,7 @@ window.app.controller('UserdataEditCtrl', function ($scope, $location, $http, $r
     });
 
     $scope.attach = function() {
-        request('/coreTalk/userdata/attach/', {token: $.cookie("core_token"),
+        request('/api/userdata/attach/', {token: $.cookie("core_token"),
             vm_id: $scope.vm.id,
             userdata_id: $route.current.params.id
         }, function(resp) {
@@ -52,13 +52,13 @@ window.app.controller('UserdataEditCtrl', function ($scope, $location, $http, $r
         });
     };
     $scope.remove = function() {
-        request('/coreTalk/userdata/delete/', {token: $.cookie("core_token"), userdata_id: $route.current.params.id}, function() {
+        request('/api/userdata/delete/', {token: $.cookie("core_token"), userdata_id: $route.current.params.id}, function() {
             $location.path("/coretalk/userdata/");
             $scope.$apply();
         });
     };
     $scope.save = function() {
-        request('/coreTalk/userdata/edit/', {token: $.cookie("core_token"),
+        request('/api/userdata/edit/', {token: $.cookie("core_token"),
             userdata_id: $route.current.params.id,
             name: $scope.script.name,
             data: $scope.script.data
@@ -73,7 +73,7 @@ window.app.controller('SshkeyCreateCtrl', function ($scope, $location, $http) {
     $scope.script = '';
     $scope.name = '';
     $scope.create = function() {
-        request('/coreTalk/sshkey/create/', {token: $.cookie("core_token"),
+        request('/api/sshkey/create/', {token: $.cookie("core_token"),
             name: $scope.name,
             public_key: $scope.data
         }, function(resp) {
@@ -93,14 +93,14 @@ window.app.controller('SshkeyListCtrl', function ($scope, $location, $http) {
         $location.path('/coretalk/' + model + '/create/');
         $scope.$apply();
     };
-    request('/coreTalk/' + model + '/get_list/', {token: $.cookie("core_token")}, function(objs) {
+    request('/api/' + model + '/get_list/', {token: $.cookie("core_token")}, function(objs) {
         $scope.objs = objs;
         $scope.$apply();
     });
 });
 
 window.app.controller('SshkeyEditCtrl', function ($scope, $location, $http, $route) {
-    request('/coreTalk/sshkey/get_by_id/', {token: $.cookie('core_token'), key_id: $route.current.params.id}, function(r) {
+    request('/api/sshkey/get_by_id/', {token: $.cookie('core_token'), key_id: $route.current.params.id}, function(r) {
         $scope.sshkey = r;
         $scope.$apply();
     });
@@ -110,7 +110,7 @@ window.app.controller('SshkeyEditCtrl', function ($scope, $location, $http, $rou
     });
 
     $scope.attach = function() {
-        request('/coreTalk/sshkey/attach/', {token: $.cookie("core_token"),
+        request('/api/sshkey/attach/', {token: $.cookie("core_token"),
             vm_id: $scope.vm.id,
             key_id: $route.current.params.id
         }, function(resp) {
@@ -119,13 +119,13 @@ window.app.controller('SshkeyEditCtrl', function ($scope, $location, $http, $rou
         });
     };
     $scope.remove = function() {
-        request('/coreTalk/sshkey/delete/', {token: $.cookie("core_token"), key_id: $route.current.params.id}, function() {
+        request('/api/sshkey/delete/', {token: $.cookie("core_token"), key_id: $route.current.params.id}, function() {
             $location.path("/coretalk/sshkey/");
             $scope.$apply();
         });
     };
     $scope.save = function() {
-        request('/coreTalk/sshkey/edit/', {token: $.cookie("core_token"),
+        request('/api/sshkey/edit/', {token: $.cookie("core_token"),
             key_id: $route.current.params.id,
             name: $scope.script.name,
             data: $scope.script.data
