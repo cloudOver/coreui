@@ -87,6 +87,15 @@ window.app.controller('NetworkEditCtrl', function ($scope, $location, $http, $ro
             $scope.$apply();
         });
     };
+
+    $scope.networkCreateLease = function() {
+        request('/api/lease/create/', {token: $.cookie('core_token'),
+                                       network_id: $scope.network.id,
+                                       address: $scope.address}, function (r) {
+            $location.path('/api/network/');
+            $scope.$apply();
+        });
+    };
 });
 
 

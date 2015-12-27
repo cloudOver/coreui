@@ -57,6 +57,18 @@
                     </fieldset>
                 </div>
             </div>
+            <div class="panel panel-default" ng-show="network.mode == 'isolated'">
+                <div class="panel-heading">
+                    Create lease
+                </div>
+                <div class="panel-body text-center">
+                    <div class="input-group">
+                        <span class="input-group-addon">Address: </span>
+                        <input type="text" id="address" class="form-control" ng-model="address"/>
+                    </div>
+                    <button class="btn btn-success text-center" ng-click="networkCreateLease()">Add lease</button>
+                </div>
+            </div>
         </div>
         <div class="col-md-1 hidden-sm"></div>
     </div>

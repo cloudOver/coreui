@@ -64,7 +64,7 @@
                                 <div class="pull-right">Base image:</div>
                             </div>
                             <div class="col-md-7">
-                                <select ng-model="base_image" required id="baseImage" ng-options="image.name for image in images | filter:{type: 'transient'}" class="form-control"></select>
+                                <select ng-model="base_image" required id="baseImage" ng-options="image.name for image in images | filter:{type: 'transient', state: 'ok'}" class="form-control"></select>
                             </div>
                             <div class="col-md-1">
                                 <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="left" title="This is basic disk image for instance. It should contain whole operating system (with bootloader and partition table). The clone of this disk is attached to instance on startup and removed (with all modifications) when instance is removed. To store permanent data, use External storages below and pemanent disks."></span>
@@ -97,7 +97,7 @@
                         <fieldset data-ng-repeat="storage in storages">
                             <div class="row">
                                 <div class="col-md-10">
-                                    <select ng-model="storage.image" ng-options="image.name for image in images | filter:{type: 'permanent', attached_to_id: null}" class="form-control">
+                                    <select ng-model="storage.image" ng-options="image.name for image in images | filter:{type: 'permanent', attached_to_id: null, state: 'ok'}" class="form-control">
                                         <option value="">-- select storage --</option>
                                     </select>
                                 </div>
