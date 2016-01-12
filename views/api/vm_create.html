@@ -76,9 +76,9 @@
                                 <div class="pull-right">Remote screen:</div>
                             </div>
                             <div class="col-md-7">
-                                <select ng-model="vnc" class="form-control" id="vnc">
+                                <select ng-model="vnc" class="form-control" id="vnc" required>
                                     <option value="1">Yes</option>
-                                    <option value="0" selected>No</option>
+                                    <option value="0">No</option>
                                 </select>
                             </div>
                             <div class="col-md-1">
@@ -97,8 +97,7 @@
                         <fieldset data-ng-repeat="storage in storages">
                             <div class="row">
                                 <div class="col-md-10">
-                                    <select ng-model="storage.image" ng-options="image.name for image in images | filter:{type: 'permanent', attached_to_id: null, state: 'ok'}" class="form-control">
-                                        <option value="">-- select storage --</option>
+                                    <select ng-model="storage.image" ng-options="image.name for image in images | filter:{type: 'permanent', attached_to_id: null, state: 'ok'}" class="form-control" required="">
                                     </select>
                                 </div>
                                 <div class="col-md-2">
@@ -112,7 +111,7 @@
             <div class="col-md-1 hidden-sm"></div>
         </div>
 
-        <a href="#/api/vm/">&lt; VM list</a>
+        <a href="#/api/vm/">&lt; Go back to instances list</a>
         &nbsp;&nbsp;&nbsp;
         <button type="submit" ng-click="vmCreate()" class="btn btn-lg btn-success">Create</button>
     </form>

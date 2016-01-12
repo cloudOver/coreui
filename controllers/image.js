@@ -209,9 +209,11 @@ window.app.controller('ImageEditCtrl', function ($scope, $location, $route, $rou
     get_image_formats($scope);
 
     request('/api/image/get_by_id/', {token: $.cookie('core_token'), image_id: $route.current.params.id}, function(img) {
-        for (var i in img) {
-            $scope.image[i] = img[i];
-        }
+        //for (var i in img) {
+        //    $scope.image[i] = img[i];
+        //}
+        img.size = (img.size/1024/1024/1024).toFixed(2);
+        $scope.image = img;
         $scope.$apply();
         console.log($scope);
     });

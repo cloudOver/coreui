@@ -35,8 +35,27 @@ window.app.controller('ApiListCtrl', function ($scope, $location, $http) {
 });
 
 
+window.app.controller('PasswordCtrl', function ($scope, $location, $http) {
+    $scope.password_change = function() {
+        if ($scope.password1 != $scope.password2) {
+            $('#passwordvalidation').toggle();
+            return;
+        }
+        var new_hash = $().crypt({method: "sha1", source: $scope.password1 + $.cookie("core_hash")});
+        request('/user/user/change_password/', {login: $.cookie("core_login"),
+            pw_hash: $.cookie("core_hash"),
+            password_seed: $.cookie('core_hash'),
+            password_hash: new_hash}, function (objs) {
+            $.cookie("core_hash", new_hash);
+            $('#passwordchanged').toggle();
+        });
+    }
+});
+
+
 window.app.config(['$routeProvider', function ($routeProvider) {
     $routeProvider.when("/account/token/", {templateUrl: "views/account/token_list.html", controller: "TokenListCtrl"})
         .when("/account/token/create/", {templateUrl: "views/account/token_create.html", controller: "TokenCreateCtrl"})
         .when("/account/api/", {templateUrl: "views/account/api_list.html", controller: "ApiListCtrl"})
+        .when("/account/password/", {templateUrl: "views/account/password.html", controller: "PasswordCtrl"})
 }]);

@@ -14,10 +14,12 @@ window.app.controller('HomeCtrl', function ($scope, $location, $http) {
             $scope.$apply();
         });
     });
+
     request('/api/storage/capabilities/', {token: $.cookie("core_token")}, function(caps) {
-        $scope.storage = caps;
+        $scope.storage = (caps/1024).toFixed(2);
         $scope.$apply();
     });
+
     request('/user/user/get_quota/', {login: $.cookie("core_login"), pw_hash: $.cookie("core_hash")}, function(r) {
         $scope = angular.element($("#view")).scope();
         $scope.$apply();
@@ -47,11 +49,11 @@ window.app.controller('HomeCtrl', function ($scope, $location, $http) {
         var ctx = $("#storage").get(0).getContext("2d");
         var c = new Chart(ctx).Doughnut([
             {
-                value: r['storage_used'],
+                value: (r['storage_used']/1024/1024/1024).toFixed(2),
                 color: '#ffbb33'
             },
             {
-                value: r['storage_quota'] - r['storage_used'],
+                value: (r['storage_quota']/1024/1024/1024 - r['storage_used']/1024/1024/1024).toFixed(2),
                 color: '#dddddd'
             }
         ]);
