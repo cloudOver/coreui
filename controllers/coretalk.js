@@ -14,6 +14,52 @@ window.app.controller('UserdataListCtrl', function ($scope, $location, $http) {
     });
 });
 
+window.app.controller('UserdataWizardCtrl', function ($scope, $location, $http) {
+    $scope.packages = [];
+    $scope.cacerts = [];
+    $scope.users = [];
+    $scope.name = '';
+
+    $scope.addCacert = function() {
+        $scope.cacerts.push({id: cacerts.length, value: ''});
+    };
+
+    $scope.addPackage = function() {
+        $scope.packages.push({id: packages.length, value: ''});
+    };
+
+    $scope.addUser = function() {
+        $scope.users.push({ssh_keys: []});
+    };
+
+    $scope.addKey = function(user) {
+        user.ssh_keys.push({id: user.ssh_keys.length, value: ''});
+    };
+
+    $scope.saveUserdata = function() {
+        d = {};
+        d['users'] = [];
+        for (i = 0; i < $scope.users.length; i++) {
+            user = {};
+            user['name'] = $scope.users[i].name;
+            user['name'] = $scope.users[i].password;
+            user['name'] = $scope.users[i].primary_group;
+            user['name'] = $scope.users[i].groups;
+            user['name'] = $scope.users[i].system;
+            user['name'] = $scope.users[i].lock_password;
+            keys = [];
+            for (j = 0; j < user.keys.length; j++) {
+                keys.push(user.keys[j].value);
+            }
+            user['keys'] = keys;
+            d['users'].push(user);
+        }
+
+        $console.log(d);
+    };
+});
+
+
 window.app.controller('UserdataCreateCtrl', function ($scope, $location, $http) {
     $scope.script = '';
     $scope.name = '';
@@ -139,6 +185,7 @@ window.app.controller('SshkeyEditCtrl', function ($scope, $location, $http, $rou
 
 window.app.config(['$routeProvider', function ($routeProvider) {
     $routeProvider.when("/coretalk/userdata/", {templateUrl: "views/coretalk/userdata_list.html", controller: "UserdataListCtrl"})
+        .when("/coretalk/userdata/wizard/", {templateUrl: "views/coretalk/userdata_wizard.html", controller: "UserdataWizardCtrl"})
         .when("/coretalk/userdata/create/", {templateUrl: "views/coretalk/userdata_create.html", controller: "UserdataCreateCtrl"})
         .when("/coretalk/userdata/:id/", {templateUrl: "views/coretalk/userdata_edit.html", controller: "UserdataEditCtrl"})
         .when("/coretalk/sshkey/", {templateUrl: "views/coretalk/sshkey_list.html", controller: "SshkeyListCtrl"})

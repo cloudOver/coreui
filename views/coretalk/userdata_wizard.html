@@ -1,0 +1,174 @@
+<div class="row">
+    <div class="col-md-2 hidden-sm">
+    </div>
+    <div class="col-md-8 col-sm-12 text-center">
+        <div class="panel panel-default">
+            <div class="panel-heading" onclick="$('#users').slideToggle()">
+                <h5>Users</h5>
+            </div>
+            <div class="panel-body text-center" id="users" style="display: none;">
+                <fieldset data-ng-repeat="user in users">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <span class="glyphicon glyphicon-user" style="font-size: 5em;"></span>
+                        </div>
+                        <div class="col-md-10">
+                            <div class="input-group">
+                                <span class="input-group-addon">Name:</span>
+                                <input ng-model="user.name" type="text" class="form-control">
+                            </div>
+                            <br/>
+                            <div class="input-group">
+                                <span class="input-group-addon">Password:</span>
+                                <input ng-model="user.password" type="text" class="form-control" placeholder="Hashed password (shadow format)">
+                            </div>
+                            <br/>
+                            <div class="input-group">
+                                <span class="input-group-addon">Primary group:</span>
+                                <input ng-model="user.primary_group" type="text" class="form-control" placeholder="Group must exist in system">
+                            </div>
+                            <br/>
+                            <div class="input-group">
+                                <span class="input-group-addon">Groups:</span>
+                                <input ng-model="user.groups" type="text" class="form-control" placeholder="System groups, separated by commas">
+                            </div>
+                            <br/>
+                            <fieldset data-ng-repeat="ssh_key in user.ssh_keys">
+                                <div class="input-group">
+                                    <span class="input-group-addon">Key:</span>
+                                    <input ng-model="ssh_key.value" type="text" class="form-control" placeholder="Ssh public key">
+                                    <span class="input-group-addon"><span ng-click="keyRemove(ssh_key)" class="glyphicon glyphicon-sm glyphicon-remove"></span></span>
+                                </div>
+                            </fieldset>
+                            <button class="btn btn-default" ng-click="addKey(user)">Add ssh key <span class="glyphicon glyphicon-plus"></span></button>
+                            <br/><br/>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <select ng-model="user.system" class="selectpicker">
+                                        <option value="True">System account</option>
+                                        <option value="False">Normal account</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <select ng-model="user.lock_password" class="selectpicker">
+                                        <option value="True">Locked password</option>
+                                        <option value="False">Unlocked password</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <hr/>
+                </fieldset>
+                <button class="btn btn-success" ng-click="addUser()">Add user <span class="glyphicon glyphicon-plus"></span></button>
+            </div>
+        </div>
+
+        <!-- Updates -->
+        <div class="panel panel-default">
+            <div class="panel-heading" onclick="$('#updates').slideToggle()">
+                <h5>System update and upgrade</h5>
+            </div>
+            <div class="panel-body text-center" id="updates" style="display: none;">
+                <div class="row">
+                    <div class="col-md-6">
+                        <select ng-model="update" class="selectpicker">
+                            <option value="True" data-subtext="Only for Debian-based distros">Update</option>
+                            <option value="False">Don't update package repository</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <select ng-model="upgrade" class="selectpicker">
+                            <option value="True">Upgrade</option>
+                            <option value="False">Don't upgrade</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Packages -->
+        <div class="panel panel-default">
+            <div class="panel-heading" onclick="$('#packages').slideToggle()">
+                <h5>Additional packages</h5>
+            </div>
+            <div class="panel-body text-center" id="packages" style="display: none;">
+                <div class="row">
+                    <div class="col-md-2">
+                        <span class="glyphicon glyphicon-log-in" style="font-size: 5em;"></span>
+                    </div>
+                    <div class="col-md-10">
+                        <fieldset data-ng-repeat="package in packages">
+                            <input class="form-control" ng-model="package.value" placeholder="Package name">
+                        </fieldset>
+                        <button class="btn btn-default" ng-click="addPackage()">Add package <span class="glyphicon glyphicon-plus"></span></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CA Certs -->
+        <div class="panel panel-default">
+            <div class="panel-heading" onclick="$('#cacerts').slideToggle()">
+                <h5>CA Certificates</h5>
+            </div>
+            <div class="panel-body text-center" id="cacerts" style="display: none;">
+                <div class="row">
+                    <div class="col-md-2">
+                        <span class="glyphicon glyphicon-lock" style="font-size: 5em;"></span>
+                    </div>
+                    <div class="col-md-10">
+
+                        <select ng-model="remove_defaults" class="selectpicker">
+                            <option value="False" selected>Keep original certificates</option>
+                            <option value="True">Remove default certificates</option>
+                        </select>
+                        <hr>
+                        <fieldset data-ng-repeat="cacert in cacerts">
+                            <textarea class="form-control" ng-model="cacert.value" placeholder="CA Certificate"></textarea>
+                        </fieldset>
+
+                        <button class="btn btn-default" ng-click="addCacert()">Add certificate <span class="glyphicon glyphicon-plus"></span></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Run commands -->
+        <div class="panel panel-default">
+            <div class="panel-heading" onclick="$('#runcmds').slideToggle()">
+                <h5>Execute commands</h5>
+            </div>
+            <div class="panel-body text-center" id="runcmds" style="display: none;">
+                <div class="row">
+                    <div class="col-md-2">
+                        <span class="glyphicon glyphicon-lock" style="font-size: 5em;"></span>
+                    </div>
+                    <div class="col-md-10">
+
+                        <select ng-model="remove_defaults" class="selectpicker">
+                            <option value="False" selected>Keep original certificates</option>
+                            <option value="True">Remove default certificates</option>
+                        </select>
+                        <hr>
+                        <fieldset data-ng-repeat="cacert in cacerts">
+                            <textarea class="form-control" ng-model="cacert.value" placeholder="CA Certificate"></textarea>
+                        </fieldset>
+
+                        <button class="btn btn-default" ng-click="addCacert()">Add certificate <span class="glyphicon glyphicon-plus"></span></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button class="btn btn-success" ng-click="saveUserdata">Save</button>
+    </div>
+    <div class="col-md-2 hidden-sm"></div>
+</div>
+
+<script>
+    $(function () {
+        $('.selectpicker').selectpicker();
+        $('[data-toggle="tooltip"]').tooltip()
+    });
+</script>
