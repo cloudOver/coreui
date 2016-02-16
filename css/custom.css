@@ -16,3 +16,9 @@ body {
     /* If max-width does not work, try using width instead */
     width: 350px;
 }
+
+pre {
+    word-break: break-word;
+    text-align: left;
+    font-size: 10px;
+}

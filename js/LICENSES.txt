@@ -1,0 +1,2 @@
+yaml: MIT, https://github.com/nodeca/js-yaml/
+

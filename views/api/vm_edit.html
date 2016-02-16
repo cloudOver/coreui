@@ -52,11 +52,12 @@
                 </div>
             </div>
             <div class="col-md-5 col-sm-6">
+                <!-- Virtual hardware -->
                 <div class="panel panel-default">
-                    <div class="panel-heading">
-                        Virtual hardware
+                    <div class="panel-heading" onclick="$('#hardware').toggle();">
+                        <span class="glyphicon glyphicon-wrench"></span> Virtual hardware and VNC <span class="glyphicon glyphicon-menu-down"></span>
                     </div>
-                    <div class="panel-body">
+                    <div class="panel-body" id="hardware" style="display: none">
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="pull-right">Resources:</div>
@@ -100,24 +101,45 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- CoreTalk -->
+                <div class="panel panel-default" id="coreTalkTab" style="display: none;">
+                    <div class="panel-heading" onclick="$('#coretalk').toggle();">
+                        <span class="glyphicon glyphicon-gift"></span></span> CloudInit script <span class="glyphicon glyphicon-menu-down"></span>
+                    </div>
+                    <div class="panel-body" id="coretalk" style="display: none">
+                        <div class="form-inline">
+                            <select ng-model="userdata" ng-options="script.name for script in userdata_scripts" class="form-control">
+                                <option value="">-- select script --</option>
+                            </select>
+                            <button class="btn btn-success" ng-click="coreTalkAttach()">Attach</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Network interfaces -->
                 <div class="panel panel-default">
                     <div class="panel-heading" onclick="$('#networks').toggle();">
-                        Network interfaces <span class="glyphicon glyphicon-menu-down"></span>
+                        <span class="glyphicon glyphicon-globe"></span></span> Network interfaces <span class="glyphicon glyphicon-menu-down"></span>
                     </div>
                     <div class="panel-body" id="networks" style="display: none">
                         <table class="table table-striped">
                             <thead>
+                            <th>Network</th>
                             <th>IPv4</th>
                             </thead>
                             <tr data-ng-repeat="lease in vm.leases">
+                                <td>{{ lease.subnet_id }}</td>
                                 <td>{{ lease.address }}</td>
                             </tr>
                         </table>
                     </div>
                 </div>
+
+                <!-- External storages -->
                 <div class="panel panel-default">
                     <div class="panel-heading" onclick="$('#storages').toggle();">
-                        External storages <span class="glyphicon glyphicon-menu-down"></span>
+                        <span class="glyphicon glyphicon-hdd"></span> External storages <span class="glyphicon glyphicon-menu-down"></span>
                     </div>
                     <div class="panel-body" id="storages" style="display: none">
                         <table class="table table-striped">
@@ -134,9 +156,11 @@
                         </table>
                     </div>
                 </div>
+
+                <!-- Additional options -->
                 <div class="panel panel-default">
                     <div class="panel-heading" onclick="$('#data').toggle();">
-                        Additional options <span class="glyphicon glyphicon-menu-down"></span>
+                        <span class="glyphicon glyphicon-plus"></span> Additional options <span class="glyphicon glyphicon-menu-down"></span>
                     </div>
                     <div class="panel-body" id="data" style="display: none">
                         <table class="table table-striped">
@@ -146,14 +170,16 @@
                             </thead>
                             <tr data-ng-repeat="(k, v) in vm.data">
                                 <td>{{k}}</td>
-                                <td>{{v}}</td>
+                                <td><pre>{{ v|json }}</pre></td>
                             </tr>
                         </table>
                     </div>
                 </div>
+
+                <!-- Tasks -->
                 <div class="panel panel-default">
                     <div class="panel-heading" onclick="$('#tasks').toggle();">
-                        Tasks <span class="glyphicon glyphicon-menu-down"></span>
+                        <span class="glyphicon glyphicon-list-alt"></span> Tasks <span class="glyphicon glyphicon-menu-down"></span>
                     </div>
                     <div class="panel-body" id="tasks" style="display: none">
                         <table class="table table-striped">

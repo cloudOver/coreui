@@ -42,20 +42,27 @@ window.app.controller('UserdataWizardCtrl', function ($scope, $location, $http) 
         for (i = 0; i < $scope.users.length; i++) {
             user = {};
             user['name'] = $scope.users[i].name;
-            user['name'] = $scope.users[i].password;
-            user['name'] = $scope.users[i].primary_group;
-            user['name'] = $scope.users[i].groups;
-            user['name'] = $scope.users[i].system;
-            user['name'] = $scope.users[i].lock_password;
+            user['password'] = $scope.users[i].password;
+            user['primary-group'] = $scope.users[i].primary_group;
+            user['groups'] = $scope.users[i].groups;
+            user['system'] = $scope.users[i].system;
+            user['lock-password'] = $scope.users[i].lock_password;
             keys = [];
-            for (j = 0; j < user.keys.length; j++) {
-                keys.push(user.keys[j].value);
+            for (j = 0; j < $scope.users[i].ssh_keys.length; j++) {
+                keys.push($scope.users[i].ssh_keys[j].value);
             }
-            user['keys'] = keys;
+            user['ssh-authorized-keys'] = keys;
             d['users'].push(user);
         }
-
-        $console.log(d);
+        y = yaml.dump(d, {
+          flowLevel: 3,
+          styles: {
+            '!!int'  : 'hexadecimal',
+            '!!null' : 'camelcase'
+          }
+        });
+        //console.log(d);
+        $scope.d = y;
     };
 });
 
@@ -73,6 +80,7 @@ window.app.controller('UserdataCreateCtrl', function ($scope, $location, $http) 
         });
     };
 });
+
 
 window.app.controller('UserdataEditCtrl', function ($scope, $location, $http, $route) {
     request('/api/userdata/get_by_id/', {token: $.cookie('core_token'), userdata_id: $route.current.params.id}, function(r) {

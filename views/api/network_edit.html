@@ -38,6 +38,19 @@
             </div>
         </div>
         <div class="col-md-5 col-sm-6">
+            <div class="panel panel-default" id="dhcp" style="display: none;">
+                <div class="panel-heading">
+                    DHCP
+                </div>
+                <div class="panel-body">
+                    <input class="form-control" placeholder="Gateway address" ng-model="network.data.gateway"/>
+                    <hr/>
+                    <div class="btn-group">
+                        <button class="btn btn-success" ng-click="dhcpStart()">Start/restart</button>
+                        <button class="btn btn-danger" ng-click="dhcpStop()">Stop</button>
+                    </div>
+                </div>
+            </div>
             <div class="panel panel-default">
                 <div class="panel-heading">
                     Leases

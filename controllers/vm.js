@@ -227,10 +227,26 @@ window.app.controller('VmEditCtrl', function ($scope, $location, $route, $routeP
         });
     };
 
+    $scope.coreTalkAttach = function() {
+        request('/api/userdata/attach/', {token: $.cookie("core_token"),
+            vm_id: $scope.vm.id,
+            userdata_id: $scope.userdata.id
+        }, function() { location.reload(); });
+    };
+
     request('/api/vm/get_by_id/', {token: $.cookie('core_token'), vm_id: $route.current.params.id}, function(vm) {
         for (var i in vm) {
             $scope.vm[i] = vm[i];
         }
+
+        if ($.inArray('coretalk', window.modules) >= 0) {
+            $("#coreTalkTab").toggle();
+            request('/api/userdata/get_list/', {token: $.cookie("core_token")}, function(objs) {
+                $scope.userdata_scripts = objs;
+                $scope.$apply();
+            });
+        }
+
         $scope.$apply();
         console.log($scope);
     });

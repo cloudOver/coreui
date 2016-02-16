@@ -66,6 +66,11 @@ window.app.controller('NetworkEditCtrl', function ($scope, $location, $http, $ro
     }
     request('/api/network/get_by_id/', {token: $.cookie("core_token"), network_id: $route.current.params.id}, function(resp) {
         $scope.network = resp;
+
+        if ($.inArray('dhcp', window.modules) >= 0 && $scope.network) {
+            $("#dhcp").toggle();
+        }
+
         $scope.$apply();
     });
     request('/api/lease/get_list/', {token: $.cookie("core_token"), network_id: $route.current.params.id}, function(resp) {
@@ -96,6 +101,23 @@ window.app.controller('NetworkEditCtrl', function ($scope, $location, $http, $ro
             $scope.$apply();
         });
     };
+
+    $scope.dhcpStart = function() {
+        request('/api/dhcp/start/', {token: $.cookie('core_token'),
+                                     network_id: $scope.network.id,
+                                     gateway_ip: $scope.network.data.gateway}, function (r) {
+            $location.path('/api/network/');
+            $scope.$apply();
+        });
+    }
+
+    $scope.dhcpStop = function() {
+        request('/api/dhcp/stop/', {token: $.cookie('core_token'),
+                                    network_id: $scope.network.id}, function (r) {
+            $location.path('/api/network/');
+            $scope.$apply();
+        });
+    }
 });
 
 
