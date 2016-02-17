@@ -181,7 +181,7 @@
                     <div class="panel-heading" onclick="$('#tasks').toggle();">
                         <span class="glyphicon glyphicon-list-alt"></span> Tasks <span class="glyphicon glyphicon-menu-down"></span>
                     </div>
-                    <div class="panel-body" id="tasks" style="display: none">
+                    <div class="panel-body text-center" id="tasks" style="display: none">
                         <table class="table table-striped">
                             <thead>
                             <th>Type</th>
@@ -194,6 +194,7 @@
                                 <td>{{task.state}}</td>
                             </tr>
                         </table>
+                        <div id="task_graph" style="height: 400px; width: 100%;"></div>
                     </div>
                 </div>
             </div>

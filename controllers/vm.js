@@ -249,6 +249,7 @@ window.app.controller('VmEditCtrl', function ($scope, $location, $route, $routeP
 
         $scope.$apply();
         console.log($scope);
+        draw_task_graph('task_graph', vm.tasks);
     });
 
     get_image_list($scope);

@@ -216,6 +216,7 @@ window.app.controller('ImageEditCtrl', function ($scope, $location, $route, $rou
         $scope.image = img;
         $scope.$apply();
         console.log($scope);
+        draw_task_graph('task_graph', img.tasks);
     });
 });
 
