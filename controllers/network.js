@@ -21,7 +21,7 @@ window.app.controller('NetworkCreateCtrl', function ($scope, $location, $http) {
     $scope.create = function() {
         var network_mode = $scope.mode;
         var network_isolated = false;
-        var network_address = '0.0.0.0';
+        var network_address = $scope.address;
 
         if ($scope.mode == 'routed_public') {
             network_mode = 'routed';
@@ -97,7 +97,8 @@ window.app.controller('NetworkEditCtrl', function ($scope, $location, $http, $ro
         request('/api/lease/create/', {token: $.cookie('core_token'),
                                        network_id: $scope.network.id,
                                        address: $scope.address}, function (r) {
-            $location.path('/api/network/');
+            //$location.path('/api/network/');
+            $scope.leases.push({address: $scope.address, vm_id: null});
             $scope.$apply();
         });
     };

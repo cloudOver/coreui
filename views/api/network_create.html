@@ -9,16 +9,22 @@
             <div class="panel-body text-center">
                 <div class="form-group">
                     <div class="row">
-                        <div class="col-md-7">
+                        <div class="col-md-4">
                             <div class="input-group">
                                 <span class="input-group-addon">Name: </span>
                                 <input type="text" id="name" class="form-control" ng-model="name"/>
                             </div>
                         </div>
                         <div class="col-md-4">
+                            <div class="input-group" ng-show="mode=='isolated'">
+                                <span class="input-group-addon">Address: </span>
+                                <input type="text" id="address" class="form-control" ng-model="address"/>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
                             <div class="input-group">
                                 <span class="input-group-addon">Mask: </span>
-                                <input type="text" id="mask" class="form-control" ng-model="mask"/>
+                                <input type="number" id="mask" class="form-control" ng-model="mask" min="0" max="32"/>
                             </div>
                         </div>
                         <div class="col-md-1">
@@ -31,10 +37,11 @@
                             <div class="input-group">
                                 <span class="input-group-addon">Network mode: </span>
                                 <select ng-model="mode" class="selectpicker" data-width="auto">
+                                    <option value="" disabled selected>Select...</option>
                                     <option value="routed_public" data-subtext="Shared with other hosts in cluster">Routed</option>
                                     <option value="routed_isolated" data-subtext="Isolation is made by firewall at cloud level">Routed+Firewall</option>
-                                    <option value="public" data-subtext="Could be redirected to routed hosts">Public IP pool</option>
                                     <option value="isolated" data-subtext="Full layer 2 network virtualization">Isolated</option>
+                                    <option value="public" data-subtext="Could be redirected to routed hosts">Public IP pool</option>
                                 </select>
                             </div>
                         </div>
