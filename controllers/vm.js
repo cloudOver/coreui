@@ -213,6 +213,37 @@ window.app.controller('VmEditCtrl', function ($scope, $location, $route, $routeP
         });
     };
 
+    $scope.networkAttach = function(lease) {
+        request('/api/lease/attach/', {token: $.cookie("core_token"),
+                                       lease_id: lease.id,
+                                       vm_id: $scope.vm.id}, function(r) {
+            location.reload();
+        });
+    }
+
+    $scope.networkDetach = function(lease_id) {
+        request('/api/lease/detach/', {token: $.cookie("core_token"),
+                                       lease_id: lease_id}, function(r) {
+            location.reload();
+        });
+    }
+
+    $scope.imageAttach = function(image) {
+        request('/api/image/attach/', {token: $.cookie("core_token"),
+                                       image_id: image.id,
+                                       vm_id: $scope.vm.id}, function(r) {
+            location.reload();
+        });
+    }
+
+    $scope.imageDetach = function(image_id) {
+        request('/api/image/detach/', {token: $.cookie("core_token"),
+                                       image_id: image_id,
+                                       vm_id: $scope.vm.id}, function(r) {
+            location.reload();
+        });
+    }
+
     var core_model = 'vm';
     $scope.vmSave = function() {
         request('/api/' + core_model + '/describe/', {token: $.cookie('core_token')}, function(model) {

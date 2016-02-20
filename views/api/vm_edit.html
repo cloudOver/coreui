@@ -125,14 +125,29 @@
                     <div class="panel-body" id="networks" style="display: none">
                         <table class="table table-striped">
                             <thead>
-                            <th>Network</th>
-                            <th>IPv4</th>
+                                <th>Network</th>
+                                <th>IPv4</th>
+                                <th></th>
                             </thead>
                             <tr data-ng-repeat="lease in vm.leases">
                                 <td>{{ lease.subnet_id }}</td>
                                 <td>{{ lease.address }}</td>
+                                <td><button ng-click="networkDetach(lease.id)" ng-show="vm.state == 'stopped'" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-remove"></span></button></td>
                             </tr>
                         </table>
+
+                        <!-- Attach -->
+                        <div class="row" ng-show="vm.state == 'stopped'">
+                            <div class="col-md-10">
+                                <select ng-model="network_attach_lease" ng-options="lease.address for lease in leases | filter:{vm_id: null}" class="form-control">
+                                    <option value="">-- select lease --</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <button class="btn btn-sm btn-success btn-block" ng-click="networkAttach(network_attach_lease)"><span class="glyphicon glyphicon-plus"></span></button>
+                            </div>
+                        </div>
+                        <small ng-show="vm.state != 'stopped'">You can attach and detach network interfaces when VM is stopped</small>
                     </div>
                 </div>
 
@@ -154,6 +169,18 @@
                                 <td>{{ disk.disk_dev }}</td>
                             </tr>
                         </table>
+
+                        <!-- Attach -->
+                        <div class="row" ng-show="vm.state == 'stopped'">
+                            <div class="col-md-10">
+                                <select ng-model="image_attach_object" ng-options="image.name for image in images | filter:{type: 'permanent', attached_to_id: null, state: 'ok'}" class="form-control" required="">
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <button class="btn btn-sm btn-success btn-block" ng-click="imageAttach(image_attach_object)"><span class="glyphicon glyphicon-plus"></span></button>
+                            </div>
+                        </div>
+                        <small ng-show="vm.state != 'stopped'">You can attach and detach storages when VM is stopped</small>
                     </div>
                 </div>
 
