@@ -67,7 +67,7 @@ window.app.controller('NetworkEditCtrl', function ($scope, $location, $http, $ro
     request('/api/network/get_by_id/', {token: $.cookie("core_token"), network_id: $route.current.params.id}, function(resp) {
         $scope.network = resp;
 
-        if ($.inArray('dhcp', window.modules) >= 0 && $scope.network) {
+        if ($.inArray('coredhcp', window.modules) >= 0 && $scope.network) {
             $("#dhcp").toggle();
         }
 

@@ -17,8 +17,7 @@
                     <div class="col-md-6">
                         <div class="input-group">
                             <span class="input-group-addon">Join to network: </span>
-                            <select ng-model="networks">
-                                <option disabled>-- select --</option>
+                            <select ng-model="network" id="network_id" ng-options="network.name for network in networks" class="form-control">
                             </select>
                         </div>
                     </div>
