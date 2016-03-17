@@ -1,2 +1,1 @@
-yaml: MIT, https://github.com/nodeca/js-yaml/
-
+Check headers of each script for licensing details.

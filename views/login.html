@@ -53,6 +53,9 @@
         <div class="text-right">
             <a href="#/register/">Register</a>
         </div>
+        <hr/>
+        <small>By clicking <em>Sign in</em> button you are accepting <a href="#/" onclick="$('#temsofuse').toggle()">Terms Of Use</a>
+        <div id="temsofuse" class="well" style="display: none;"></div></small>
     </form>
 </div>
 
@@ -84,4 +87,6 @@
             });
         });
     });
+
+    $("#temsofuse").load("terms-of-use.html");
 </script>

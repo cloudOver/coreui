@@ -50,7 +50,7 @@
         <label for="inputPassword" class="sr-only">Password</label>
         <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
 
-        <label for="inputPassword" class="sr-only">Repeat password</label>
+        <label for="inputRepeatPassword" class="sr-only">Repeat password</label>
         <input type="password" id="inputRepeatPassword" class="form-control" placeholder="Repeat password" required>
 
         <label for="inputName" class="sr-only">Name</label>
@@ -63,6 +63,9 @@
         <input type="email" id="inputEmail" class="form-control" placeholder="Email" required>
 
         <button class="btn btn-lg btn-warning btn-block" type="submit">Register</button>
+        <hr/>
+        <small>By clicking <em>Register</em> button you are accepting <a href="#/register/" onclick="$('#temsofuse').toggle()">Terms Of Use</a>
+        <div id="temsofuse" class="well" style="display: none;"></div></small>
     </form>
 </div>
 
@@ -112,4 +115,6 @@
             });
         });
     });
+
+    $("#temsofuse").load("terms-of-use.html");
 </script>
