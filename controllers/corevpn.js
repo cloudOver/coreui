@@ -35,41 +35,33 @@ window.app.controller('CoreVpnCreateCtrl', function ($scope, $location, $http) {
 
 
 window.app.controller('CoreVpnEditCtrl', function ($scope, $location, $http, $route) {
-    request('/api/vpn/get_by_id/', {token: $.cookie('core_token'), userdata_id: $route.current.params.id}, function(r) {
-        $scope.script = r;
+    request('/api/vpn/get_by_id/', {token: $.cookie('core_token'), vpn_id: $route.current.params.id}, function(r) {
+        $scope.vpn = r;
         $scope.$apply();
     });
-    request('/api/userdata/get_list/', {token: $.cookie('core_token')}, function(r) {
-        $scope.scripts = r;
+
+    request('/api/vpn/client_cert/', {token: $.cookie('core_token'), vpn_id: $route.current.params.id}, function(r) {
+        $scope.credentials = r;
         $scope.$apply();
     });
+
     request('/api/vm/get_list/', {token: $.cookie('core_token')}, function(r) {
         $scope.vms = r;
         $scope.$apply();
     });
 
-    $scope.attach = function() {
-        request('/api/userdata/attach/', {token: $.cookie("core_token"),
-            vm_id: $scope.vm.id,
-            userdata_id: $route.current.params.id
-        }, function(resp) {
-            $location.path('/coretalk/userdata/');
-            $scope.$apply();
-        });
-    };
     $scope.remove = function() {
-        request('/api/userdata/delete/', {token: $.cookie("core_token"), userdata_id: $route.current.params.id}, function() {
-            $location.path("/coretalk/userdata/");
+        request('/api/vpn/delete/', {token: $.cookie("core_token"), vpn_id: $route.current.params.id}, function() {
+            $location.path("/corevpn/");
             $scope.$apply();
         });
     };
     $scope.save = function() {
-        request('/api/userdata/edit/', {token: $.cookie("core_token"),
-            userdata_id: $route.current.params.id,
-            name: $scope.script.name,
-            data: $scope.script.data
+        request('/api/vpn/edit/', {token: $.cookie("core_token"),
+            vpn_id: $route.current.params.id,
+            name: $scope.script.name
         }, function() {
-            $location.path("/coretalk/userdata/");
+            $location.path("/corevpn/");
             $scope.$apply();
         });
     }
@@ -79,5 +71,5 @@ window.app.controller('CoreVpnEditCtrl', function ($scope, $location, $http, $ro
 window.app.config(['$routeProvider', function ($routeProvider) {
     $routeProvider.when("/corevpn/", {templateUrl: "views/corevpn/vpn_list.html", controller: "CoreVpnListCtrl"})
         .when("/corevpn/create/", {templateUrl: "views/corevpn/vpn_create.html", controller: "CoreVpnCreateCtrl"})
-        .when("/corevpn/:id/", {templateUrl: "views/coretalk/userdata_edit.html", controller: "CoreVpnEditCtrl"})
+        .when("/corevpn/:id/", {templateUrl: "views/corevpn/vpn_edit.html", controller: "CoreVpnEditCtrl"})
 }]);
