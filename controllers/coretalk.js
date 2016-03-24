@@ -88,7 +88,7 @@ window.app.controller('UserdataWizardCtrl', function ($scope, $location, $http) 
         if ($scope.packages.length > 0) {
             d['packages'] = []
             for (i = 0; i < $scope.packages.length; i++) {
-                d['packages'].push($scope.pakcages[i].value);
+                d['packages'].push($scope.packages[i].value);
             }
         }
 
