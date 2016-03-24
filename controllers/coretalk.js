@@ -71,11 +71,11 @@ window.app.controller('UserdataWizardCtrl', function ($scope, $location, $http) 
             for (i = 0; i < $scope.users.length; i++) {
                 user = {};
                 user['name'] = $scope.users[i].name;
-                user['password'] = $scope.users[i].password;
+                user['passwd'] = $scope.users[i].password;
                 user['primary-group'] = $scope.users[i].primary_group;
                 user['groups'] = $scope.users[i].groups;
                 user['system'] = $scope.users[i].system;
-                user['lock-password'] = $scope.users[i].lock_password;
+                user['lock-passwd'] = $scope.users[i].lock_password;
                 keys = [];
                 for (j = 0; j < $scope.users[i].ssh_keys.length; j++) {
                     keys.push($scope.users[i].ssh_keys[j].value);
