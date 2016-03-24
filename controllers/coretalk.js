@@ -108,8 +108,8 @@ window.app.controller('UserdataWizardCtrl', function ($scope, $location, $http) 
             }
         }
 
-        d['package_update'] = $scope.update;
-        d['package_upgrade'] = $scope.upgrade;
+        d['package-update'] = $scope.update;
+        d['package-upgrade'] = $scope.upgrade;
 
         console.log(d);
 
