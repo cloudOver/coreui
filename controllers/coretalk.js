@@ -163,6 +163,17 @@ window.app.controller('UserdataEditCtrl', function ($scope, $location, $http, $r
             $scope.$apply();
         });
     };
+
+    $scope.attach_configdrive = function() {
+        request('/api/userdata/attach_configdrive/', {token: $.cookie("core_token"),
+            vm_id: $scope.vm.id,
+            userdata_id: $route.current.params.id
+        }, function(resp) {
+            $location.path('/coretalk/userdata/');
+            $scope.$apply();
+        });
+    };
+
     $scope.remove = function() {
         request('/api/userdata/delete/', {token: $.cookie("core_token"), userdata_id: $route.current.params.id}, function() {
             $location.path("/coretalk/userdata/");
