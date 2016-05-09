@@ -35,17 +35,22 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             </div>
             <div class="panel panel-primary">
                 <div class="panel-heading">
-                    Disk image details
+                    Network details
                 </div>
                 <div class="panel-body">
                     <div class="input-group">
                         <div class="input-group-addon">ID</div>
-                        <input type="text" readonly id="id" ng-model="network.id" class="form-control" placeholder="ID" required autofocus>
+                        <input type="text" readonly id="id" ng-model="network.id" class="form-control" placeholder="ID" autofocus>
                     </div>
                     <hr/>
                     <div class="input-group">
                         <div class="input-group-addon">Name</div>
                         <input type="text" id="name" ng-model="network.name" class="form-control" placeholder="Name" required autofocus>
+                    </div>
+                    <br/>
+                    <div class="input-group">
+                        <div class="input-group-addon">Address</div>
+                        <input type="text" readonly id="address" ng-model="network.address+'/'+network.mask" class="form-control" placeholder="Address" autofocus>
                     </div>
                     <hr/>
                     <div ng-show="network.is_isolated">
