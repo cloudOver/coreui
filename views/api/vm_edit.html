@@ -97,8 +97,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                 <small>{{ vm.base_image.id }}</small>
                             </div>
                         </div>
-                        <hr/>
-                        <div class="row">
+                        <hr ng-show="vm.state == 'running'"/>
+                        <div class="row" ng-show="vm.state == 'running'">
                             <div class="col-md-4">
                                 <div class="pull-right">Remote screen:</div>
                             </div>
@@ -119,14 +119,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                 </div>
                             </div>
                         </div>
-                        <hr/>
-                        <div class="row">
+                        <hr ng-show="vm.state == 'running'"/>
+                        <div class="row" ng-show="vm.state == 'running'">
                             <div class="col-md-4">
                                 <div class="pull-right">WebVNC console:</div>
                             </div>
                             <div class="col-md-8">
                                 <!-- Button trigger modal -->
-                                <button type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#noVNC">Launch NoVNC</button>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-sm" data-toggle="modal" data-target="#noVNC">Open here</button>
+                                    <a href="{{ webvnc_path }}" target="_blanc" type="button" class="btn btn-sm btn-success">Open in new window</a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -272,7 +275,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <h4 class="modal-title">Web VNC console</h4>
             </div>
             <div class="modal-body">
-                <iframe src="" width="850px" height="700px" id="noVNC_frame"></iframe>
+                <iframe src="{{ webvnc_path }}" width="850px" height="700px" id="noVNC_frame"></iframe>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
