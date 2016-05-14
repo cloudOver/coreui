@@ -297,6 +297,11 @@ window.app.controller('VmEditCtrl', function ($scope, $location, $route, $routeP
             });
         }
 
+        $scope.webvnc_host = window.vncHost;
+        $scope.webvnc_port = window.vncPort;
+        $scope.webvnc_path = window.vncPath + $route.current.params.id;
+        $scope.webvnc_password = vm.vnc_password;
+
         $scope.$apply();
         console.log($scope);
         draw_task_graph('task_graph', vm.tasks);
