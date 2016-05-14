@@ -271,7 +271,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <h4 class="modal-title">Modal title</h4>
             </div>
             <div class="modal-body">
-                <iframe src="novnc/vnc.html#host={{ webvnc_host }}&port={{ webvnc_port }}&path={{ webvnc_path }}&password={{ webvnc_password }}" width="100%" height="100%"></iframe>
+                <iframe src="{{ webvnc_path }}" width="100%" height="100%" id="noVNC_frame"></iframe>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

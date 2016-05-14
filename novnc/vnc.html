@@ -223,8 +223,6 @@
     window.onscriptsload = function () {
         var params = window.location.hash.substr(1).split("&");
         for (i = 0; i < params.length; i++) {
-            alert(params[i]);
-
             UI.updateSetting(params[i].split('=')[0], params[i].split('=')[1]);
         }    	    	
     	UI.load();
