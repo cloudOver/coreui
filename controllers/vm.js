@@ -297,7 +297,7 @@ window.app.controller('VmEditCtrl', function ($scope, $location, $route, $routeP
             });
         }
 
-        $scope.webvnc_path = 'novnc/vnc.html#host=' + window.vncHost + '&port=' + window.vncPort + '&path=' + window.vncPath + $route.current.params.id + '&password=' + vm.vnc_password;
+        $scope.webvnc_path = 'novnc/vnc.html#host=' + window.vncHost + '&port=' + window.vncPort + '&path=' + window.vncPrefix + '/' + $route.current.params.id + '/&password=' + vm.vnc_passwd;
 
         $scope.$apply();
         console.log($scope);
