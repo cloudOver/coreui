@@ -22,7 +22,13 @@ window.app.controller('TokenListCtrl', function ($scope, $location, $http) {
     $scope.obj_create = function() {
         $location.path("/account/token/create/");
         $scope.$apply();
-    }
+    };
+    $scope.obj_remove = function(id) {
+        request('/user/token/remove/', {login: $.cookie("core_login"), pw_hash: $.cookie("core_hash"), id: id}, function(resp) {
+            $location.path("/account/token/");
+            $scope.$apply();
+        });
+    };
     request('/user/token/get_list/', {login: $.cookie("core_login"), pw_hash: $.cookie("core_hash")}, function(objs) {
         $scope.objs = objs;
         $scope.$apply();

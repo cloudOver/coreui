@@ -32,6 +32,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                             <th>#</th>
                             <th>Name</th>
                             <th>Token</th>
+                            <th>Expires</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -39,6 +41,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                             <td>{{ obj.id }}</td>
                             <td data-title="'Name'" sortable="'name'">{{ obj.name }}</td>
                             <td>{{ obj.token }}</td>
+                            <td>{{ obj.valid_to }}</td>
+                            <td><button class="btn btn-danger" ng-click="obj_remove(obj.id)">Remove</button></td>
                         </tr>
                     </tbody>
                 </table>
