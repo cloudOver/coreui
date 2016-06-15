@@ -24,7 +24,7 @@ window.app.controller('TokenListCtrl', function ($scope, $location, $http) {
         $scope.$apply();
     };
     $scope.obj_remove = function(id) {
-        request('/user/token/remove/', {login: $.cookie("core_login"), pw_hash: $.cookie("core_hash"), id: id}, function(resp) {
+        request('/user/token/delete/', {login: $.cookie("core_login"), pw_hash: $.cookie("core_hash"), token_id: id}, function(resp) {
             $location.path("/account/token/");
             $scope.$apply();
         });
