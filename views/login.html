@@ -63,6 +63,26 @@
     function redirect() {
         document.location = "index.html";
     }
+
+    function getToken(login, pw_hash, list) {
+        for (i = 0; i < list.length; i++) {
+            if (list[i].name == "CoreUI") {
+                var token_expires = new Date(list[i].valido_to);
+                var now = new Date();
+                if (now.getTime() < token_expires.getTime()) {
+                    $.cookie("core_token", list[i].token);
+                    redirect();
+                    return;
+                }
+            }
+        }
+
+        request("/user/token/create/", {login: login, pw_hash: pw_hash, name: "CoreUI"}, function(r) {
+            $.cookie("core_token", r['token']);
+            redirect();
+        });
+    }
+
     $("#form-signin").submit(function(e) {
         e.preventDefault();
         var login = $("#form-signin #inputLogin").val();
@@ -72,18 +92,7 @@
             request('/user/token/get_list/', {login: login, pw_hash: pw_hash}, function (list) {
                 $.cookie("core_login", login);
                 $.cookie("core_hash", pw_hash);
-                for (i = 0; i < list.length; i++) {
-                    if (list[i].name == "CoreUI") {
-                        $.cookie("core_token", list[i].token);
-                        redirect();
-                        return;
-                    }
-                }
-
-                request("/user/token/create/", {login: login, pw_hash: pw_hash, name: "CoreUI"}, function(r) {
-                    $.cookie("core_token", r['token']);
-                    redirect();
-                });
+                getToken(login, pw_hash, list);
             });
         });
     });
