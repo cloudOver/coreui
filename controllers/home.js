@@ -77,6 +77,54 @@ window.app.controller('HomeCtrl', function ($scope, $location, $http) {
             }
         ]);
     });
+
+    // Thunder Script
+    $.ajax({
+        type: 'GET',
+        url: 'http://cloudover.io/thunder/raw/',
+        complete: function(xhr, status) {
+            console.debug(xhr);
+            var scripts = xhr.responseText.split("\n");
+            var lookups = [];
+
+            for (i = 0; i < scripts.length; i++) {
+                lookups[i] = {
+                    value: scripts[i],
+                    data: scripts[i]
+                };
+            }
+            console.debug(lookups);
+            $( "#script_name" ).autocomplete({
+                lookup: lookups,
+                onSelect: function (script_name) {
+                    request('/api/thunder/variables/', {token: $.cookie("core_token"), script: script_name['data']}, function(r) {
+                        $('#script_variables').empty();
+                        $('#script_variables').append('<br/>');
+                        $.each(r, function(k, v) {
+                            console.debug(k + ':' + v)
+                            if (!v) {
+                                grp = $('<div class="input-group">');
+                                grp.append($('<label class="input-group-addon" for="variable_' + k + '">' + k + '</label>'))
+                                grp.append($('<input class="form-control" name="variable_' + k + '" />'))
+                                $('#script_variables').append(grp);
+                            }
+                        });
+                    });
+                }
+            });
+        }
+    });
+
+    $scope.script_call = function() {
+        params = {}
+        $("#script_variables input").each(function() {
+            params[$(this).attr('name').replace('variable_', '')] = $(this).val();
+        });
+        request('/api/thunder/call/', {token: $.cookie("core_token"), script: $('#script_name').val(), variables: params}, function(r) {
+            $location.refresh();
+        });
+        console.debug(params);
+    }
 });
 
 window.app.config(['$routeProvider', function ($routeProvider) {
