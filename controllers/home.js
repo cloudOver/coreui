@@ -120,8 +120,10 @@ window.app.controller('HomeCtrl', function ($scope, $location, $http) {
         $("#script_variables input").each(function() {
             params[$(this).attr('name').replace('variable_', '')] = $(this).val();
         });
+        $('#script_result').modal();
+
         request('/api/thunder/call/', {token: $.cookie("core_token"), script: $('#script_name').val(), variables: params}, function(r) {
-            $location.refresh();
+            $('#script_output').append(r);
         });
         console.debug(params);
     }
