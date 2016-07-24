@@ -100,7 +100,7 @@ window.app.controller('HomeCtrl', function ($scope, $location, $http) {
                     request('/api/thunder/variables/', {token: $.cookie("core_token"), script: script_name['data']}, function(r) {
                         $('#script_variables').empty();
                         $('#script_variables').append('<br/>');
-                        $.each(r, function(k, v) {
+                        $.each(r['variables'], function(k, v) {
                             console.debug(k + ':' + v)
                             if (!v) {
                                 grp = $('<div class="input-group">');
@@ -123,7 +123,8 @@ window.app.controller('HomeCtrl', function ($scope, $location, $http) {
         $('#script_result').modal();
 
         request('/api/thunder/call/', {token: $.cookie("core_token"), script: $('#script_name').val(), variables: params}, function(r) {
-            $('#script_output').append(r);
+            $('#script_output').empty();
+            $('#script_output').append(r['log'].replace('<', '&lt;').replace('<', '&gt;'));
         });
         console.debug(params);
     }
