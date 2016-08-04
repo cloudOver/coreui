@@ -103,15 +103,17 @@ window.app.controller('HomeCtrl', function ($scope, $location, $http) {
                         $.each(r['variables'], function(k, v) {
                             console.debug(k + ':' + v)
                             if (!v) {
-                                grp = $('<div class="input-group">');
-                                grp.append($('<label class="input-group-addon" for="variable_' + k + '">' + k + '</label>'))
-                                grp.append($('<input class="form-control" name="variable_' + k + '" />'))
+                                grp = $('<div class="ui labeled fluid input" style="display: none;">');
+                                grp.append($('<div class="ui label">' + k + '</div>'))
+                                grp.append($('<input type="text" placeholder="Not set" name="variable_' + k + '" />'))
                                 $('#script_variables').append(grp);
+                                grp.slideToggle();
                             }
                         });
                     });
                 }
-            });
+            })
+            $( "#script_name" ).autocomplete('widget').addClass('ui segment');
         }
     });
 

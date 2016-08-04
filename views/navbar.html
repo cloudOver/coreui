@@ -1,6 +1,13 @@
-<nav class="navbar navbar-inverse">
+<div class="ui stackable pointing main menu">
+    <a class="item" href="/home/">cloudover</a>
+    <!--<a class="item " href="/hybrido/cloud/">hybrido</a>-->
+    <a class="item" href="http://cloudover.io/thunder/">thunder</a>
+    <a class="item active" href="http://cloudover.io/demo/">CoreCluster</a>
+    <a class="item" href="http://cloudover.org">open source</a>
+</div>
+<div class="ui container"></div>
+<!--<nav class="navbar navbar-inverse">
   <div class="container-fluid">
-    <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
         <span class="sr-only">Toggle navigation</span>
@@ -10,8 +17,6 @@
       </button>
       <a class="navbar-brand" href="http://cloudover.io">CloudOver</a>
     </div>
-
-    <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav" id="menu">
         <li><a href="#/"><span class="glyphicon glyphicon-home"></span> Dashboard</a></li>
@@ -20,8 +25,8 @@
         <li id="login_name"></li>
         <li><a href="#/logout/"><span class="glyphicon glyphicon-log-out"></span></a></li>
       </ul>
-    </div><!-- /.navbar-collapse -->
-  </div><!-- /.container-fluid -->
+    </div>
+  </div>
 </nav>
 
 <script>
@@ -30,3 +35,4 @@
         $("#menu").append($("<li class=\"dropdown\">").load('menus/' + window.modules[i] + '.html'));
     }
 </script>
+-->

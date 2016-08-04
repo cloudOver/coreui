@@ -1,63 +1,46 @@
-<style type="text/css">
-    body {
-        padding-top: 40px;
-        padding-bottom: 40px;
-        background-color: #eee;
-    }
-
-    .form-signin {
-        max-width: 330px;
-        padding: 15px;
-        margin: 0 auto;
-    }
-    .form-signin .form-signin-heading,
-    .form-signin .checkbox {
-        margin-bottom: 10px;
-    }
-    .form-signin .checkbox {
-        font-weight: normal;
-    }
-    .form-signin .form-control {
-        position: relative;
-        height: auto;
-        -webkit-box-sizing: border-box;
-        -moz-box-sizing: border-box;
-        box-sizing: border-box;
-        padding: 10px;
-        font-size: 16px;
-    }
-    .form-signin .form-control:focus {
-        z-index: 2;
-    }
-    .form-signin input[type="email"] {
-        margin-bottom: -1px;
-        border-bottom-right-radius: 0;
-        border-bottom-left-radius: 0;
-    }
-    .form-signin input[type="password"] {
-        margin-bottom: 10px;
-        border-top-left-radius: 0;
-        border-top-right-radius: 0;
-    }
-
-</style>
-<div class="container">
-    <form class="form-signin" id="form-signin">
-        <h2 class="form-signin-heading">CloudOver</h2>
-        <label for="inputLogin" class="sr-only">Login</label>
-        <input type="text" id="inputLogin" name="inputLogin" class="form-control" placeholder="User name" required autofocus>
-        <label for="inputPassword" class="sr-only">Password</label>
-        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+<div class="ui middle aligned center aligned grid">
+    <div class="column">
         <br/>
-        <div class="text-right">
-            <a href="#/register/">Register</a>
+        <br/>
+        <h2 class="ui blue image header">
+            <img src="img/logo-cloudover.io.transparent.png" class="image">
+            <div class="content">
+            Log-in to your account
+            </div>
+        </h2>
+        <form class="ui large form" id="form-signin">
+            <div class="ui stacked segment">
+                <div class="field">
+                    <div class="ui left icon input">
+                        <i class="user icon"></i>
+                        <input type="text" name="login" placeholder="Login" id="inputLogin">
+
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="ui left icon input">
+                        <i class="lock icon"></i>
+                        <input type="password" name="password" placeholder="Password" name="inputPassword">
+                    </div>
+                </div>
+                <button class="ui fluid large blue submit button">Sign in</button>
+            </div>
+
+            <div class="ui error message"></div>
+        </form>
+
+        <div class="ui message">
+            New to us? <a href="#/register">Sign Up</a>
         </div>
-        <hr/>
-        <small>By clicking <em>Sign in</em> button you are accepting <a href="#/" onclick="$('#temsofuse').toggle()">Terms Of Use</a>
-        <div id="temsofuse" class="well" style="display: none;"></div></small>
-    </form>
+        <div class="ui message left aligned segment">
+            <small>
+                By clicking <em>Sign up</em> button you are accepting <a href="#/" onclick="$('#temsofuse').slideToggle()">Terms Of Use</a>
+                <div id="temsofuse" class="left aligned" style="display: none;"></div>
+            </small>
+        </div>
+    </div>
 </div>
+
 
 <script type="text/javascript">
     function redirect() {

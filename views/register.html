@@ -1,72 +1,66 @@
-<style type="text/css">
-    body {
-        padding-top: 40px;
-        padding-bottom: 40px;
-        background-color: #eee;
-    }
+<div class="ui middle aligned center aligned grid">
+    <div class="column">
+        <br/>
+        <br/>
+        <h2 class="ui blue image header">
+            <img src="img/logo-cloudover.io.transparent.png" class="image">
+            <div class="content">
+            Create new account
+            </div>
+        </h2>
+        <form class="ui large form" id="form-register">
+            <input type='hidden' name='csrfmiddlewaretoken' value='QGHRqBnR3IcTrGOE2NOOKU0SMS9SDDn1' />
+            <div class="ui stacked segment">
+                <div class="field">
+                    <div class="ui left icon input">
+                        <i class="user icon"></i>
+                        <input type="text" name="login" placeholder="Login" id="inputLogin">
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="ui left icon input">
+                        <i class="lock icon"></i>
+                        <input type="password" name="password" placeholder="Password" id="inputPassword">
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="ui left icon input">
+                        <i class="lock icon"></i>
+                        <input type="password" name="password" placeholder="Confirm password" id="inputRepeatPassword">
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="ui left icon input">
+                        <input type="password" name="password" placeholder="Your name" id="inputName">
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="ui left icon input">
+                        <input type="password" name="password" placeholder="Surname" id="inputSurname">
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="ui left icon input">
+                        <i class="envelope icon"></i>
+                        <input type="text" name="email" placeholder="E-mail address" id="inputEmail">
+                    </div>
+                </div>
+                <button class="ui fluid large blue submit button">Sign up</button>
+            </div>
 
-    .form-signin {
-        max-width: 330px;
-        padding: 15px;
-        margin: 0 auto;
-    }
-    .form-signin .form-signin-heading,
-    .form-signin .checkbox {
-        margin-bottom: 10px;
-    }
-    .form-signin .checkbox {
-        font-weight: normal;
-    }
-    .form-signin .form-control {
-        position: relative;
-        height: auto;
-        -webkit-box-sizing: border-box;
-        -moz-box-sizing: border-box;
-        box-sizing: border-box;
-        padding: 10px;
-        font-size: 16px;
-    }
-    .form-signin .form-control:focus {
-        z-index: 2;
-    }
-    .form-signin input[type="email"] {
-        margin-bottom: -1px;
-        border-bottom-right-radius: 0;
-        border-bottom-left-radius: 0;
-    }
-    .form-signin input[type="password"] {
-        margin-bottom: 10px;
-        border-top-left-radius: 0;
-        border-top-right-radius: 0;
-    }
+            <div class="ui error message"></div>
+        </form>
 
-</style>
-<div class="container">
-    <form class="form-signin" id="form-register">
-        <h2 class="form-signin-heading">Register</h2>
-        <label for="inputLogin" class="sr-only">Login</label>
-        <input type="text" id="inputLogin" name="inputLogin" class="form-control" placeholder="User name" required autofocus>
-
-        <label for="inputPassword" class="sr-only">Password</label>
-        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
-
-        <label for="inputRepeatPassword" class="sr-only">Repeat password</label>
-        <input type="password" id="inputRepeatPassword" class="form-control" placeholder="Repeat password" required>
-
-        <label for="inputName" class="sr-only">Name</label>
-        <input type="text" id="inputName" class="form-control" placeholder="Name" required>
-
-        <label for="inputSurname" class="sr-only">Surname</label>
-        <input type="text" id="inputSurname" class="form-control" placeholder="Surname" required>
-
-        <label for="inputEmail" class="sr-only">Surname</label>
-        <input type="email" id="inputEmail" class="form-control" placeholder="Email" required>
-
-        <button class="btn btn-lg btn-warning btn-block" type="submit">Register</button>
-        <hr/>
-        <small>By clicking <em>Register</em> button you are accepting <a href="#/register/" onclick="$('#temsofuse').toggle()">Terms Of Use</a>
-        <div id="temsofuse" class="well" style="display: none;"></div></small>
-    </form>
+        <div class="ui message">
+            Already have account? <a href="#/login">Sign In</a>
+        </div>
+        <div class="ui message left aligned segment">
+            <small>
+                By clicking <em>Sign in</em> button you are accepting <a href="#/register/" onclick="$('#temsofuse').slideToggle()">Terms Of Use</a>
+                <div id="temsofuse" class="left aligned" style="display: none;"></div>
+            </small>
+        </div>
+    </div>
 </div>
 
 <script type="text/javascript">

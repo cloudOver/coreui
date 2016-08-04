@@ -1,37 +1,43 @@
 <!DOCTYPE html>
-<html lang="en-US">
-<meta charset="utf-8" />
-<link rel="stylesheet" href="css/bootstrap.min.css">
-<link rel="stylesheet" href="css/bootstrap-theme.min.css">
-<link rel="stylesheet" href="css/ng-table.css">
-<link rel="stylesheet" href="css/bootstrap-select.css">
-<link rel="stylesheet" href="css/angular-chart.css">
-<link rel="stylesheet" href="css/custom.css">
-<link rel="stylesheet" href="css/vis.min.css">
-<title>CoreUI</title>
-<body ng-app=coreUi>
-<div class="container">
-    <div ng-include="'views/navbar.html'"></div>
-    <div ng-view id="view"></div>
-    <div ng-include="'views/footer.html'"></div>
-</div>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>CoreUI</title>
 
-    <script src="js/jquery-2.1.4.min.js"></script>
-    <script src="js/jquery-migrate-1.2.1.min.js"></script>
-    <script src="js/jquery.json.min.js"></script>
-    <script src="js/jquery.cookie.min.js"></script>
-    <script src="js/jquery.autocomplete.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/Chart.js"></script>
-    <script src="js/angular.js"></script>
-    <script src="js/angular-chart.min.js"></script>
-    <script src="js/angular-route.min.js"></script>
-    <script src="js/angular-bootstrap-select.js"></script>
-    <script src="js/ng-table.js"></script>
-    <script src="js/jquery.crypt.js"></script>
-    <script src="js/bootstrap-select.js"></script>
-    <script src="js/vis.js"></script>
-    <script src="js/task.js"></script>
+        <link rel="stylesheet" type="text/css" href="semantic/semantic.min.css">
+        <link rel="stylesheet" href="css/angular-chart.css">
+        <link rel="stylesheet" href="css/vis.min.css">
+
+        <script src="js/jquery-2.1.4.min.js"></script>
+        <script src="js/jquery-migrate-1.2.1.min.js"></script>
+        <script src="js/jquery.json.min.js"></script>
+        <script src="js/jquery.cookie.min.js"></script>
+        <script src="js/jquery.autocomplete.js"></script>
+        <script src="semantic/semantic.min.js"></script>
+        <script src="js/Chart.js"></script>
+        <script src="js/angular.js"></script>
+        <script src="js/angular-chart.min.js"></script>
+        <script src="js/angular-route.min.js"></script>
+        <script src="js/angular-bootstrap-select.js"></script>
+        <script src="js/jquery.crypt.js"></script>
+        <script src="js/bootstrap-select.js"></script>
+        <script src="js/vis.js"></script>
+        <script src="js/task.js"></script>
+
+        <style>
+            body {
+                background-color: #DADADA;
+            }
+        </style>
+    </head>
+    <body ng-app=coreUi>
+    <div class="container">
+        <div ng-include="'views/navbar.html'"></div>
+        <div ng-view id="view"></div>
+        <div ng-include="'views/footer.html'"></div>
+    </div>
 
     <script src="settings.js"></script>
     <script src="js/request.js"></script>
@@ -44,5 +50,6 @@
     <script src="controllers/network.js"></script>
     <script src="controllers/thunderscript.js"></script>
     <script src="controllers/vm.js"></script>
-</body>
-</html> 
+    </body>
+</html>
+
