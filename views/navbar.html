@@ -1,38 +1,177 @@
 <div class="ui stackable pointing main menu">
-    <a class="item" href="/home/">cloudover</a>
-    <!--<a class="item " href="/hybrido/cloud/">hybrido</a>-->
-    <a class="item" href="http://cloudover.io/thunder/">thunder</a>
-    <a class="item active" href="http://cloudover.io/demo/">CoreCluster</a>
+    <a class="item" href="http://cloudover.io" target="_blank">cloudover</a>
+    <a class="item" href="http://cloudover.io/thunder/" target="_blank">thunder</a>
+    <a class="item active" href="#/">CoreCluster</a>
     <a class="item" href="http://cloudover.org">open source</a>
 </div>
+<div id="menu" class="ui sidebar inverted vertical menu"></div>
+<button class="ui sticky black launch right attached fixed icon button" onclick="$('.ui.sidebar').sidebar('setting', 'transition', 'push').sidebar('setting', 'dimPage', false).sidebar('toggle');">
+    <i class="content icon"></i>
+</button>
+
 <div class="ui container"></div>
-<!--<nav class="navbar navbar-inverse">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="http://cloudover.io">CloudOver</a>
+
+<div class="ui long modal" id="requestLoader">
+    <i class="close icon"></i>
+    <div class="header">
+        Communication
+        <div class="cloudCircle"></div>
+        <div class="cloudTop"></div>
+        <div class="cloudBottom"></div>
+        <div class="cloudI"></div>
+        <div class="cloudO"></div>
     </div>
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav" id="menu">
-        <li><a href="#/"><span class="glyphicon glyphicon-home"></span> Dashboard</a></li>
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
-        <li id="login_name"></li>
-        <li><a href="#/logout/"><span class="glyphicon glyphicon-log-out"></span></a></li>
-      </ul>
+    <div class="content" id="requestLoaderContent">
     </div>
-  </div>
-</nav>
+</div>
+
+<style>
+    .cloudCircle {
+        width: 100px;
+        height: 100px;
+        text-align: center;
+        background: #DADADA;
+        color: #DADADA;
+        border-radius: 50%;
+        position: absolute;
+        left: 50%;
+        top: -100px;
+        margin-left: -50px;
+        margin-top: -50px;
+    }
+    .cloudI {
+        width: 68px;
+        height: 68px;
+        text-align: center;
+        background: #00acf0;
+        color: #00acf0;
+        border-radius: 50%;
+        position: absolute;
+        left: 50%;
+        top: -100px;
+        margin-top: -34px;
+        margin-left: -34px;
+    }
+    .cloudO {
+        width: 68px;
+        height: 68px;
+        text-align: center;
+        background: #00acf0;
+        color: #00acf0;
+        border-radius: 50%;
+        position: absolute;
+        left: 50%;
+        top: -100px;
+        margin-top: -34px;
+        margin-left: 50px;
+    }
+    .cloudTop {
+        width: 50px;
+        height: 50px;
+        text-align: center;
+        background: #00acf0;
+        color: #00acf0;
+        border-radius: 50%;
+        position: absolute;
+        left: 50%;
+        top: -100px;
+        margin-top: -50px;
+        margin-left: -68px;
+    }
+    .cloudBottom {
+        width: 68px;
+        height: 68px;
+        text-align: center;
+        background: #00acf0;
+        color: #00acf0;
+        border-radius: 50%;
+        position: absolute;
+        left: 50%;
+        top: -100px;
+        margin-top: -15px;
+        margin-left: -80px;
+    }
+</style>
 
 <script>
+    $('.ui.sticky').sticky({
+        context: '#menu'
+      });
     $("#login_name").append('<a>' + $.cookie("core_login") + '</a>');
     for (i = 0; i < window.modules.length; i++) {
-        $("#menu").append($("<li class=\"dropdown\">").load('menus/' + window.modules[i] + '.html'));
+        $("#menu").append($("<div class=\"ui item\">").load('menus/' + window.modules[i] + '.html'));
     }
+
+    $(document).ready(function() {
+        function loopCircle() {
+            propOn = {};
+            propOn['margin-left'] = '-50px';
+            propOn['margin-top'] = '-50px';
+            propOn['width'] = '100px';
+            propOn['height'] = '100px';
+            propOff = {};
+            propOff['margin-left'] = '0';
+            propOff['margin-top'] = '0';
+            propOff['width'] = '0';
+            propOff['height'] = '0';
+            $('.cloudCircle').animate(propOff, 500).delay(700).animate(propOn, 500, 'linear' ,function() {loopCircle();});
+        }
+        function loopI() {
+            propOn = {};
+            propOn['margin-left'] = '-34px';
+            propOn['margin-top'] = '-34px';
+            propOn['width'] = '68px';
+            propOn['height'] = '68px';
+            propOff = {};
+            propOff['margin-left'] = '0';
+            propOff['margin-top'] = '0';
+            propOff['width'] = '0';
+            propOff['height'] = '0';
+            $('.cloudI').animate(propOff, 500).delay(800).animate(propOn, 500, 'linear' ,function() {loopI();});
+        }
+        function loopO() {
+            propOn = {};
+            propOn['margin-left'] = '50px';
+            propOn['margin-top'] = '-34px';
+            propOn['width'] = '68px';
+            propOn['height'] = '68px';
+            propOff = {};
+            propOff['margin-left'] = '84px';
+            propOff['margin-top'] = '0';
+            propOff['width'] = '0';
+            propOff['height'] = '0';
+            $('.cloudO').animate(propOff, 500).delay(900).animate(propOn, 500, 'linear' ,function() {loopO();});
+        }
+        function loopTop() {
+            propOn = {};
+            propOn['margin-left'] = '-68px';
+            propOn['margin-top'] = '-50px';
+            propOn['width'] = '50px';
+            propOn['height'] = '50px';
+            propOff = {};
+            propOff['margin-left'] = '-43px';
+            propOff['margin-top'] = '-25px';
+            propOff['width'] = '0';
+            propOff['height'] = '0';
+            $('.cloudTop').animate(propOff, 500).delay(1200).animate(propOn, 500, 'linear' ,function() {loopTop();});
+        }
+        function loopBottom() {
+            propOn = {};
+            propOn['margin-left'] = '-80px';
+            propOn['margin-top'] = '-15px';
+            propOn['width'] = '68px';
+            propOn['height'] = '68px';
+            propOff = {};
+            propOff['margin-left'] = '-46px';
+            propOff['margin-top'] = '33px';
+            propOff['width'] = '0';
+            propOff['height'] = '0';
+            $('.cloudBottom').animate(propOff, 500).delay(1100).animate(propOn, 500, 'linear' ,function() {loopBottom();});
+        }
+        loopCircle();
+        loopI();
+        loopO();
+        loopTop();
+        loopBottom();
+    });
 </script>
--->

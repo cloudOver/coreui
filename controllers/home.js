@@ -104,9 +104,24 @@ window.app.controller('HomeCtrl', function ($scope, $location, $http) {
                             console.debug(k + ':' + v)
                             if (!v) {
                                 grp = $('<div class="ui labeled fluid input" style="display: none;">');
-                                grp.append($('<div class="ui label">' + k + '</div>'))
-                                grp.append($('<input type="text" placeholder="Not set" name="variable_' + k + '" />'))
+                                grp.append($('<div class="ui green label">' + k + '</div>'))
+                                grp.append($('<input type="text" placeholder="Not set" name="variable_' + k + '" />'));
                                 $('#script_variables').append(grp);
+                                $('#script_variables').append($('<br/>'));
+                                grp.slideToggle();
+                            }
+                        });
+                        $('#script_show_predefined_variables').slideToggle();
+                        $.each(r['variables'], function(k, v) {
+                            console.debug(k + ':' + v)
+                            if (v) {
+                                grp = $('<div class="ui labeled fluid input" style="display: none;">');
+                                grp.append($('<div class="ui label">' + k + '</div>'))
+                                input = $('<input type="text" name="variable_' + k + '" />');
+                                input.attr('placeholder', v);
+                                grp.append(input);
+                                $('#script_predefined_variables').append(grp);
+                                $('#script_predefined_variables').append($('<br/>'));
                                 grp.slideToggle();
                             }
                         });
@@ -122,11 +137,13 @@ window.app.controller('HomeCtrl', function ($scope, $location, $http) {
         $("#script_variables input").each(function() {
             params[$(this).attr('name').replace('variable_', '')] = $(this).val();
         });
-        $('#script_result').modal();
-
+        $('#script_loading').modal('show');
         request('/api/thunder/call/', {token: $.cookie("core_token"), script: $('#script_name').val(), variables: params}, function(r) {
             $('#script_output').empty();
-            $('#script_output').append(r['log'].replace('<', '&lt;').replace('<', '&gt;'));
+            $('#script_output').append(r['log'].replace(/>/g, '&lt;').replace(/>/g, '&gt;').replace(/(?:\r\n|\r|\n)/g, '<br />').replace());
+            $('#script_loading').modal('hide').done(function() {
+                $('#script_result').modal('show');
+            });
         });
         console.debug(params);
     }

@@ -6,4 +6,4 @@ window.vncPrefix = "/webvnc/";
 window.debug = true;
 
 // Installed applications. Put 'home' controller at end of this list. Otherwise, it will catch all urls
-window.modules = ['vm', 'image', 'network', 'coretalk', 'account', 'home', 'coredhcp', 'corevpn', 'thunderscript'];
+window.modules = ['home', 'vm', 'image', 'network', 'coretalk', 'account', 'coredhcp', 'corevpn', 'thunderscript'];

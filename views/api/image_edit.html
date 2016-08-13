@@ -18,170 +18,147 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 -->
 
-<div class="text-center">
-    <div class="row">
-        <div class="col-md-1 hidden-sm">
-        </div>
-        <div class="col-md-5 col-sm-6">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    Actions
-                </div>
-                <div class="panel-body">
-                    <div class="btn-group">
-                        <button class="btn btn-danger" ng-click="imageRemove()"><span class="glyphicon glyphicon-remove"></span>Remove</button>
-                        <!--<button class="btn btn-default" ng-click="cloneImage(image)"><span class="glyphicon glyphicon-copy"></span>Clone</button>-->
-                    </div>
+
+<div class="ui container">
+    <div class="ui segment">
+        <div class="ui three column grid">
+            <div class="column">
+                <div class="ui icon header">
+                    <i class="disk outline icon"></i>
+                    {{ image.name }}
                 </div>
             </div>
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    Disk image details
+            <div class="column">
+                <div class="meta">ID: {{ image.id }}</div>
+                <div class="meta">Size: {{ image.size }}</div>
+                <div class="meta">State:
+                    <i ng-show="image.state == 'init'" class="blue settings icon"></i>
+                    <i ng-show="image.state == 'failed'" class="red remove icon"></i>
+                    <i ng-show="image.state == 'in progress'" class="green cloud upload icon"></i>
+                    <i ng-show="image.state == 'ok'" class="green checkmark icon"></i>
+                    {{ image.state }}
                 </div>
-                <div class="panel-body">
-                    <div class="input-group">
-                        <div class="input-group-addon">ID</div>
-                        <input type="text" readonly id="id" ng-model="image.id" class="form-control" placeholder="ID" required autofocus>
-                    </div>
-                    <hr/>
-                    <div class="input-group">
-                        <div class="input-group-addon">Name</div>
-                        <input type="text" id="name" ng-model="image.name" class="form-control" placeholder="Name" required autofocus>
-                    </div>
-                    <hr/>
-                    <div class="input-group">
-                        <div class="input-group-addon">Description</div>
-                        <textarea type="text" id="description" ng-model="image.description" class="form-control" placeholder="Short description"></textarea>
-                    </div>
-                    <hr/>
-                    <div class="input-group">
-                        <div class="input-group-addon">Size</div>
-                        <input type="text" readonly class="form-control" id="size" ng-model="image.size">
-                        <div class="input-group-addon">GB</div>
-                    </div>
-                    <hr/>
-                    <div class="input-group">
-                        <div class="input-group-addon">Created</div>
-                        <input type="text" readonly class="form-control" id="creation_date" ng-model="image.creation_date">
-                    </div>
-                    <hr/>
-                    <div class="input-group">
-                        <div class="input-group-addon">Format</div>
-                        <input type="text" readonly class="form-control" id="format" ng-model="image.format">
-                    </div>
-                </div>
+                <div class="divider"></div>
+                <div class="meta">Created: {{ image.creation_date }}</div>
+                <div class="meta">Format: {{ image.format }}</div>
+            </div>
+            <div class="right aligned column">
+                <button class="ui red image button" ng-click="imageRemove()"><i class="remove icon"></i> Remove</button>
             </div>
         </div>
-        <div class="col-md-5 col-sm-6">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    Hardware
-                </div>
-                <div class="panel-body">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="pull-right">Type:</div>
-                        </div>
-                        <div class="col-md-8">
-                            <select ng-model="image.type" required id="type" ng-options="type for type in types" class="form-control"></select>
-                        </div>
-                    </div>
-                    <hr/>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="pull-right">Access:</div>
-                        </div>
-                        <div class="col-md-8">
-                            <select ng-model="image.access" class="form-control" id="access">
-                                <option value="private" selected>Private</option>
-                                <option value="group">Group</option>
-                                <option value="public">Public</option>
-                            </select>
-                        </div>
-                    </div>
-                    <hr/>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="pull-right">Network card:</div>
-                        </div>
-                        <div class="col-md-8">
-                            <select ng-model="image.network_device" required ng-options="network_device for network_device in network_devices" class="form-control" id="network_device"></select>
-                        </div>
-                    </div>
-                    <hr/>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="pull-right">Disk controller:</div>
-                        </div>
-                        <div class="col-md-8">
-                            <select ng-model="image.disk_controller" required id="disk_controller" ng-options="disk_controller for disk_controller in disk_controllers" class="form-control"></select>
-                        </div>
-                    </div>
-                    <hr/>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="pull-right">Video card:</div>
-                        </div>
-                        <div class="col-md-8">
-                            <select ng-model="image.video_device" required ng-options="video_device for video_device in video_devices" class="form-control" id="video_device"></select>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    Used as external drive
-                </div>
-                <div class="panel-body">
-                    <div class="row" ng-show="image.attached_to_id">
-                        <div class="col-md-8">
-                            <div class="pull-right">{{ image.attached_to_id }}</div>
-                        </div>
-                        <div class="col-md-4">
-                            <button class="btn btn-warning" ng-click="imageDetach(image.attached_to_id, image.id)">Detach</button>
-                        </div>
-                    </div>
-                    <!--<div class="row" ng-show="!image.attached_to_id">
-                        <div class="col-md-8">
-                            <div class="pull-right">TODO: select</div>
-                        </div>
-                        <div class="col-md-4">
-                            <button class="btn btn-warning" ng-click="imageAttach(attach_vm_id, image.id)">Detach</button>
-                        </div>
-                    </div>-->
-                </div>
-            </div>
-            <div class="panel panel-default">
-                <div class="panel-heading" onclick="$('#tasks').toggle();">
-                    Tasks <span class="glyphicon glyphicon-menu-down"></span>
-                </div>
-                <div class="panel-body" id="tasks" style="display: none">
-                    <table class="table table-striped">
-                        <thead>
-                            <th>Type</th>
-                            <th>Action</th>
-                            <th>State</th>
-                        </thead>
-                        <tr data-ng-repeat="task in image.tasks" ng-class="{danger: task.state=='failed', success: task.state=='in progress', warning: task.state=='waiting'}">
-                            <td>{{task.type}}</td>
-                            <td>{{task.action}}</td>
-                            <td ng-show="task.action != 'upload_url'">{{task.state}}</td>
-                            <td ng-show="task.action == 'upload_url'">
-                                <div class="progress">
-                                    <div class="progress-bar" role="progressbar" aria-valuenow="44" aria-valuemin="0" aria-valuemax="100" ng-attr-style="width: {{image.data.progress*100}}%">
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                    </table>
-                    <div id="task_graph" style="height: 400px; width: 100%;"></div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-1 hidden-sm"></div>
     </div>
-    <br/>
+    <div class="ui styled fluid accordion">
+        <div class="title active">
+            <i class="dropdown icon"></i>
+            Basic information
+        </div>
+        <div class="content active">
+            <p style="display: block ! important;" class="transition visible">
+                <div class="ui two column grid">
+                    <div class="ui column form">
+                        <div class="field">
+                            <div class="ui left icon input">
+                                <i class="edit icon"></i>
+                                <input type="text" ng-model="image.name" placeholder="Image name">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui left icon input">
+                                <i class="edit icon"></i>
+                                <textarea rows=4 ng-model="image.description" placeholder="Description"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui column">
+                        <div class="ui header" ng-show="image.attached_to_id">
+                            Attached as external drive to instance {{ image.attached_to }}
+                            <button class="ui red button" ng-click="imageDetach(image.attached_to_id, image.id)">Detach</button>
+                        </div>
+                        <div class="ui header">Tasks</div>
+                        <div class="content" id="tasks">
+                            <table class="ui table">
+                                <thead>
+                                    <th>Type</th>
+                                    <th>Action</th>
+                                    <th>State</th>
+                                </thead>
+                                <tr data-ng-repeat="task in image.tasks" ng-class="{danger: task.state=='failed', success: task.state=='in progress', warning: task.state=='waiting'}">
+                                    <td>{{task.type}}</td>
+                                    <td>{{task.action}}</td>
+                                    <td ng-show="task.action != 'upload_url'">{{task.state}}</td>
+                                    <td ng-show="task.action == 'upload_url'">
+                                        <div class="progress">
+                                            <div class="progress-bar" role="progressbar" aria-valuenow="44" aria-valuemin="0" aria-valuemax="100" ng-attr-style="width: {{image.data.progress*100}}%">
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                            <div id="task_graph" style="height: 100%; border: 1px #4f4f4f solid; width: 100%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </p>
+        </div>
+
+        <div class="title active">
+            <i class="dropdown icon"></i>
+            Advanced
+        </div>
+        <div class="content">
+            <p style="display: block ! important;" class="transition visible">
+                <div class="ui two column grid">
+                    <div class="ui column form">
+                        <div class="field">
+                            <label>Access: </label>
+                            <div class="ui input">
+                                <select class="ui search dropdown" ng-model="image.access" id="access">
+                                    <option value="private" selected>Private</option>
+                                    <option value="group">Group</option>
+                                    <option value="public">Public</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label>Type: </label>
+                            <div class="ui input">
+                                <select class="ui search dropdown" ng-model="image.type" required id="type" ng-options="type for type in types"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui column form">
+                        <div class="field">
+                            <label>Network card: </label>
+                            <div class="ui input">
+                                <select class="ui search dropdown" ng-model="image.network_device" required ng-options="network_device for network_device in network_devices" id="network_device"></select>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label>Disk controller: </label>
+                            <div class="ui input">
+                                <select class="ui search dropdown" ng-model="image.disk_controller" required id="disk_controller" ng-options="disk_controller for disk_controller in disk_controllers"></select>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label>Emulated graphics card: </label>
+                            <div class="ui input">
+                                <select class="ui search dropdown" ng-model="image.video_device" required ng-options="video_device for video_device in video_devices" id="video_device"></select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('.ui.checkbox').checkbox();
+    $('select.dropdown').dropdown();
+    $('.ui.accordion').accordion();
+</script>
     <a href="#/api/image/">Go back to image list</a>
     &nbsp;&nbsp;&nbsp;
     <button type="submit" ng-click="imageSave()" class="btn btn-lg btn-success">Save changes</button>
 </div>
+

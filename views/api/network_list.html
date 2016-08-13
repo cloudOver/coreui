@@ -17,37 +17,59 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 -->
+<div class="ui container">
+    <div class="ui segment">
+        <div class="ui grid">
+            <div class="ten wide column">
+                <div class="ui header">API Tokens</div>
+                <div class="content">Mamnage your virtual networks. Create at least one <em>routed</em> network to provide access to the Internet for your instances. Use <em>isolated</em> networks to create your private Layer 2 networking.</div>
+            </div>
+            <div class="six wide right aligned column">
+                <button ng-click="obj_create()" id="obj_create" class="ui green button"><i class="add circle icon"></i>Create new</button>
+            </div>
+        </div>
+    </div>
+    <table class="ui table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Address</th>
+                <th>Leases <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Lease is the equivalent of network card with assigned IP"></span></th>
+                <th>Attached instances</th>
+                <th>Mode</th>
+                <th>Firewall</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr style="cursor: pointer;" ng-repeat="obj in objs" ng-click="obj_edit(obj)">
+                <td>{{ obj.id }}</td>
+                <td data-title="'Name'" sortable="'name'">{{ obj.name }}</td>
+                <td>{{ obj.address }}/{{ obj.mask }}</td>
+                <td>{{ obj.total_leases }}</td>
+                <td>{{ obj.used_leases }}</td>
+                <td>{{ obj.mode }}</td>
+                <td>{{ obj.is_isolated }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
 
 <div class="row">
     <div class="col-md-12">
         <div class="panel panel-default">
             <div class="panel-heading text-right">
                 <h5 class="pull-left">Networks</h5>
-                <button ng-click="obj_create()" id="obj_create" class="btn btn-sm btn-success"><span class="glyphicon glyphicon-plus"></span>Create new</button>
+
             </div>
             <div class="panel-body">
                 <table class="table table-stripped" ng-table="vmsTable">
                     <thead>
                         <tr>
-                            <th>#</th>
-                            <th>Name</th>
-                            <th>Address</th>
-                            <th>Leases <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Lease is the equivalent of network card with assigned IP"></span></th>
-                            <th>Attached instances</th>
-                            <th>Mode</th>
-                            <th>Firewall</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr style="cursor: pointer;" ng-repeat="obj in objs" ng-click="obj_edit(obj)">
-                            <td>{{ obj.id }}</td>
-                            <td data-title="'Name'" sortable="'name'">{{ obj.name }}</td>
-                            <td>{{ obj.address }}/{{ obj.mask }}</td>
-                            <td>{{ obj.total_leases }}</td>
-                            <td>{{ obj.used_leases }}</td>
-                            <td>{{ obj.mode }}</td>
-                            <td>{{ obj.is_isolated }}</td>
-                        </tr>
+
                     </tbody>
                 </table>
             </div>

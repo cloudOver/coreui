@@ -27,17 +27,17 @@
         <script src="js/task.js"></script>
 
         <style>
-            body {
-                background-color: #DADADA;
+            .contents {
+                min-height: 90%;
             }
         </style>
     </head>
     <body ng-app=coreUi>
-    <div class="container">
+    <div class="contents pusher">
         <div ng-include="'views/navbar.html'"></div>
-        <div ng-view id="view"></div>
-        <div ng-include="'views/footer.html'"></div>
+        <div class="fluid container"><div ng-view id="view"></div></div>
     </div>
+    <div ng-include="'views/footer.html'"></div>
 
     <script src="settings.js"></script>
     <script src="js/request.js"></script>

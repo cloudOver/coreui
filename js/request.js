@@ -16,14 +16,14 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-
+var running_requests = 0;
 function request(func, args, callback) {
-    var msginfo = $('<div class="alert alert-info errormessage" style="position: absolute; display: none;">');
+    running_requests += 1;
+    var msg = $('<div class="ui icon info message"><i class="right arrow icon"></i> Call' + func + '</div>');
+
+    $('#requestLoader').modal('show');
     if (window.debug) {
-        var close = $('<button type="button" class="close" data-dismiss="alert">x</button>');
-        msginfo.append(close);
-        msginfo.append(func);
-        msginfo.appendTo($('body')).fadeIn(100);
+        $('#requestLoaderContent').append(msg);
     }
 
     $.ajax({
@@ -33,26 +33,26 @@ function request(func, args, callback) {
         complete: function(xhr, status) {
             console.debug(xhr);
             if (status === "error" || !xhr.responseText) {
-                alert("Communication problem");
+                $('#requestLoaderContent').append('<div class="ui icon error message"><i class="warning circle icon"></i>Communication error</div>');
                 return;
             }
             var response = $.parseJSON(xhr.responseText);
 
             if (response.status != "ok") {
-                msginfo.removeClass('alert-info');
-                msginfo.addClass('alert-danger');
-
-                var message = $('<div class="alert alert-danger errormessage" style="position: absolute; display: none;">');
-                var close = $('<button type="button" class="close" data-dismiss="alert">x</button>');
-                message.append(close);
-                message.append(response.status);
-                message.appendTo($('body')).fadeIn(300).delay(5000).fadeOut(300);
+                $('#requestLoaderContent').append('<div class="ui icon warning message"><i class="warning circle icon"></i>' + response.status + '</div>');
                 return;
             } else if (window.debug) {
-                msginfo.fadeOut();
+                $('#requestLoaderContent').append('<div class="ui icon success message"><i class="checkmark icon"></i>' + response.status + '</div>');
             }
 
             callback(response.data);
+            running_requests -= 1;
+            if (!window.debug) {
+                msg.remove();
+            }
+            if (running_requests <= 0) {
+                $('#requestLoader').modal('hide');
+            }
         },
         dataType: "application/json"
     });

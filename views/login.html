@@ -20,7 +20,7 @@
                 <div class="field">
                     <div class="ui left icon input">
                         <i class="lock icon"></i>
-                        <input type="password" name="password" placeholder="Password" name="inputPassword">
+                        <input type="password" name="password" placeholder="Password" id="inputPassword">
                     </div>
                 </div>
                 <button class="ui fluid large blue submit button">Sign in</button>
@@ -69,7 +69,8 @@
     $("#form-signin").submit(function(e) {
         e.preventDefault();
         var login = $("#form-signin #inputLogin").val();
-        var password = $("#inputPassword").val();
+        var password = $("#form-signin #inputPassword").val();
+        console.debug(password);
         request('/user/user/get_seed/', {login: login}, function(r) {
             var pw_hash = $().crypt({method: "sha1", source: password + r.seed});
             request('/user/token/get_list/', {login: login, pw_hash: pw_hash}, function (list) {

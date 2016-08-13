@@ -30,5 +30,4 @@ app.config(['$routeProvider', function ($routeProvider) {
 
 
 app.controller('LoginCtrl', function ($scope, $location, $http) {
-    console.log("Login controller reporting for duty.");
 });

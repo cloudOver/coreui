@@ -17,32 +17,72 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 -->
-
-<div class="text-center">
-    <form id="create">
-        <div class="row">
-            <div class="col-md-1 hidden-sm">
-            </div>
-            <div class="col-md-5 col-sm-6">
-                <div class="panel panel-primary">
-                    <div class="panel-heading">
-                        <h5>Instance details</h5>
+<div class="ui container">
+    <div class="ui segment">
+        Create new instance
+    </div>
+    <div class="ui styled fluid accordion">
+        <div class="title active">
+            <i class="dropdown icon"></i>
+            Basic settings
+        </div>
+        <div class="content active">
+            <p style="display: block ! important;" class="transition visible">
+                <div class="ui two column grid">
+                    <div class="ui column form">
+                        <div class="field">
+                            <div class="ui left icon input">
+                                <i class="edit icon"></i>
+                                <input type="text" ng-model="name" placeholder="Instance name">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui left icon input">
+                                <i class="edit icon"></i>
+                                <textarea rows=4 ng-model="description" placeholder="Description"></textarea>
+                            </div>
+                        </div>
                     </div>
-                    <div class="panel-body">
-                        <label for="name" class="sr-only">Name</label>
-                        <input type="text" id="name" ng-model="name" class="form-control" placeholder="Name" required autofocus>
-                        <hr/>
-                        <label for="description" class="sr-only">Description</label>
-                        <textarea type="text" id="description" ng-model="description" class="form-control" placeholder="Short description"></textarea>
+                    <div class="ui form column">
+                        <div class="field">
+                            <label>Virtual hardware </label>
+                            <select class="ui search dropdown" ng-model="template" required ng-options="template.name for template in templates"></select>
+                            <div ng-show="template != null" class="meta">
+                                CPU: {{ template.cpu }}, Memory: {{ template.memory }} MB
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label>Basic hard drive </label>
+                            <select class="ui search dropdown" ng-model="base_image"  ng-options="image.name for image in images | filter:{type: 'transient', state: 'ok'}"></select>
+                        </div>
+                        <div class="ui two column grid">
+                            <div class="ui field column">
+                                <div class="ui toggle checkbox">
+                                    <input class="hidden" tabindex="0" type="checkbox" ng-model="start_after_create">
+                                    <label>Start instance after created</label>
+                                </div>
+                            </div>
+                            <div class="ui field column">
+                                <div class="ui toggle checkbox">
+                                    <input class="hidden" tabindex="0" type="checkbox" ng-models="vnc">
+                                    <label>Enable web console</label>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h5>Networking</h5>
-                    </div>
-                    <div class="panel-body">
-                        <button class="btn btn-primary btn-sm btn-block" id="addNIC" ng-click="addNIC()"><span class="glyphicon glyphicon-plus"></span>Add NIC</button>
-                        <br/>
+            </p>
+        </div>
+        <div class="title">
+            <i class="dropdown icon"></i>
+            Networking and storage
+        </div>
+        <div class="content">
+            <p class="transition hidden">
+                <div class="ui two column grid">
+                    <div class="column">
+                        <button class="ui green button" id="addNIC" ng-click="addNIC()"><i class="plus circle icon"></i>Add NIC</button>
+
                         <fieldset data-ng-repeat="nic in nics">
                             <div class="row">
                                 <div class="col-md-10">
@@ -56,57 +96,22 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                             </div>
                         </fieldset>
                     </div>
+                    <div class="column"></div>
                 </div>
-            </div>
+            </p>
+        </div>
+    </div>
+</div>
+<script>
+    $('.ui.checkbox').checkbox();
+    $('select.dropdown').dropdown();
+    $('.ui.accordion').accordion();
+</script>
+
+<div class="text-center">
+    <form id="create">
+        <div class="row">
             <div class="col-md-5 col-sm-6">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h5>Virtual hardware</h5>
-                    </div>
-                    <div class="panel-body">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="pull-right">Resources:</div>
-                            </div>
-                            <div class="col-md-7">
-                                <select ng-model="template" required ng-options="template.name for template in templates" class="form-control" id="template" class="form-control"></select>
-                            </div>
-                            <div class="col-md-1">
-                                <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="left" title="Select hardware resources assigned to new instance. To see list of all templates with details, check Instances > Hardware templates"></span>
-                            </div>
-                        </div>
-                        <div ng-show="template != null">
-                            CPU: {{ template.cpu }}, Memory: {{ template.memory }} MB
-                        </div>
-                        <hr/>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="pull-right">Base image:</div>
-                            </div>
-                            <div class="col-md-7">
-                                <select ng-model="base_image" required id="baseImage" ng-options="image.name for image in images | filter:{type: 'transient', state: 'ok'}" class="form-control"></select>
-                            </div>
-                            <div class="col-md-1">
-                                <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="left" title="This is basic disk image for instance. It should contain whole operating system (with bootloader and partition table). The clone of this disk is attached to instance on startup and removed (with all modifications) when instance is removed. To store permanent data, use External storages below and pemanent disks."></span>
-                            </div>
-                        </div>
-                        <hr/>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="pull-right">Remote screen:</div>
-                            </div>
-                            <div class="col-md-7">
-                                <select ng-model="vnc" class="form-control" id="vnc" required>
-                                    <option value="1">Yes</option>
-                                    <option value="0">No</option>
-                                </select>
-                            </div>
-                            <div class="col-md-1">
-                                <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="left" title="Enable the remote screen. Use any VNC client (xvncviewer, TightVNC) to connect with your instance's virtual screen, keyboard and mouse. You can enable or disable it later, in instance details."></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h5>External storages</h5>
@@ -136,8 +141,3 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <button type="submit" ng-click="vmCreate()" class="btn btn-lg btn-success">Create</button>
     </form>
 </div>
-<script>
-    $(function () {
-        $('[data-toggle="tooltip"]').tooltip()
-    });
-</script>
