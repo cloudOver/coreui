@@ -21,7 +21,6 @@ function get_image_types($scope) {
     request('/api/image/get_image_types/', {token: $.cookie("core_token")}, function(l) {
         $scope.types = l;
         $scope.$apply();
-        $('.ui.checkbox').checkbox();
     });
 }
 
@@ -29,7 +28,6 @@ function get_video_devices($scope) {
     request('/api/image/get_video_devices/', {token: $.cookie("core_token")}, function(l) {
         $scope.video_devices = l;
         $scope.$apply();
-        $('.ui.checkbox').checkbox();
     });
 }
 
@@ -37,7 +35,6 @@ function get_network_devices($scope) {
     request('/api/image/get_network_devices/', {token: $.cookie("core_token")}, function(l) {
         $scope.network_devices = l;
         $scope.$apply();
-        $('.ui.checkbox').checkbox();
     });
 }
 
@@ -45,7 +42,6 @@ function get_disk_controllers($scope) {
     request('/api/image/get_disk_controllers/', {token: $.cookie("core_token")}, function(l) {
         $scope.disk_controllers = l;
         $scope.$apply();
-        $('.ui.checkbox').checkbox();
     });
 }
 
@@ -53,7 +49,6 @@ function get_image_formats($scope) {
     request('/api/image/get_image_formats/', {token: $.cookie("core_token")}, function(l) {
         $scope.formats = l;
         $scope.$apply();
-        $('.ui.checkbox').checkbox();
     });
 }
 
@@ -97,7 +92,7 @@ window.app.controller('ImageListCtrl', function ($scope, $location, $http) {
         request('/api/' + model + '/get_list/', {token: $.cookie("core_token")}, function(objs) {
             $scope.objs = objs;
             $scope.$apply();
-        });
+        }, quiet=true);
         clearTimeout(window.refresh);
         window.refresh = setTimeout(refreshList, 4000);
     }
@@ -177,11 +172,6 @@ window.app.controller('ImageEditCtrl', function ($scope, $location, $route, $rou
     clearTimeout(window.refresh);
     $scope.image = {name: 'loading...'};
 
-    //$("#type").prop('disabled', true);
-    //$("#video_device").prop('disabled', true);
-    //$("#network_device").prop('disabled', true);
-    //$("#disk_controller").prop('disabled', true);
-
     var core_model = 'image';
     $scope.imageRemove = function() {
        request('/api/image/delete/', { token: $.cookie("core_token"), image_id: $scope.image.id }, function() {
@@ -190,7 +180,6 @@ window.app.controller('ImageEditCtrl', function ($scope, $location, $route, $rou
        }) ;
     };
     $scope.imageSave = function() {
-        alert($scope.image.disk_controller);
         request('/api/' + core_model + '/describe/', {token: $.cookie('core_token')}, function(model) {
             for (i = 0; i < model.editable.length; i++) {
                 var d = { token: $.cookie("core_token"), image_id: $scope.image.id };
@@ -228,7 +217,6 @@ window.app.controller('ImageEditCtrl', function ($scope, $location, $route, $rou
         $scope.image = img;
         $scope.$apply();
 
-        $('.ui.checkbox').checkbox();
         console.log($scope);
         draw_task_graph('task_graph', img.tasks);
     });

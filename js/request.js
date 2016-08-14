@@ -17,14 +17,15 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 var running_requests = 0;
-function request(func, args, callback) {
-    running_requests += 1;
+function request(func, args, callback, quiet=false) {
     var msg = $('<div class="ui icon info message"><i class="right arrow icon"></i> Call' + func + '</div>');
-
-    $('#requestLoader').modal('show');
-    if (window.debug) {
-        $('#requestLoaderContent').append(msg);
+    if (!quiet) {
+        running_requests += 1;
+        $('#requestLoader').modal('show');
     }
+
+    if (window.debug)
+        $('#requestLoaderContent').append(msg);
 
     $.ajax({
         type: "POST",
@@ -46,11 +47,10 @@ function request(func, args, callback) {
             }
 
             callback(response.data);
-            running_requests -= 1;
-            if (!window.debug) {
+            if (!window.debug)
                 msg.remove();
-            }
             if (running_requests <= 0) {
+                running_requests -= 1;
                 $('#requestLoader').modal('hide');
             }
         },

@@ -129,10 +129,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     </div>
                     <div class="ui column form">
                         <div class="grouped fields">
-                            <label>Network device: </label>
+                            <label>Network device</label>
                             <div class="field" data-ng-repeat="network_device in network_devices">
                                 <div class="ui slider checkbox">
-                                    <input type="radio" name="network_device" ng-model="image.network_device" value="{{ network_device }}"/>
+                                    <input type="radio" name="network_device" ng-model="$parent.image.network_device" ng-value="network_device" />
                                     <label>{{ network_device }}</label>
                                 </div>
                             </div>
@@ -140,7 +140,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     </div>
                     <div class="ui column form">
                         <div class="grouped fields">
-                            <label>Disk controller: </label>
+                            <label>Disk controller</label>
                             <div class="field" data-ng-repeat="disk_controller in disk_controllers">
                                 <div class="ui slider checkbox">
                                     <input type="radio" name="disk_controller" ng-model="image.disk_controller" value="{{ disk_controller }}"/>
@@ -149,10 +149,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                             </div>
                         </div>
                         <div class="grouped fields">
-                            <label>Graphics card: </label>
-                            <div class="field" data-ng-repeat="video_device in video_devices">
+                            <label>Graphics card {{ image.video_device }}</label>
+                            <div class="field" ng-repeat="video_device in video_devices">
                                 <div class="ui slider checkbox">
-                                    <input type="radio" name="video_device" ng-model="image.video_device" value="{{ video_device }}"/>
+                                    <input type="radio" name="video_device" ng-model="image.video_device" ng-value="video_device"/>
                                     <label>{{ video_device }}</label>
                                 </div>
                             </div>
@@ -197,6 +197,5 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 </div>
 
 <script>
-    $('select.dropdown').dropdown();
     $('.ui.accordion').accordion();
 </script>
