@@ -21,7 +21,7 @@ function get_image_types($scope) {
     request('/api/image/get_image_types/', {token: $.cookie("core_token")}, function(l) {
         $scope.types = l;
         $scope.$apply();
-        $("#type").prop('disabled', false);
+        $('.ui.checkbox').checkbox();
     });
 }
 
@@ -29,7 +29,7 @@ function get_video_devices($scope) {
     request('/api/image/get_video_devices/', {token: $.cookie("core_token")}, function(l) {
         $scope.video_devices = l;
         $scope.$apply();
-        $("#video_device").prop('disabled', false);
+        $('.ui.checkbox').checkbox();
     });
 }
 
@@ -37,7 +37,7 @@ function get_network_devices($scope) {
     request('/api/image/get_network_devices/', {token: $.cookie("core_token")}, function(l) {
         $scope.network_devices = l;
         $scope.$apply();
-        $("#network_device").prop('disabled', false);
+        $('.ui.checkbox').checkbox();
     });
 }
 
@@ -45,7 +45,7 @@ function get_disk_controllers($scope) {
     request('/api/image/get_disk_controllers/', {token: $.cookie("core_token")}, function(l) {
         $scope.disk_controllers = l;
         $scope.$apply();
-        $("#disk_controller").prop('disabled', false);
+        $('.ui.checkbox').checkbox();
     });
 }
 
@@ -53,7 +53,7 @@ function get_image_formats($scope) {
     request('/api/image/get_image_formats/', {token: $.cookie("core_token")}, function(l) {
         $scope.formats = l;
         $scope.$apply();
-        $("#disk_controller").prop('disabled', false);
+        $('.ui.checkbox').checkbox();
     });
 }
 
@@ -175,12 +175,12 @@ window.app.controller('ImageUploadCtrl', function ($scope, $location, $http) {
 
 window.app.controller('ImageEditCtrl', function ($scope, $location, $route, $routeParams) {
     clearTimeout(window.refresh);
-    $scope.image = {};
+    $scope.image = {name: 'loading...'};
 
-    $("#type").prop('disabled', true);
-    $("#video_device").prop('disabled', true);
-    $("#network_device").prop('disabled', true);
-    $("#disk_controller").prop('disabled', true);
+    //$("#type").prop('disabled', true);
+    //$("#video_device").prop('disabled', true);
+    //$("#network_device").prop('disabled', true);
+    //$("#disk_controller").prop('disabled', true);
 
     var core_model = 'image';
     $scope.imageRemove = function() {
@@ -190,6 +190,7 @@ window.app.controller('ImageEditCtrl', function ($scope, $location, $route, $rou
        }) ;
     };
     $scope.imageSave = function() {
+        alert($scope.image.disk_controller);
         request('/api/' + core_model + '/describe/', {token: $.cookie('core_token')}, function(model) {
             for (i = 0; i < model.editable.length; i++) {
                 var d = { token: $.cookie("core_token"), image_id: $scope.image.id };
@@ -226,6 +227,8 @@ window.app.controller('ImageEditCtrl', function ($scope, $location, $route, $rou
         img.size = (img.size/1024/1024/1024).toFixed(2);
         $scope.image = img;
         $scope.$apply();
+
+        $('.ui.checkbox').checkbox();
         console.log($scope);
         draw_task_graph('task_graph', img.tasks);
     });

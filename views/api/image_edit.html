@@ -47,6 +47,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             </div>
         </div>
     </div>
+
     <div class="ui styled fluid accordion">
         <div class="title active">
             <i class="dropdown icon"></i>
@@ -74,28 +75,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                             Attached as external drive to instance {{ image.attached_to }}
                             <button class="ui red button" ng-click="imageDetach(image.attached_to_id, image.id)">Detach</button>
                         </div>
-                        <div class="ui header">Tasks</div>
-                        <div class="content" id="tasks">
-                            <table class="ui table">
-                                <thead>
-                                    <th>Type</th>
-                                    <th>Action</th>
-                                    <th>State</th>
-                                </thead>
-                                <tr data-ng-repeat="task in image.tasks" ng-class="{danger: task.state=='failed', success: task.state=='in progress', warning: task.state=='waiting'}">
-                                    <td>{{task.type}}</td>
-                                    <td>{{task.action}}</td>
-                                    <td ng-show="task.action != 'upload_url'">{{task.state}}</td>
-                                    <td ng-show="task.action == 'upload_url'">
-                                        <div class="progress">
-                                            <div class="progress-bar" role="progressbar" aria-valuenow="44" aria-valuemin="0" aria-valuemax="100" ng-attr-style="width: {{image.data.progress*100}}%">
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </table>
-                            <div id="task_graph" style="height: 100%; border: 1px #4f4f4f solid; width: 100%;"></div>
-                        </div>
                     </div>
                 </div>
             </p>
@@ -107,58 +86,117 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         </div>
         <div class="content">
             <p style="display: block ! important;" class="transition visible">
-                <div class="ui two column grid">
+                Here you can modify advanced parameters of your image. Access mode defines who can use this image (attach as external drive
+                or start new instance. The <em>type</em> parameter defines  how this image couls be used. Images with transient type could be
+                used as base image for new instances. Permanent images could be used as external drives.<br/>
+                The <em>disk controller</em>, <em>network device</em> and <em>graphics card</em> define how virtualizator should emulate
+                hardware for all instances booted from this image (as base image). Various operating systems may have no support for
+                some of drivers. Select one of drivers to emulate proper hardware in all instances booted with this image. Note, that
+                some drivers may be emulated slower than another. Usually selecting virtio drivers is the best option for Linux operating
+                systems. This settings have no influence when image is attached as external drive.
+                <div class="ui three column grid">
                     <div class="ui column form">
-                        <div class="field">
+                        <div class="grouped fields">
                             <label>Access: </label>
-                            <div class="ui input">
-                                <select class="ui search dropdown" ng-model="image.access" id="access">
-                                    <option value="private" selected>Private</option>
-                                    <option value="group">Group</option>
-                                    <option value="public">Public</option>
-                                </select>
+                            <div class="field">
+                                <div class="ui slider checkbox">
+                                    <input type="radio" name="access" ng-model="image.access" value="private"/>
+                                    <label>Private</label>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <div class="ui slider checkbox">
+                                    <input type="radio" name="access" ng-model="image.access" value="group"/>
+                                    <label>Group</label>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <div class="ui slider checkbox">
+                                    <input type="radio" name="access" ng-model="image.access" value="public"/>
+                                    <label>Public</label>
+                                </div>
                             </div>
                         </div>
-                        <div class="field">
+                        <div class="grouped fields">
                             <label>Type: </label>
-                            <div class="ui input">
-                                <select class="ui search dropdown" ng-model="image.type" required id="type" ng-options="type for type in types"></select>
+                            <div class="field" data-ng-repeat="type in types">
+                                <div class="ui slider checkbox">
+                                    <input type="radio" name="type" ng-model="image.type" value="{{ type }}"/>
+                                    <label>{{ type }}</label>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="ui column form">
-                        <div class="field">
-                            <label>Network card: </label>
-                            <div class="ui input">
-                                <select class="ui search dropdown" ng-model="image.network_device" required ng-options="network_device for network_device in network_devices" id="network_device"></select>
+                        <div class="grouped fields">
+                            <label>Network device: </label>
+                            <div class="field" data-ng-repeat="network_device in network_devices">
+                                <div class="ui slider checkbox">
+                                    <input type="radio" name="network_device" ng-model="image.network_device" value="{{ network_device }}"/>
+                                    <label>{{ network_device }}</label>
+                                </div>
                             </div>
                         </div>
-                        <div class="field">
+                    </div>
+                    <div class="ui column form">
+                        <div class="grouped fields">
                             <label>Disk controller: </label>
-                            <div class="ui input">
-                                <select class="ui search dropdown" ng-model="image.disk_controller" required id="disk_controller" ng-options="disk_controller for disk_controller in disk_controllers"></select>
+                            <div class="field" data-ng-repeat="disk_controller in disk_controllers">
+                                <div class="ui slider checkbox">
+                                    <input type="radio" name="disk_controller" ng-model="image.disk_controller" value="{{ disk_controller }}"/>
+                                    <label>{{ disk_controller }}</label>
+                                </div>
                             </div>
                         </div>
-                        <div class="field">
-                            <label>Emulated graphics card: </label>
-                            <div class="ui input">
-                                <select class="ui search dropdown" ng-model="image.video_device" required ng-options="video_device for video_device in video_devices" id="video_device"></select>
+                        <div class="grouped fields">
+                            <label>Graphics card: </label>
+                            <div class="field" data-ng-repeat="video_device in video_devices">
+                                <div class="ui slider checkbox">
+                                    <input type="radio" name="video_device" ng-model="image.video_device" value="{{ video_device }}"/>
+                                    <label>{{ video_device }}</label>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </p>
         </div>
+
+        <div class="title active">
+            <i class="dropdown icon"></i>
+            Task queue
+        </div>
+        <div class="content" id="tasks">
+            <p style="display: block ! important;" class="transition visible">
+                <table class="ui table">
+                    <thead>
+                        <th>Type</th>
+                        <th>Action</th>
+                        <th>State</th>
+                    </thead>
+                    <tr data-ng-repeat="task in image.tasks" ng-class="{danger: task.state=='failed', success: task.state=='in progress', warning: task.state=='waiting'}">
+                        <td>{{task.type}}</td>
+                        <td>{{task.action}}</td>
+                        <td ng-show="task.action != 'upload_url'">{{task.state}}</td>
+                        <td ng-show="task.action == 'upload_url'">
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar" aria-valuenow="44" aria-valuemin="0" aria-valuemax="100" ng-attr-style="width: {{image.data.progress*100}}%">
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <div id="task_graph" style="height: 100%; border: 1px #4f4f4f solid; width: 100%;"></div>
+            </p>
+        </div>
+    </div>
+    <div class="ui center aligned segment">
+        <a class="ui massive yellow icon button" href="#/api/images/"><i class="left arrow icon"></i>Back</a>
+        <button class="ui massive green icon button" ng-click="imageSave()"><i class="checkmark icon"></i>Save</button>
     </div>
 </div>
 
 <script>
-    $('.ui.checkbox').checkbox();
     $('select.dropdown').dropdown();
     $('.ui.accordion').accordion();
 </script>
-    <a href="#/api/image/">Go back to image list</a>
-    &nbsp;&nbsp;&nbsp;
-    <button type="submit" ng-click="imageSave()" class="btn btn-lg btn-success">Save changes</button>
-</div>
-
