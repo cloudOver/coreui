@@ -66,7 +66,7 @@ window.app.controller('VmListCtrl', function ($scope, $location, $http) {
         request('/api/' + model + '/get_list/', {token: $.cookie("core_token")}, function(objs) {
             $scope.objs = objs;
             $scope.$apply();
-        });
+        }, quiet=true);
 
         clearTimeout(window.refresh);
         window.refresh = setTimeout(refreshList, 4000);
@@ -120,6 +120,7 @@ window.app.controller('VmCreateCtrl', function ($scope, $location, $http) {
     $scope.leases = [];
     $scope.storages = [];
     $scope.vnc = 0;
+    $scope.start_after_create = 0;
 
     $scope.template = null;
     $scope.base_image = {};
@@ -166,6 +167,9 @@ window.app.controller('VmCreateCtrl', function ($scope, $location, $http) {
             }
             if ($scope.vnc == 1) {
                 request('/api/vm/console/', {token: $.cookie("core_token"), enable: 1, vm_id: vm.id}, function(r) {});
+            }
+            if ($scope.start_after_create == 1) {
+                request('/api/vm/start/', {token: $.cookie("core_token"), vm_id: vm.id}, function(r) {});
             }
             $location.path('/api/vm/');
             $scope.$apply();

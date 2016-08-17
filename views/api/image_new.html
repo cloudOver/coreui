@@ -18,123 +18,150 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 -->
 
-<div class="text-center">
-    <div class="row">
-        <div class="col-md-1 hidden-sm">
-        </div>
-        <div class="col-md-5 col-sm-6">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    Disk image details
-                </div>
-                <div class="panel-body">
-                    <label for="name" class="sr-only">Name</label>
-                    <input type="text" id="name" ng-model="image.name" class="form-control" placeholder="Name" required autofocus>
-                    <hr/>
-                    <label for="description" class="sr-only">Description</label>
-                    <textarea type="text" id="description" ng-model="image.description" class="form-control" placeholder="Short description"></textarea>
-                    <hr/>
-                    <div class="input-group" ng-show="{{ create }}">
-                        <div class="input-group-addon">Size</div>
-                        <input type="number" class="form-control" id="size" ng-model="image.size" value="1" step="0.1" aria-valuemin="0.1">
-                        <div class="input-group-addon">GB</div>
-                    </div>
-                    <div class="input-group" ng-show="{{ upload }}">
-                        <div class="input-group-addon">Location</div>
-                        <input type="text" class="form-control" ng-change="checkFormat()" id="location" ng-model="location" placeholder="http://">
-                    </div>
-                    <hr/>
-                    <div class="input-group">
-                        <div class="input-group-addon">Format</div>
-                        <select ng-model="image.format" required id="format" ng-options="format for format in formats" class="form-control"></select>
-                        <div class="input-group-addon"><span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="left" title="The format defines how data of an image is packed inside image."></span></div>
-                    </div>
+
+<div class="ui container">
+    <div class="ui top attached segment">
+        <div class="ui three center aligned column grid">
+            <div class="column">
+                <div class="ui icon header">
+                    <i class="disk outline icon"></i>
+                    New image
                 </div>
             </div>
         </div>
-        <div class="col-md-5 col-sm-6">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    Hardware
-                </div>
-                <div class="panel-body">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="pull-right">Type:</div>
-                        </div>
-                        <div class="col-md-7">
-                            <select ng-model="image.type" select-model="image.type" required id="type" ng-options="type for type in types" class="selectpicker"></select>
-                        </div>
-                        <div class="col-md-1">
-                            <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="left" title="Permanent images are used as external drives. Each permanent drive could be attached to only one instance at the same time. Use them to store data. The transient drives are used as instance's base image with OS. Object images are used by object storage and are not available for instances. You can change type of image later, in image details."></span>
-                        </div>
-                    </div>
-                    <hr/>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="pull-right">Access:</div>
-                        </div>
-                        <div class="col-md-7">
-                            <select ng-model="image.access" id="access" class="selectpicker">
-                                <option value="private" data-subtext="Only you have access to this object">Private</option>
-                                <option value="group" data-subtext="Members from your group can use and modify this object">Group</option>
-                                <option value="public" data-subtext="Anyone could modify this object">Public</option>
-                            </select>
-                        </div>
-                        <div class="col-md-1">
-                            <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="left" title="Define, who should have access to image"></span>
-                        </div>
-                    </div>
-                    <hr/>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="pull-right">Network card:</div>
-                        </div>
-                        <div class="col-md-7">
-                            <select ng-model="image.network_device" required ng-options="network_device for network_device in network_devices" class="selectpicker" id="network_device"></select>
-                        </div>
-                        <div class="col-md-1">
-                            <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="left" title="If the image is used as base image for instance, this field is used to define how hypervisor should emulate all network devices"></span>
-                        </div>
-                    </div>
-                    <hr/>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="pull-right">Disk controller:</div>
-                        </div>
-                        <div class="col-md-7">
-                            <select ng-model="image.disk_controller" required id="disk_controller" ng-options="disk_controller for disk_controller in disk_controllers" class="selectpicker"></select>
-                        </div>
-                        <div class="col-md-1">
-                            <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="left" title="If the image is used as base image for instance, this field is used to define how hypervisor should emulate all disk controllers"></span>
-                        </div>
-                    </div>
-                    <hr/>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="pull-right">Video card:</div>
-                        </div>
-                        <div class="col-md-7">
-                            <select ng-model="image.video_device" required ng-options="video_device for video_device in video_devices" class="selectpicker" id="video_device"></select>
-                        </div>
-                        <div class="col-md-1">
-                            <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="left" title="If the image is used as base image for instance, this field is used to define how hypervisor should emulate the video device"></span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-1 hidden-sm"></div>
     </div>
-    <a href="#/api/image/">Go back to image list</a>
-    &nbsp;&nbsp;&nbsp;
-    <button type="submit" ng-click="imageNew()" class="btn btn-lg btn-success" ng-show="{{ create }}">Create</button>
-    <button type="submit" ng-click="imageNew()" class="btn btn-lg btn-success" ng-show="{{ upload }}">Upload</button>
+
+    <div class="ui stackable styled fluid accordion">
+        <div class="title active">
+            <i class="dropdown icon"></i>
+            Basic information
+        </div>
+        <div class="content active">
+            <p style="display: block ! important;" class="transition visible">
+                <div class="ui two column grid">
+                    <div class="ui column form">
+                        <div class="field">
+                            <div class="ui left icon input">
+                                <i class="edit icon"></i>
+                                <input type="text" ng-model="image.name" placeholder="Image name">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui left icon input">
+                                <i class="edit icon"></i>
+                                <textarea rows=4 ng-model="image.description" placeholder="Description"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui column form">
+                        <div class="field" ng-show="{{ upload }}">
+                            <div class="ui labeled input">
+                                <label class="ui label">Location</label>
+                                <input type="text" ng-change="checkFormat()" id="location" ng-model="location" placeholder="http://...">
+                            </div>
+                        </div>
+                        <div class="field" ng-show="{{ create }}">
+                            <div class="ui right labeled input">
+                                <label class="ui label">Size</label>
+                                <input type="number" id="size" ng-model="image.size" value="1" step="0.1" aria-valuemin="0.1" placeholder="Image size in MB">
+                                <label class="ui label">MB</label>
+                            </div>
+                        </div>
+
+                        <div class="grouped fields" ng-show="{{ upload }}">
+                            <label>Format</label>
+                            <div class="field" data-ng-repeat="format in formats">
+                                <div class="ui slider checkbox">
+                                    <input type="radio" name="format" ng-model="image.format" value="{{ format }}"/>
+                                    <label>{{ format }}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </p>
+        </div>
+
+        <div class="title active">
+            <i class="dropdown icon"></i>
+            Advanced
+        </div>
+        <div class="content">
+            <p style="display: block ! important;" class="transition visible">
+                <div class="ui three column grid">
+                    <div class="ui column form">
+                        <div class="grouped fields">
+                            <label>Access: </label>
+                            <div class="field">
+                                <div class="ui slider checkbox">
+                                    <input type="radio" name="access" ng-model="image.access" value="private"/>
+                                    <label>Private</label>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <div class="ui slider checkbox">
+                                    <input type="radio" name="access" ng-model="image.access" value="group"/>
+                                    <label>Group</label>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <div class="ui slider checkbox">
+                                    <input type="radio" name="access" ng-model="image.access" value="public"/>
+                                    <label>Public</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="grouped fields">
+                            <label>Type: </label>
+                            <div class="field" data-ng-repeat="type in types">
+                                <div class="ui slider checkbox">
+                                    <input type="radio" name="type" ng-model="image.type" value="{{ type }}"/>
+                                    <label>{{ type }}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui column form">
+                        <div class="grouped fields">
+                            <label>Network device</label>
+                            <div class="field" data-ng-repeat="network_device in network_devices">
+                                <div class="ui slider checkbox">
+                                    <input type="radio" name="network_device" ng-model="$parent.image.network_device" ng-value="network_device" />
+                                    <label>{{ network_device }}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui column form">
+                        <div class="grouped fields">
+                            <label>Disk controller</label>
+                            <div class="field" data-ng-repeat="disk_controller in disk_controllers">
+                                <div class="ui slider checkbox">
+                                    <input type="radio" name="disk_controller" ng-model="image.disk_controller" value="{{ disk_controller }}"/>
+                                    <label>{{ disk_controller }}</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="grouped fields">
+                            <label>Graphics card {{ image.video_device }}</label>
+                            <div class="field" ng-repeat="video_device in video_devices">
+                                <div class="ui slider checkbox">
+                                    <input type="radio" name="video_device" ng-model="image.video_device" ng-value="video_device"/>
+                                    <label>{{ video_device }}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </p>
+        </div>
+    </div>
+    <div class="ui two bottom attached buttons">
+        <a class="ui white icon button" href="#/api/image/"><i class="left arrow icon"></i>Back</a>
+        <button class="ui green icon button" ng-click="imageNew()"><i class="circle plus icon"></i>Create</button>
+    </div>
 </div>
 
 <script>
-    $(function () {
-        $('.selectpicker').selectpicker();
-        $('[data-toggle="tooltip"]').tooltip()
-    });
+    $('.ui.accordion').accordion();
 </script>

@@ -44,7 +44,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <tbody>
             <tr style="cursor: pointer;" ng-repeat="obj in objs" ng-click="obj_edit(obj)" ng-class="{danger: obj.state=='failed', success: obj.state=='downloading', info: obj.state=='waiting'}">
                 <td data-title="'Name'" sortable="'name'">{{ obj.name }}<br/><small>{{ obj.description }}</small></td>
-                <td>{{ obj.state }}</td>
+                <td>
+                    <i ng-show="obj.state == 'waiting'" class="blue settings icon"></i>
+                    <i ng-show="obj.state == 'failed'" class="red remove icon"></i>
+                    <i ng-show="obj.state == 'downloading'" class="green cloud upload icon"></i>
+                    <i ng-show="obj.state == 'ok'" class="green checkmark icon"></i>
+                    {{ obj.state }}
+                </td>
                 <td data-title="'Size'" sortable="'size'">{{ (obj.size/1024/1024/1024).toFixed(2) }} GB</td>
                 <td data-title="'Type'" sortable="'type'">{{ obj.type }}</td>
                 <td data-title="'Access'" sortable="'access'">{{ obj.access }}</td>

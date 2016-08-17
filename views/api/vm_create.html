@@ -59,7 +59,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                             <div class="ui field column">
                                 <div class="ui toggle checkbox">
                                     <input class="hidden" tabindex="0" type="checkbox" ng-model="start_after_create">
-                                    <label>Start instance after created</label>
+                                    <label>Start instance</label>
                                 </div>
                             </div>
                             <div class="ui field column">
@@ -81,61 +81,36 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             <p class="transition hidden">
                 <div class="ui two column grid">
                     <div class="column">
-                        <button class="ui green button" id="addNIC" ng-click="addNIC()"><i class="plus circle icon"></i>Add NIC</button>
-
-                        <fieldset data-ng-repeat="nic in nics">
-                            <div class="row">
-                                <div class="col-md-10">
-                                    <select ng-model="nic.lease" ng-options="lease.address for lease in leases | filter:{vm_id: null}" class="form-control">
-                                        <option value="">-- select lease --</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-2">
-                                    <button class="btn btn-sm btn-danger btn-block" ng-click="removeNIC(nic)"><span class="glyphicon glyphicon-remove"></span></button>
-                                </div>
-                            </div>
-                        </fieldset>
+                        <button class="ui top attached green icon fluid button" id="addNIC" ng-click="addNIC()"><i class="plus circle icon"></i>Add network card</button>
+                        <div class="ui fluid action input" data-ng-repeat="nic in nics">
+                            <select class="ui fluid dropdown" ng-model="nic.lease" ng-options="lease.address for lease in leases | filter:{vm_id: null}">
+                                <option value="">-- select lease --</option>
+                            </select>
+                            <button class="ui red basic button" ng-click="removeNIC(nic)"><i class="remove icon"></i></button>
+                        </div>
                     </div>
-                    <div class="column"></div>
+                    <div class="column">
+                        <button class="ui top attached green icon fluid button" id="addStorage" ng-click="addStorage()"><i class="plus circle icon"></i>Add external storage</button>
+                        <div class="ui fluid action input" data-ng-repeat="storage in storages">
+                            <select class="ui fluid dropdown" ng-model="storage.image" ng-options="image.name for image in images | filter:{type: 'permanent', attached_to_id: null, state: 'ok'}"></select>
+                            <button class="ui red basic button" ng-click="removeStorage(storage)"><i class="remove icon"></i></button>
+                        </div>
+                    </div>
                 </div>
             </p>
         </div>
     </div>
+    <div class="ui two bottom attached buttons">
+        <a class="ui yellow  icon button" href="#/api/vm/"><i class="left arrow icon"></i>Back</a>
+        <button class="ui green icon button" ng-click="vmCreate()"><i class="checkmark icon"></i>Create</button>
+    </div>
 </div>
 <script>
-    $('.ui.checkbox').checkbox();
-    $('select.dropdown').dropdown();
     $('.ui.accordion').accordion();
 </script>
 
 <div class="text-center">
     <form id="create">
-        <div class="row">
-            <div class="col-md-5 col-sm-6">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h5>External storages</h5>
-                    </div>
-                    <div class="panel-body">
-                        <button class="btn btn-primary btn-sm btn-block" id="addStorage" ng-click="addStorage()"><span class="glyphicon glyphicon-plus"></span>Add storage</button>
-                        <br/>
-                        <fieldset data-ng-repeat="storage in storages">
-                            <div class="row">
-                                <div class="col-md-10">
-                                    <select ng-model="storage.image" ng-options="image.name for image in images | filter:{type: 'permanent', attached_to_id: null, state: 'ok'}" class="form-control" required="">
-                                    </select>
-                                </div>
-                                <div class="col-md-2">
-                                    <button class="btn btn-sm btn-danger btn-block" ng-click="removeStorage(storage)"><span class="glyphicon glyphicon-remove"></span></button>
-                                </div>
-                            </div>
-                        </fieldset>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-1 hidden-sm"></div>
-        </div>
-
         <a href="#/api/vm/">&lt; Go back to instances list</a>
         &nbsp;&nbsp;&nbsp;
         <button type="submit" ng-click="vmCreate()" class="btn btn-lg btn-success">Create</button>

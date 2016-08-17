@@ -18,100 +18,70 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 -->
 
-<div class="text-center">
-    <div class="row">
-        <div class="col-md-1 hidden-sm">
-        </div>
-        <div class="col-md-5 col-sm-6">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    Actions
-                </div>
-                <div class="panel-body">
-                    <div class="btn-group">
-                        <button class="btn btn-danger" ng-click="networkRemove()"><span class="glyphicon glyphicon-remove"></span>Remove</button>
-                    </div>
+<div class="ui container">
+    <div class="ui segment">
+        <div class="ui three column grid">
+            <div class="column">
+                <div class="ui icon header">
+                    <i class="globe icon"></i>
+                    {{ network.name }}
                 </div>
             </div>
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    Network details
-                </div>
-                <div class="panel-body">
-                    <div class="input-group">
-                        <div class="input-group-addon">ID</div>
-                        <input type="text" readonly id="id" ng-model="network.id" class="form-control" placeholder="ID" autofocus>
-                    </div>
-                    <hr/>
-                    <div class="input-group">
-                        <div class="input-group-addon">Name</div>
-                        <input type="text" id="name" ng-model="network.name" class="form-control" placeholder="Name" required autofocus>
-                    </div>
-                    <br/>
-                    <div class="input-group">
-                        <div class="input-group-addon">Address</div>
-                        <input type="text" readonly id="address" ng-model="network.address+'/'+network.mask" class="form-control" placeholder="Address" autofocus>
-                    </div>
-                    <hr/>
-                    <div ng-show="network.is_isolated">
-                        Network is isolated
-                    </div>
-                    <div ng-show="!network.is_isolated">
-                        Network is accessible through whole cloud
-                    </div>
-                </div>
+            <div class="column">
+                <div class="meta">ID: {{ network.id }}</div>
+                <div class="meta">Mode: {{ network.mode }}</div>
+                <div class="ui divider"></div>
+                <div class="meta">Has firewall: {{ network.is_isolated }}</div>
+            </div>
+            <div class="right aligned column">
+                <button class="ui red image button" ng-click="networkRemove()"><i class="remove icon"></i> Remove</button>
             </div>
         </div>
-        <div class="col-md-5 col-sm-6">
-            <div class="panel panel-default" id="dhcp" style="display: none;">
-                <div class="panel-heading">
-                    DHCP
-                </div>
-                <div class="panel-body">
-                    <input class="form-control" placeholder="Gateway address" ng-model="network.data.gateway"/>
-                    <hr/>
-                    <div class="btn-group">
-                        <button class="btn btn-success" ng-click="dhcpStart()">Start/restart</button>
-                        <button class="btn btn-danger" ng-click="dhcpStop()">Stop</button>
-                    </div>
-                </div>
-            </div>
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    Leases
-                </div>
-                <div class="panel-body">
-                    <fieldset data-ng-repeat="lease in leases">
-                        <div class="row">
-                            <div class="col-md-4">
-                                {{ lease.address }}
-                            </div>
-                            <div class="col-md-8" ng-show="lease.vm_id">
-                                {{ lease.vm_id }}
-                            </div>
-                            <div class="col-md-8" ng-show="!lease.vm_id">
+    </div>
+
+    <div class="ui styled fluid accordion">
+        <div class="title active">
+            <i class="dropdown icon"></i>
+            Basic information
+        </div>
+        <div class="content active">
+            <p style="display: block ! important;" class="transition visible">
+                <div class="ui two column grid">
+                    <div class="ui column form">
+                        <div class="field">
+                            <div class="ui left icon input">
+                                <i class="edit icon"></i>
+                                <input type="text" ng-model="network.name" placeholder="Network name">
                             </div>
                         </div>
-                    </fieldset>
-                </div>
-            </div>
-            <div class="panel panel-default" ng-show="network.mode == 'isolated'">
-                <div class="panel-heading">
-                    Create lease
-                </div>
-                <div class="panel-body text-center">
-                    <div class="input-group">
-                        <span class="input-group-addon">Address: </span>
-                        <input type="text" id="address" class="form-control" ng-model="address"/>
+                        <div class="field" ng-show="network.mode == 'isolated'">
+                            <div class="ui labeled input">
+                                <label class="ui label">DHCP server address</label>
+                                <input placeholder="Server address" ng-model="network.data.gateway" type="text"/>
+                                <button class="ui basic icon button" ng-click="dhcpStart()"><i class="play icon"></i></button>
+                                <button class="ui basic icon button" ng-click="dhcpStop()"><i class="stop icon"></i></button>
+                            </div>
+                        </div>
+                        <div class="field" ng-show="network.mode == 'isolated'">
+                            <div class="ui labeled input">
+                                <label class="ui label">Create new lease</label>
+                                <input placeholder="IPv4 or IPv6 address" ng-model="address" id="address" type="text"/>
+                                <button class="ui basic icon button" ng-click="networkCreateLease()"><i class="plus icon"></i></button>
+                            </div>
+                        </div>
                     </div>
-                    <button class="btn btn-success text-center" ng-click="networkCreateLease()">Add lease</button>
+                    <div class="ui column">
+                        <div class="ui divided segment items">
+                            <div class="ui header">Leases</div>
+                            <div class="item" data-ng-repeat="lease in leases">{{ lease.address }}<small ng-show="lease.vm_id"> - instance {{ lease.vm_id }}</small></div>
+                        </div>
+                    </div>
                 </div>
-            </div>
+            </p>
         </div>
-        <div class="col-md-1 hidden-sm"></div>
     </div>
-    <br/>
-    <a href="#/api/network/">Go back to network list</a>
-    &nbsp;&nbsp;&nbsp;
-    <button type="submit" ng-click="networkSave()" class="btn btn-lg btn-success">Save changes</button>
+    <div class="ui two bottom attached buttons">
+        <a class="ui yellow icon button" href="#/api/network/"><i class="left arrow icon"></i>Back</a>
+        <button class="ui green icon button" ng-click="networkSave()"><i class="checkmark icon"></i>Save</button>
+    </div>
 </div>

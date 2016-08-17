@@ -18,6 +18,90 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 -->
 
+<div class="ui container">
+    <div class="ui segment">
+        <div class="ui three column grid">
+            <div class="column">
+            </div>
+            <div class="center aligned column">
+                <div class="ui icon header">
+                    <i class="globe icon"></i>
+                    Create new network
+                </div>
+            </div>
+            <div class="column">
+            </div>
+        </div>
+    </div>
+
+    <div class="ui styled fluid accordion">
+        <div class="title active">
+            <i class="dropdown icon"></i>
+            Basic information
+        </div>
+        <div class="content active">
+            <p style="display: block ! important;" class="transition visible">
+                <div class="ui two column grid">
+                    <div class="ui column form">
+                        <div class="field">
+                            <div class="ui left icon input">
+                                <i class="edit icon"></i>
+                                <input type="text" ng-model="name" placeholder="Network name">
+                            </div>
+                        </div>
+                        <div class="grouped fields">
+                            <label>Disk controller</label>
+                            <div class="field">
+                                <div class="ui slider checkbox">
+                                    <input type="radio" name="mode" ng-model="mode" value="routed_public"/>
+                                    <label>Routed network with Internet access</label>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <div class="ui slider checkbox">
+                                    <input type="radio" name="mode" ng-model="mode" value="routed_isolated"/>
+                                    <label>Routed network with traffic restricted only to this network</label>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <div class="ui slider checkbox">
+                                    <input type="radio" name="mode" ng-model="mode" value="isolated"/>
+                                    <label>Isolated, fully virtualized layer 2 network without access to the Internet</label>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <div class="ui slider checkbox">
+                                    <input type="radio" name="mode" ng-model="mode" value="public"/>
+                                    <label>Public IP address pool</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui column">
+                        <div class="field">
+                            <div class="ui left icon input">
+                                <i class="edit icon"></i>
+                                <input type="text" ng-model="address" placeholder="Network address">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui left icon input">
+                                <i class="edit icon"></i>
+                                <input type="number" min="1" max="30" ng-model="mask"  placeholder="Mask (size, e.g. 24)">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </p>
+        </div>
+    </div>
+    <div class="ui two bottom attached buttons">
+        <a class="ui yellow icon button" href="#/api/network/"><i class="left arrow icon"></i>Back</a>
+        <button class="ui green icon button" ng-click="create()"><i class="plus icon"></i>Create</button>
+    </div>
+</div>
+
+
 <div class="row">
     <div class="col-md-2 hidden-sm">
     </div>
@@ -29,18 +113,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             <div class="panel-body text-center">
                 <div class="form-group">
                     <div class="row">
-                        <div class="col-md-6">
-                            <div class="input-group">
-                                <span class="input-group-addon">Network mode: </span>
-                                <select ng-model="mode" class="selectpicker" data-width="auto">
-                                    <option value="" disabled selected>Select...</option>
-                                    <option value="routed_public" data-subtext="Shared with other hosts in cluster">Routed</option>
-                                    <option value="routed_isolated" data-subtext="Isolation is made by firewall at cloud level">Routed+Firewall</option>
-                                    <option value="isolated" data-subtext="Full layer 2 network virtualization">Isolated</option>
-                                    <option value="public" data-subtext="Could be redirected to routed hosts">Public IP pool</option>
-                                </select>
-                            </div>
-                        </div>
                         <div class="col-md-6">
                             <div class="input-group">
                                 <span class="input-group-addon">Access: </span>
@@ -83,10 +155,3 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     </div>
     <div class="col-md-2 hidden-sm"></div>
 </div>
-
-<script>
-    $(function () {
-        $('.selectpicker').selectpicker();
-        $('[data-toggle="tooltip"]').tooltip()
-    });
-</script>

@@ -34,12 +34,16 @@ function request(func, args, callback, quiet=false) {
         complete: function(xhr, status) {
             console.debug(xhr);
             if (status === "error" || !xhr.responseText) {
+                if (quiet)
+                    $('#requestLoader').modal('show');
                 $('#requestLoaderContent').append('<div class="ui icon error message"><i class="warning circle icon"></i>Communication error</div>');
                 return;
             }
             var response = $.parseJSON(xhr.responseText);
 
             if (response.status != "ok") {
+                if (quiet)
+                    $('#requestLoader').modal('show');
                 $('#requestLoaderContent').append('<div class="ui icon warning message"><i class="warning circle icon"></i>' + response.status + '</div>');
                 return;
             } else if (window.debug) {
@@ -49,8 +53,9 @@ function request(func, args, callback, quiet=false) {
             callback(response.data);
             if (!window.debug)
                 msg.remove();
-            if (running_requests <= 0) {
+            if (!quiet)
                 running_requests -= 1;
+            if (running_requests <= 0) {
                 $('#requestLoader').modal('hide');
             }
         },

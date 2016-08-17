@@ -49,36 +49,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <td>{{ obj.total_leases }}</td>
                 <td>{{ obj.used_leases }}</td>
                 <td>{{ obj.mode }}</td>
-                <td>{{ obj.is_isolated }}</td>
+                <td>
+                    <i class="checkmark green icon" ng-show="{{ obj.is_isolated }}"></i>
+                    <i class="remove icon" ng-show="{{ !obj.is_isolated }}"></i>
+                </td>
             </tr>
         </tbody>
     </table>
 </div>
-
-<div class="row">
-    <div class="col-md-12">
-        <div class="panel panel-default">
-            <div class="panel-heading text-right">
-                <h5 class="pull-left">Networks</h5>
-
-            </div>
-            <div class="panel-body">
-                <table class="table table-stripped" ng-table="vmsTable">
-                    <thead>
-                        <tr>
-                        </tr>
-                    </thead>
-                    <tbody>
-
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script>
-    $(function () {
-        $('[data-toggle="tooltip"]').tooltip()
-    });
-</script>

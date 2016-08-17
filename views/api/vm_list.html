@@ -18,37 +18,44 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 -->
 
-<div class="row">
-    <div class="col-md-12">
-        <div class="panel panel-default">
-            <div class="panel-heading text-right">
-                <h5 class="pull-left">Virtual machines</h5>
-                <button ng-click="obj_create()" id="obj_create" class="btn btn-sm btn-success"><span class="glyphicon glyphicon-plus"></span>Create new</button>
+<div class="ui container">
+    <div class="ui segment">
+        <div class="ui grid">
+            <div class="ten wide column">
+                <div class="ui header">Instances</div>
+                <div class="content">Manage your virtual machines.</div>
             </div>
-            <div class="panel-body">
-                <table class="table table-stripped" ng-table="objTable">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>State</th>
-                            <th>Template</th>
-                            <th>Base image</th>
-                            <th>Access</th>
-                            <th>#</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr style="cursor: pointer;" ng-repeat="obj in objs" ng-click="obj_edit(obj)" ng-class="{danger: obj.state=='failed', warning: obj.state=='stopped', info: obj.state=='init'}">
-                            <td data-title="'Name'" sortable="'name'">{{ obj.name }}<br/><small>{{ obj.description }}</small></td>
-                            <td data-title="'State'" sortable="'state'" ng-class="{danger: obj.state=='failed'}">{{ obj.state }}</td>
-                            <td data-title="'Template'" sortable="'template'">{{ obj.template.name }}</td>
-                            <td data-title="'Base image'" sortable="'base_image'">{{ obj.base_image.name }}</td>
-                            <td>{{ obj.access }}</td>
-                            <td>{{ obj.id }}</td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="six wide right aligned column">
+                <button ng-click="obj_create()" id="obj_create" class="ui green button"><i class="plus circle icon"></i>Create new</button>
             </div>
         </div>
     </div>
+    <table class="ui table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>State</th>
+                <th>Template</th>
+                <th>Base image</th>
+                <th>Access</th>
+                <th>#</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr style="cursor: pointer;" ng-repeat="obj in objs" ng-click="obj_edit(obj)" ng-class="{danger: obj.state=='failed', success: obj.state=='downloading', info: obj.state=='waiting'}">
+                <td data-title="'Name'" sortable="'name'">{{ obj.name }}<br/><small>{{ obj.description }}</small></td>
+                <td>
+                    <i ng-show="obj.state == 'init'" class="blue settings icon"></i>
+                    <i ng-show="obj.state == 'failed'" class="red remove icon"></i>
+                    <i ng-show="obj.state == 'stopped'" class="yellow stop icon"></i>
+                    <i ng-show="obj.state == 'running'" class="green play icon"></i>
+                    {{ obj.state }}
+                </td>
+                <td data-title="'Template'" sortable="'template'">{{ obj.template.name }}</td>
+                <td data-title="'Base image'" sortable="'base_image'">{{ obj.base_image.name }}</td>
+                <td>{{ obj.access }}</td>
+                <td>{{ obj.id }}</td>
+            </tr>
+        </tbody>
+    </table>
 </div>
