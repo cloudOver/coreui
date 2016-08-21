@@ -3,6 +3,11 @@
     <a class="item" href="http://cloudover.io/thunder/" target="_blank">thunder</a>
     <a class="item active" href="#/">CoreCluster</a>
     <a class="item" href="http://cloudover.org">open source</a>
+    <div class="right aligned menu" id="logout">
+        <a class="item" href="#/logout">
+            <i class="sign out icon"></i>
+        </a>
+    </div>
 </div>
 <div id="menu" class="ui sidebar inverted vertical menu"></div>
 <button class="ui sticky black launch right attached fixed icon button" onclick="$('.ui.sidebar').sidebar('setting', 'transition', 'push').sidebar('setting', 'dimPage', false).sidebar('toggle');">
@@ -100,6 +105,8 @@
     for (i = 0; i < window.modules.length; i++) {
         $("#menu").append($("<div class=\"ui item\">").load('menus/' + window.modules[i] + '.html'));
     }
+    if ($.cookie('core_token') == '' || $.cookie('core_token') == 'null')
+        $('#logout').css({display: 'none'});
 
     $(document).ready(function() {
         function loopCircle() {
