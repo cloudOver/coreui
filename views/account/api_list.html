@@ -18,51 +18,47 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 -->
 
-<div class="panel panel-default">
-    <div class="panel-heading">
-        <h5>Modules</h5>
+<div class="ui container">
+    <div class="ui segment">
+        <div class="ui three column grid">
+            <div class="column">
+                <div class="ui icon header">
+                    <i class="setting icon"></i>
+                    CoreCluster API
+                </div>
+            </div>
+            <div class="column">
+                <div class="meta">Api endpoint: {{ endpoint }}</div>
+            </div>
+            <div class="column">
+            </div>
+        </div>
     </div>
-    <div class="panel-body">
-        <table class="table table-stripped" ng-table="vmsTable">
-            <tbody>
-            <tr ng-repeat="obj in modules" ng-click="obj_edit(obj)">
-                <td>{{ obj }}</td>
-            </tr>
-            </tbody>
-        </table>
+
+    <div class="ui segment">
+        <div class="ui divided items">
+            <div class="ui header">CoreCluster API modules</div>
+            <div class="ui item" data-ng-repeat="obj in modules">
+                {{ obj }}
+            </div>
+        </div>
+    </div>
+
+    <div class="ui segment">
+        <div class="ui divided items">
+            <div class="ui header">API functions</div>
+            <div class="ui item" data-ng-repeat="obj in functions">
+                <div class="content">
+                    <div class="header">{{ obj.name }}</div>
+                    <div class="meta">{{ obj.doc }}</div>
+                    <div class="meta">
+                        <div class="ui horizontal divided list">
+                            <div class="item"><b>Parameters</b></div>
+                            <div class="item" data-ng-repeat="p in obj.params"><p style="white-space: pre;">{{ p }}</p></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-
-<div class="panel panel-default">
-    <div class="panel-heading">
-        <h5>Functions</h5>
-    </div>
-    <div class="panel-body">
-        <table class="table table-stripped" ng-table="vmsTable">
-            <thead>
-            <tr>
-                <th>Name</th>
-                <th>Parameters</th>
-                <th>Description</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr ng-repeat="obj in functions" ng-click="obj_edit(obj)">
-                <td>{{ obj.name }}</td>
-                <td>
-                    <ul>
-                        <li data-ng-repeat="p in obj.params">{{p}}</li>
-                    </ul>
-                </td>
-                <td><p style="white-space: pre;">{{ obj.doc }}</p></td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-</div>
-
-<script>
-    $(function () {
-        $('[data-toggle="tooltip"]').tooltip()
-    });
-</script>

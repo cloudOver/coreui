@@ -15,67 +15,58 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 -->
 
-<div class="text-center">
-    <div class="row">
-        <div class="col-md-9">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h5>Script details</h5>
-                </div>
-                <div class="panel-body text-center">
-                    <div class="form-group">
-                        <div class="input-group">
-                            <span class="input-group-addon">Name</span>
-                            <input type="text" ng-model="script.name" class="form-control" />
-                        </div>
-                        <hr/>
-                        <div class="input-group">
-                            <span class="input-group-addon">Script</span>
-                            <textarea style="font-family: 'Courier New'" rows="20" ng-model="script.data" class="form-control" />
-                        </div>
-                    </div>
+<div class="ui container">
+    <div class="ui segment">
+        <div class="ui grid">
+            <div class="two wide column">
+                <div class="ui icon header">
+                    <i class="disk outline icon"></i>
+                    {{ script.name }}
                 </div>
             </div>
-        </div>
-        <div class="col-md-3">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    <h5>Actions</h5>
-                </div>
-                <div class="panel-body text-center">
-                    <button class="btn btn-danger" ng-click="remove()"><span class="glyphicon glyphicon-remove"></span> Remove</button>
-                </div>
+            <div class="six wide column">
+                <div class="mscripteta">ID: {{ script.id }}</div>
+                <div class="meta">Access: {{ script.access }}</div>
             </div>
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    <h5>Attach to VM</h5>
-                </div>
-                <div class="panel-body">
-                    <div class="row">
-                        <div class="col-md-8">
-                            <select ng-model="vm" ng-options="(vm.name + '(' + vm.id + ')') for vm in vms" class="form-control"></select>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="input-group">
-                                <button class="btn btn-success" ng-click="attach()">Attach</button>
-                                <button class="btn btn-success" ng-click="attach_configdrive()">insert ConfigDrive</button>
-                            </div>
-                        </div>
+            <div class="eight wide column">
+                <button class="ui red image fluid button" ng-click="remove()"><i class="remove icon"></i> Remove</button>
+                <div class="ui divider"></div>
+                <div class="field">
+                    <div class="ui labeled fluid input">
+                        <label class="ui green label">Attach to </label>
+                        <select ng-model="vm" ng-options="(vm.name + ' (' + vm.id + ')') for vm in vms" class="ui search dropdown"></select>
+                        <button class="ui green basic animated fade button" ng-click="attach()">
+                            <div class="visible content"><i class="cloud upload icon"></i></div>
+                            <div class="hidden content">Network</div>
+                        </button>
+                        <button class="ui green basic animated fade button" ng-click="attach_configdrive()">
+                            <div class="visible content"><i class="disk outline icon"></i></div>
+                            <div class="hidden content">ConfigDrive</div>
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <a href="#/coretalk/userdata/">Go back to script list</a>
-    &nbsp;&nbsp;&nbsp;
-    <button class="btn btn-success" ng-click="save()"><span class="glyphicon glyphicon-save"></span> Save</button>
-</div>
 
-<script>
-    $(function () {
-        $('[data-toggle="tooltip"]').tooltip()
-    });
-</script>
+    <div class="ui form segment">
+        <div class="field">
+            <div class="ui labeled fluid input">
+                <label class="ui label">Name</label>
+                <input type="text" ng-model="script.name" />
+            </div>
+        </div>
+        <div class="field">
+            <div class="ui labeled fluid input">
+                <label class="ui label">Script</label>
+                <textarea style="font-family: 'Courier New'" rows="20" ng-model="script.data" />
+            </div>
+        </div>
+    </div>
+    <div class="ui two buttons">
+        <a class="ui yellow icon button" href="#/coretalk/userdata/"><i class="left arrow icon"></i>Back</a>
+        <button class="ui green icon button" ng-click="remove()"><i class="remove icon"></i>Remove</button>
+    </div>
+</div>

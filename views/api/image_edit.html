@@ -32,11 +32,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <div class="meta">ID: {{ image.id }}</div>
                 <div class="meta">Size: {{ image.size }}</div>
                 <div class="meta">State:
-                    <i ng-show="image.state == 'init'" class="blue settings icon"></i>
+                    <i ng-show="image.state == 'waiting'" class="blue settings icon"></i>
                     <i ng-show="image.state == 'failed'" class="red remove icon"></i>
-                    <i ng-show="image.state == 'in progress'" class="green cloud upload icon"></i>
+                    <i ng-show="image.state == 'downloading'" class="green cloud upload icon"></i>
                     <i ng-show="image.state == 'ok'" class="green checkmark icon"></i>
-                    {{ image.state }}
+                    {{ obj.state }}
                 </div>
                 <div class="divider"></div>
                 <div class="meta">Created: {{ image.creation_date }}</div>

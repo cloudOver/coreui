@@ -78,10 +78,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         </div>
                     </div>
                     <div class="ui column">
-                        <div class="field">
+                        <div class="field" ng-show="mode == 'isolated'">
                             <div class="ui left icon input">
                                 <i class="edit icon"></i>
-                                <input type="text" ng-model="address" placeholder="Network address">
+                                <input type="text" ng-model="address" placeholder="Network address"/>
                             </div>
                         </div>
                         <div class="field">
@@ -102,56 +102,3 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 </div>
 
 
-<div class="row">
-    <div class="col-md-2 hidden-sm">
-    </div>
-    <div class="col-md-8 col-sm-12">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h5>Create new network</h5>
-            </div>
-            <div class="panel-body text-center">
-                <div class="form-group">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="input-group">
-                                <span class="input-group-addon">Access: </span>
-                                <select ng-model="access" class="selectpicker" data-width="auto">
-                                    <option value="private" data-subtext="Only you have access to this object">Private</option>
-                                    <option value="group" data-subtext="Members from your group can use and modify this object">Group</option>
-                                    <option value="public" data-subtext="Anyone could modify this object">Public</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <hr/>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="input-group">
-                                <span class="input-group-addon">Name: </span>
-                                <input type="text" id="name" class="form-control" ng-model="name"/>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="input-group" ng-show="mode=='isolated'">
-                                <span class="input-group-addon">Address: </span>
-                                <input type="text" id="address" class="form-control" ng-model="address"/>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="input-group">
-                                <span class="input-group-addon">Mask: </span>
-                                <input type="number" id="mask" class="form-control" ng-model="mask" min="0" max="32"/>
-                            </div>
-                        </div>
-                        <div class="col-md-1">
-                            <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="left" title="Mask defines size of network. Search for network addressation (CIDR) basics to understand what is defined by network mask. In default model of networking, the size of each network is four times less than standard IPv4 network with such mask."></span>
-                        </div>
-                    </div>
-                </div>
-                <button class="btn btn-primary" ng-click="create()">Create</button>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-2 hidden-sm"></div>
-</div>

@@ -16,11 +16,11 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-var running_requests = 0;
+window.running_requests = 0;
 function request(func, args, callback, quiet=false) {
     var msg = $('<div class="ui icon info message"><i class="right arrow icon"></i> Call' + func + '</div>');
     if (!quiet) {
-        running_requests += 1;
+        window.running_requests += 1;
         $('#requestLoader').modal('show');
     }
 
@@ -54,8 +54,8 @@ function request(func, args, callback, quiet=false) {
             if (!window.debug)
                 msg.remove();
             if (!quiet)
-                running_requests -= 1;
-            if (running_requests <= 0) {
+                window.running_requests -= 1;
+            if (window.running_requests <= 0) {
                 $('#requestLoader').modal('hide');
             }
         },

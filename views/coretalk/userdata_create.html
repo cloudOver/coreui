@@ -15,38 +15,36 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 -->
 
-<div class="row">
-    <div class="col-md-2 hidden-sm">
-    </div>
-    <div class="col-md-8 col-sm-12">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h5>Create new init script</h5>
+<div class="ui container">
+    <div class="ui segment">
+        <div class="ui grid">
+            <div class="ten wide column">
+                <div class="ui header">Create new CloudInit script</div>
+                <div class="content">Use CloudInit to setup operating system in your virtual machines. With this scripts you can create users, execute commands and install new packages.</div>
             </div>
-            <div class="panel-body text-center">
-                <div class="form-group">
-                    <div class="input-group">
-                        <span class="input-group-addon">Name</span>
-                        <input type="text" ng-model="name" class="form-control" />
-                    </div>
-                    <hr/>
-                    <div class="input-group">
-                        <span class="input-group-addon">Script</span>
-                        <textarea style="font-family: 'Courier New'" rows="20" ng-model="script" class="form-control" />
-                    </div>
-                </div>
-                <button class="btn btn-primary" ng-click="create()">Create</button>
+            <div class="six wide right aligned column">
+                <button ng-click="obj_create()" id="obj_create" class="ui green button"><i class="add circle icon"></i>Create new</button>
             </div>
         </div>
     </div>
-    <div class="col-md-2 hidden-sm"></div>
+    <div class="ui form segment">
+        <div class="field">
+            <div class="ui labeled fluid input">
+                <label class="ui label">Name</label>
+                <input type="text" ng-model="name" />
+            </div>
+        </div>
+        <div class="field">
+            <div class="ui labeled fluid input">
+                <label class="ui label">Script</label>
+                <textarea style="font-family: 'Courier New'" rows="20" ng-model="script" />
+            </div>
+        </div>
+    </div>
+    <div class="ui two buttons">
+        <a class="ui yellow icon button" href="#/coretalk/userdata/"><i class="left arrow icon"></i>Back</a>
+        <button class="ui green icon button" ng-click="create()"><i class="plus icon"></i>Create</button>
+    </div>
 </div>
-
-<script>
-    $(function () {
-        $('[data-toggle="tooltip"]').tooltip()
-    });
-</script>

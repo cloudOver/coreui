@@ -12,7 +12,7 @@
 <div class="ui container"></div>
 
 <div class="ui long modal" id="requestLoader">
-    <i class="close icon"></i>
+    <i class="close icon" onclick="closeRequestModal()"></i>
     <div class="content">
         <div class="cloudTop"></div>
         <div class="cloudBottom"></div>
@@ -173,4 +173,10 @@
         loopTop();
         loopBottom();
     });
+
+    function closeRequestModal() {
+        window.running_requests = 0;
+        $('#requestLoader').modal('hide');
+        $('#requestLoaderContent').empty();
+    }
 </script>

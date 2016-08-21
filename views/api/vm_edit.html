@@ -18,59 +18,105 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 -->
 
+
+<div class="ui container">
+    <div class="ui segment">
+        <div class="ui three column grid">
+            <div class="column">
+                <div class="ui icon header">
+                    <i class="computer icon"></i>
+                    {{ vm.name }}
+                </div>
+            </div>
+            <div class="column">
+                <div class="meta">ID: {{ vm.id }}</div>
+                <div class="meta">Template: {{ vm.template.name }}<br/><small>Cpu: {{vm.template.cpu }}, memory: {{ vm.template.memory}}</small></div>
+                <div class="meta">Base image: {{ vm.base_image.name }}</div>
+                <div class="meta">State:
+                    <i ng-show="vm.state == 'init'" class="blue settings icon"></i>
+                    <i ng-show="vm.state == 'failed'" class="red remove icon"></i>
+                    <i ng-show="vm.state == 'in progress'" class="green cloud upload icon"></i>
+                    <i ng-show="vm.state == 'ok'" class="green checkmark icon"></i>
+                    {{ vm.state }}
+                </div>
+                <div class="divider"></div>
+                <div class="meta">Created: {{ vm.start_time }}</div>
+                <div class="meta">Format: {{ vm.template.name }}</div>
+                <div class="meta"><div class="ui toggle checkbox"><label>Remote console</label><input type="checkbox" name="vnc" ng-model="vm.vnc"/></div></div>
+            </div>
+            <div class="right aligned column">
+                <div class="ui buttons">
+                    <button class="ui red animated fade button" ng-click="vmCleanup()">
+                        <div class="visible content"><i class="remove icon"></i></div>
+                        <div class="hidden content">Remove</div>
+                    </button>
+                    <button class="ui green animated fade button" ng-click="vmStart()" ng-show="vm.state == 'stopped'">
+                        <div class="visible content"><i class="play icon"></i></div>
+                        <div class="hidden content">Start</div>
+                    </button>
+                    <button class="ui blue animated fade button" ng-click="vmReset()" ng-show="vm.state =='running'">
+                        <div class="visible content"><i class="refresh icon"></i></div>
+                        <div class="hidden content">Reset</div>
+                    </button>
+                    <button class="ui yellow animated fade button" ng-click="vmShutdown()" ng-show="vm.state == 'running'">
+                        <div class="visible content"><i class="down arrow icon"></i></div>
+                        <div class="hidden content">Shutdown</div>
+                    </button>
+                    <button class="ui yellow animated fade button" ng-click="vmPoweroff()" ng-show="vm.state == 'running'">
+                        <div class="visible content"><i class="power icon"></i></div>
+                        <div class="hidden content">Power off</div>
+                    </button>
+                    <button class="ui green animated fade button" ng-click="vmSaveImage()" ng-show="vm.state == 'stopped'">
+                        <div class="visible content"><i class="save icon"></i></div>
+                        <div class="hidden content">Save image</div>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="ui styled fluid accordion">
+        <div class="title active">
+            <i class="dropdown icon"></i>
+            Basic information
+        </div>
+        <div class="content active">
+            <p style="display: block ! important;" class="transition visible">
+                <div class="ui two column grid">
+                    <div class="ui column form">
+                        <div class="field">
+                            <div class="ui left icon input">
+                                <i class="edit icon"></i>
+                                <input type="text" ng-model="vm.name" placeholder="Instance name">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui left icon input">
+                                <i class="edit icon"></i>
+                                <textarea rows=4 ng-model="vm.description" placeholder="Description"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui column">
+                        <div class="ui header" ng-show="image.attached_to_id">
+                            Attached as external drive to instance {{ image.attached_to }}
+                            <button class="ui red button" ng-click="imageDetach(image.attached_to_id, image.id)">Detach</button>
+                        </div>
+                    </div>
+                </div>
+            </p>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('.ui.accordion').accordion();
+</script>
+
+
 <div class="text-center">
     <form id="create">
         <div class="row">
-            <div class="col-md-1 hidden-sm">
-            </div>
-            <div class="col-md-5 col-sm-6">
-                <div class="panel panel-primary">
-                    <div class="panel-heading">
-                        Actions
-                    </div>
-                    <div class="panel-body">
-                        <div class="btn-group btn-group-sm">
-                            <button class="btn btn-danger" ng-click="vmCleanup()"><span class="glyphicon glyphicon-remove"></span> Remove</button>
-                            <button class="btn btn-success" ng-show="vm.state == 'stopped'" ng-click="vmStart()"><span class="glyphicon glyphicon-play"></span> Start</button>
-                            <button class="btn btn-primary" ng-show="vm.state == 'running'" ng-click="vmReset()"><span class="glyphicon glyphicon-refresh"></span> Reset</button>
-                            <button class="btn btn-warning" ng-show="vm.state == 'running'" ng-click="vmShutdown()"><span class="glyphicon glyphicon-arrow-down"></span> Shut down</button>
-                            <button class="btn btn-warning" ng-show="vm.state == 'running'" ng-click="vmPoweroff()"><span class="glyphicon glyphicon-off"></span> Power off</button>
-                            <button class="btn btn-success" ng-show="vm.state == 'stopped'" ng-click="vmSaveImage()"><span class="glyphicon glyphicon-save"></span> Save base image</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="panel panel-primary">
-                    <div class="panel-heading">
-                        VM details
-                    </div>
-                    <div class="panel-body">
-                        <div class="input-group">
-                            <span class="input-group-addon">ID</span>
-                            <input type="text" id="id" ng-model="vm.id" class="form-control" placeholder="ID" readonly>
-                        </div>
-                        <hr/>
-                        <div class="input-group">
-                            <span class="input-group-addon">Name</span>
-                            <input type="text" id="name" ng-model="vm.name" class="form-control" placeholder="Name">
-                        </div>
-                        <hr/>
-                        <div class="input-group">
-                            <span class="input-group-addon">Description</span>
-                            <textarea type="text" id="description" ng-model="vm.description" class="form-control" placeholder="Short description"></textarea>
-                        </div>
-                        <hr/>
-                        <div class="input-group">
-                            <span class="input-group-addon">State</span>
-                            <input type="text" id="state" ng-model="vm.state" class="form-control" readonly>
-                        </div>
-                        <hr/>
-                        <div class="input-group">
-                            <span class="input-group-addon">Start time</span>
-                            <input type="text" id="created" ng-model="vm.start_time" class="form-control" placeholder="Name" readonly>
-                        </div>
-                    </div>
-                </div>
-            </div>
             <div class="col-md-5 col-sm-6">
                 <!-- Virtual hardware -->
                 <div class="panel panel-default">

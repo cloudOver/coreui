@@ -50,6 +50,7 @@ window.app.controller('ApiListCtrl', function ($scope, $location, $http) {
     var model = 'userdata';
     request('/api/api/list_functions/', {token: $.cookie("core_token")}, function(objs) {
         $scope.functions = objs;
+        $scope.endpoint = window.coreUrl;
         $scope.$apply();
     });
     request('/api/api/list_api_modules/', {token: $.cookie("core_token")}, function(objs) {

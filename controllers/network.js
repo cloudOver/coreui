@@ -27,10 +27,16 @@ window.app.controller('NetworkListCtrl', function ($scope, $location, $http) {
         $location.path('/api/' + model + '/create/');
         $scope.$apply();
     };
-    request('/api/' + model + '/get_list/', {token: $.cookie("core_token")}, function(objs) {
-        $scope.objs = objs;
-        $scope.$apply();
-    });
+    function refreshList() {
+        request('/api/' + model + '/get_list/', {token: $.cookie("core_token")}, function(objs) {
+            $scope.objs = objs;
+            $scope.$apply();
+        }, quiet=true);
+
+        clearTimeout(window.refresh);
+        window.refresh = setTimeout(refreshList, 4000);
+    }
+    refreshList();
 });
 
 window.app.controller('NetworkCreateCtrl', function ($scope, $location, $http) {

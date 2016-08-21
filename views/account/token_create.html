@@ -17,30 +17,20 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 -->
-
-<div class="row">
-    <div class="col-md-2 hidden-sm">
+<div class="ui container">
+    <div class="ui center aligned segment">
+        <div class="ui header">Create token</div>
     </div>
-    <div class="col-md-8 col-sm-12">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h5>Create new API token</h5>
-            </div>
-            <div class="panel-body text-center">
-                <div class="input-group">
-                    <span class="input-group-addon">Name: </span>
-                    <input type="text" id="name" class="form-control" ng-model="name"/>
-                </div>
-
-                <button class="btn btn-primary" ng-click="obj_create()">Create</button>
+    <div class="ui segment">
+        <div class="field">
+            <div class="ui fluid labeled input">
+                <label class="ui label">Name</label>
+                <input type="text" id="name" ng-model="name" />
             </div>
         </div>
     </div>
-    <div class="col-md-2 hidden-sm"></div>
+    <div class="ui two bottom attached buttons">
+        <a class="ui yellow icon button" href="#/account/token/"><i class="left arrow icon"></i>Back</a>
+        <button class="ui green icon button" ng-click="obj_create()"><i class="plus icon"></i>Save</button>
+    </div>
 </div>
-
-<script>
-    $(function () {
-        $('[data-toggle="tooltip"]').tooltip()
-    });
-</script>
