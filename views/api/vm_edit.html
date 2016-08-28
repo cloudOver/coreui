@@ -42,7 +42,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <div class="divider"></div>
                 <div class="meta">Created: {{ vm.start_time }}</div>
                 <div class="meta">Format: {{ vm.template.name }}</div>
-                <div class="meta"><div class="ui toggle checkbox"><label>Remote console</label><input type="checkbox" name="vnc" ng-model="vm.vnc"/></div></div>
             </div>
             <div class="right aligned column">
                 <div class="ui buttons">
@@ -129,6 +128,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         </div>
                     </div>
                     <div class="ui column">
+                        <a href="{{ webvnc_path }}" target="_blank" class="ui tiny green basic fluid button" ng-click="vmConsole()">Remote console</a>
                         <!-- Network leases -->
                         <div class="ui segment divided items">
                             <div class="ui header">Network leases</div>
@@ -204,14 +204,3 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <script>
     $('.ui.accordion').accordion();
 </script>
-
-
-<div class="ui long modal" id="noVNC">
-    <i class="close icon" onclick="closeRequestModal()"></i>
-    <div class="content">
-        <div class="ui header">Remote console</div>
-    </div>
-    <div class="content" id="requestLoaderContent">
-        <iframe src="{{ webvnc_path }}" width="850px" height="700px" id="noVNC_frame"></iframe>
-    </div>
-</div>

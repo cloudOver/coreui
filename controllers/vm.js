@@ -228,10 +228,9 @@ window.app.controller('VmEditCtrl', function ($scope, $location, $route, $routeP
         });
     };
 
-    $scope.vmConsole = function(state) {
-        request('/api/vm/console/', {token: $.cookie('core_token'), vm_id: $route.current.params.id, enable: state}, function(){
-            $location.path('/api/vm/');
-            $scope.$apply();
+    $scope.vmConsole = function() {
+        request('/api/vm/console/', {token: $.cookie('core_token'), vm_id: $route.current.params.id, enable: true}, function(){
+            $('#noVNC').modal('toggle');
         });
     };
 
