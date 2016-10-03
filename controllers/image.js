@@ -109,7 +109,7 @@ window.app.controller('ImageCreateCtrl', function ($scope, $location, $http) {
         request('/api/image/create/', {token: $.cookie("core_token"),
             name: $scope.image.name,
             description: $scope.image.description,
-            size: parseInt($scope.image.size)*1024*1024*1024,
+            size: parseInt($scope.image.size)*1024*1024,
             disk_controller: $scope.image.disk_controller,
             image_type: $scope.image.type,
             access: $scope.image.access
