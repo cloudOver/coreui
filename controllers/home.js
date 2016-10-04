@@ -125,7 +125,7 @@ window.app.controller('HomeCtrl', function ($scope, $location, $http) {
                                 grp.slideToggle();
                             }
                         });
-                    });
+                    }, quiet=true);
                 }
             })
             $( "#script_name" ).autocomplete('widget').addClass('ui segment');
