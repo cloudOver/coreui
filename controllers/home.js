@@ -144,7 +144,7 @@ window.app.controller('HomeCtrl', function ($scope, $location, $http) {
             $('#script_loading').modal('hide').done(function() {
                 $('#script_result').modal('show');
             });
-        }, quiet=True);
+        }, quiet=true);
         console.debug(params);
     }
 });
