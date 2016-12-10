@@ -32,12 +32,12 @@ window.app.controller('HomeCtrl', function ($scope, $location, $http) {
             }
             $scope.$apply();
         });
-    });
+    }, quiet=true);
 
     request('/api/storage/capabilities/', {token: $.cookie("core_token")}, function(caps) {
         $scope.storage = (caps/1024).toFixed(2);
         $scope.$apply();
-    });
+    }, quiet=true);
 
     request('/user/user/get_quota/', {login: $.cookie("core_login"), pw_hash: $.cookie("core_hash")}, function(r) {
         $scope = angular.element($("#view")).scope();
@@ -79,74 +79,89 @@ window.app.controller('HomeCtrl', function ($scope, $location, $http) {
     });
 
     // Thunder Script
-    $.ajax({
-        type: 'GET',
-        url: 'http://cloudover.io/thunder/raw/',
-        complete: function(xhr, status) {
-            console.debug(xhr);
-            var scripts = xhr.responseText.split("\n");
-            var lookups = [];
+    request('/api/api/list_api_modules/', {token: $.cookie("core_token")}, function(objs) {
+        if (objs.indexOf('thunderscript.views.api') > 0) {
+            $scope.thunder = true;
 
-            for (i = 0; i < scripts.length; i++) {
-                lookups[i] = {
-                    value: scripts[i],
-                    data: scripts[i]
-                };
-            }
-            console.debug(lookups);
-            $( "#script_name" ).autocomplete({
-                lookup: lookups,
-                onSelect: function (script_name) {
-                    request('/api/thunder/variables/', {token: $.cookie("core_token"), script: script_name['data']}, function(r) {
-                        $('#script_variables').empty();
-                        $('#script_variables').append('<br/>');
-                        $.each(r['variables'], function(k, v) {
-                            console.debug(k + ':' + v)
-                            if (!v) {
-                                grp = $('<div class="ui labeled fluid input" style="display: none;">');
-                                grp.append($('<div class="ui green label">' + k + '</div>'))
-                                grp.append($('<input type="text" placeholder="Not set" name="variable_' + k + '" />'));
-                                $('#script_variables').append(grp);
-                                $('#script_variables').append($('<br/>'));
-                                grp.slideToggle();
-                            }
-                        });
-                        $('#script_show_predefined_variables').slideToggle();
-                        $.each(r['variables'], function(k, v) {
-                            console.debug(k + ':' + v)
-                            if (v) {
-                                grp = $('<div class="ui labeled fluid input" style="display: none;">');
-                                grp.append($('<div class="ui label">' + k + '</div>'))
-                                input = $('<input type="text" name="variable_' + k + '" />');
-                                input.attr('placeholder', v);
-                                grp.append(input);
-                                $('#script_predefined_variables').append(grp);
-                                $('#script_predefined_variables').append($('<br/>'));
-                                grp.slideToggle();
-                            }
-                        });
-                    }, quiet=true);
+            $.ajax({
+                type: 'GET',
+                url: 'http://cloudover.io/thunder/raw/',
+                complete: function(xhr, status) {
+                    console.debug(xhr);
+                    var scripts = xhr.responseText.split("\n");
+                    var lookups = [];
+
+                    for (i = 0; i < scripts.length; i++) {
+                        lookups[i] = {
+                            value: scripts[i],
+                            data: scripts[i]
+                        };
+                    }
+                    console.debug(lookups);
+                    $( "#thunder_script_name" ).autocomplete({
+                        lookup: lookups,
+                        onSelect: function(script_name) {
+                            $scope.thunder_script_name = script_name['data']
+                        }
+                    })
+                    $( "#thunder_script_name" ).autocomplete('widget').addClass('ui segment');
                 }
-            })
-            $( "#script_name" ).autocomplete('widget').addClass('ui segment');
+            });
+
+            $scope.thunder_variable_check = function (script_name) {
+                request('/api/thunder/variables/', {token: $.cookie("core_token"), script: $scope.thunder_script_name}, function(r) {
+                    $('#script_variables').empty();
+                    $.each(r['variables'], function(k, v) {
+                        console.debug(k + ':' + v)
+                        if (!v && k.match(/^[a-zA-Z0-9_\-]+$/g)) {
+                            grp = $('<div class="ui labeled fluid input" style="display: none;">');
+                            grp.append($('<div class="ui label">' + k + '</div>'))
+                            input = $('<input type="text" name="variable_' + k + '" />');
+                            input.attr('placeholder', v);
+                            grp.append(input);
+
+                            $('#thunder_variables').append(grp);
+                            $('#thunder_variables').append($('<p></p><p></p>'));
+                            grp.slideToggle();
+                        }
+                    });
+                    $('#thunder_show_predefined_variables').slideToggle();
+                    $.each(r['variables'], function(k, v) {
+                        console.debug(k + ':' + v)
+                        if (v) {
+                            grp = $('<div class="ui labeled fluid input" style="display: none;">');
+                            grp.append($('<div class="ui label">' + k + '</div>'))
+                            input = $('<input type="text" name="variable_' + k + '" />');
+                            input.attr('placeholder', v);
+                            grp.append(input);
+                            $('#thunder_predefined_variables').append(grp);
+                            $('#thunder_predefined_variables').append($('<br/>'));
+                            grp.slideToggle();
+                        }
+                    });
+                }, quiet=true);
+                $('#thunder_actions').slideToggle();
+            }
+
+            $scope.thunder_script_call = function() {
+                params = {}
+                $("#thunder_variables input").each(function() {
+                    params[$(this).attr('name').replace('variable_', '')] = $(this).val();
+                });
+                $('#script_loading').modal('show');
+                request('/api/thunder/call/', {token: $.cookie("core_token"), script: $scope.thunder_script_name, variables: params}, function(r) {
+                    $('#script_output').empty();
+                    $('#script_output').append(r['log'].replace(/>/g, '&lt;').replace(/>/g, '&gt;').replace(/(?:\r\n|\r|\n)/g, '<br />').replace());
+                    $('#script_loading').modal('hide').done(function() {
+                        $('#script_result').modal('show');
+                    });
+                }, quiet=true);
+                console.debug(params);
+            }
+        } else {
+            $scope.thunder = false;
         }
     });
-
-    $scope.script_call = function() {
-        params = {}
-        $("#script_variables input").each(function() {
-            params[$(this).attr('name').replace('variable_', '')] = $(this).val();
-        });
-        $('#script_loading').modal('show');
-        request('/api/thunder/call/', {token: $.cookie("core_token"), script: $('#script_name').val(), variables: params}, function(r) {
-            $('#script_output').empty();
-            $('#script_output').append(r['log'].replace(/>/g, '&lt;').replace(/>/g, '&gt;').replace(/(?:\r\n|\r|\n)/g, '<br />').replace());
-            $('#script_loading').modal('hide').done(function() {
-                $('#script_result').modal('show');
-            });
-        }, quiet=true);
-        console.debug(params);
-    }
 });
 
 window.app.config(['$routeProvider', function ($routeProvider) {

@@ -120,18 +120,20 @@
                 <div class="hidden content">Upload Image</div>
             </a>
         </div>
-        <div class="ui segment">
-            <div class="ui fluid search" id="script_search">
-                <div class="ui icon input">
-                    <input placeholder="Search for script..." type="text" id="script_name">
-                    <i class="search icon"></i>
-                </div>
+        <div class="ui segment" ng-show="thunder == true">
+            <div class="ui labeled fluid action input">
+                <div class="ui label">Search for script:</div>
+                <input placeholder="Name or ID" type="text" id="thunder_script_name" ng-model="thunder_script_name">
+                <button class="ui yellow icon button" ng-click="thunder_variable_check()"><i class="search icon"></i></button>
             </div>
-
-            <div class="ui form" id="script_variables"></div>
-            <button class="ui tiny basic button" style="display: none" id="script_show_predefined_variables" onclick="$('#script_predefined_variables').slideToggle();">Show predefined variables...</button>
-            <div class="ui form" id="script_predefined_variables" style="display: none"></div>
-            <button class="ui button" ng-click="script_call()">Call</button>
+            <p></p>
+            <div class="ui form" id="thunder_variables"></div>
+            <!--<button class="ui tiny basic button" style="display: none" id="thunder_show_predefined_variables" onclick="$('#thunder_predefined_variables').slideToggle();">Show predefined variables...</button>-->
+            <div class="ui form" id="thunder_predefined_variables" style="display: none"></div>
+            <div class="ui fluid buttons" id="thunder_actions" style="display: none;">
+                <button class="ui yellow button">Show definition</button>
+                <button class="ui green button" ng-click="thunder_script_call()">Execute</button>
+            </div>
         </div>
     </div>
 </div>
