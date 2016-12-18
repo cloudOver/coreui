@@ -95,17 +95,29 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                 <textarea rows=4 ng-model="vm.description" placeholder="Description"></textarea>
                             </div>
                         </div>
-
-                        <div class="form">
+                        <p></p>
+                        <a href="{{ webvnc_path }}" target="_blank" class="ui tiny green basic fluid button" ng-click="vmConsole()">Remote console</a>
+                    </div>
+                    <div class="ui column">
+                        <!-- CloudInit -->
+                        <div class="ui form">
                             <div class="field">
-                                <div class="ui labeled input">
+                                <div class="ui labeled input" ng-show="vm.data.coretalk_user_data === undefined">
                                     <label class="ui label">Attach CloudInit</label>
                                     <select ng-model="userdata" ng-options="script.name for script in userdata_scripts" class="ui dropdown">
                                         <option value="">-- select script --</option>
                                     </select>
                                     <button class="ui basic green right attached button" ng-click="coreTalkAttach()">Attach</button>
                                 </div>
+                                <div ng-show="vm.data.coretalk_user_data !== undefined">CloudInit attached: {{ vm.data.coretalk_user_data }} <button class="ui small red basic button" ng-click="coreTalkDetach()">Detach</button></div>
                             </div>
+                        </div>
+                        <!-- Network leases -->
+                        <div class="ui segment divided items">
+                            <div class="ui header">Network leases</div>
+                            <div class="item" data-ng-repeat="lease in vm.leases">{{ lease.address }}</div>
+                        </div>
+                        <div class="ui form">
                             <div class="field">
                                 <div class="ui labeled input" ng-show="vm.state == 'stopped'">
                                     <label class="ui label">Attach network lease</label>
@@ -117,27 +129,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                                 <small ng-show="vm.state != 'stopped'">You can attach and detach network interfaces when VM is stopped</small>
                             </div>
-                            <div class="field">
-                                <div class="ui labeled input" ng-show="vm.state == 'stopped'">
-                                    <label class="ui label">Attach disk</label>
-                                    <select ng-model="image_attach_object" ng-options="image.name for image in images | filter:{type: 'permanent', attached_to_id: null, state: 'ok'}" class="ui dropdown" required=""></select>
-                                    <button class="ui green basic right attached icon button" ng-click="imageAttach(image_attach_object)"><i class="checkmark icon"></i></button>
-                                </div>
-                                <small ng-show="vm.state != 'stopped'">You can attach and detach external storages when VM is stopped</small>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="ui column">
-                        <a href="{{ webvnc_path }}" target="_blank" class="ui tiny green basic fluid button" ng-click="vmConsole()">Remote console</a>
-                        <!-- Network leases -->
-                        <div class="ui segment divided items">
-                            <div class="ui header">Network leases</div>
-                            <div class="item" data-ng-repeat="lease in vm.leases">{{ lease.address }}</div>
                         </div>
                         <!-- Storages -->
                         <table class="ui table">
                             <thead>
-                            <th>Name</th>
+                            <th>Permanent storage</th>
                             <th>Size</th>
                             <th>Index</th>
                             </thead>
@@ -147,6 +143,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                 <td>{{ disk.disk_dev }}</td>
                             </tr>
                         </table>
+
+                        <div class="ui form">
+                            <div class="field">
+                                <div class="ui labeled input" ng-show="vm.state == 'stopped'">
+                                    <label class="ui label">Attach disk</label>
+                                    <select ng-model="image_attach_object" ng-options="image.name for image in images | filter:{type: 'permanent', attached_to_id: null, state: 'ok'}" class="ui dropdown" required=""></select>
+                                    <button class="ui green basic right attached icon button" ng-click="imageAttach(image_attach_object)"><i class="checkmark icon"></i></button>
+                                </div>
+                                <small ng-show="vm.state != 'stopped'">You can attach and detach external storages when VM is stopped</small>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </p>

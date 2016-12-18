@@ -285,6 +285,12 @@ window.app.controller('VmEditCtrl', function ($scope, $location, $route, $routeP
             userdata_id: $scope.userdata.id
         }, function() { location.reload(); });
     };
+    
+    $scope.coreTalkDetach = function() {
+        request('/api/userdata/detach/', {token: $.cookie("core_token"),
+            vm_id: $scope.vm.id,
+        }, function() { location.reload(); });
+    }
 
     request('/api/vm/get_by_id/', {token: $.cookie('core_token'), vm_id: $route.current.params.id}, function(vm) {
         for (var i in vm) {

@@ -10,13 +10,13 @@
     </div>
 </div>
 <div id="menu" class="ui sidebar inverted vertical uncover menu"></div>
-<button class="ui sticky black launch right attached fixed icon button" onmouseover="$('.ui.sidebar').sidebar('setting', 'transition', 'push').sidebar('setting', 'dimPage', false).sidebar('toggle');">
+<button class="ui sticky black launch right attached fixed icon button" onmouseover="$('.ui.sidebar').sidebar('setting', 'transition', 'push').sidebar('setting', 'dimPage', false).sidebar('toggle');" id="menuShow">
     <i class="content icon"></i>
 </button>
 
 <div class="ui container"></div>
 
-<div class="ui long modal" id="requestLoader">
+<div class="ui long modal" id="requestLoader" onclick="closeRequestModal()">
     <i class="close icon" onclick="closeRequestModal()"></i>
     <div class="content">
         <div class="cloudTop"></div>
@@ -98,18 +98,22 @@
 </style>
 
 <script>
-    $('.ui.sticky').sticky({
-        context: '#menu'
-      });
-    $('#menu').mouseleave(function() {
-        $('.ui.sidebar').sidebar('setting', 'transition', 'push').sidebar('setting', 'dimPage', false).sidebar('toggle');
-    });
-    $("#login_name").append('<a>' + $.cookie("core_login") + '</a>');
-    for (i = 0; i < window.modules.length; i++) {
-        $("#menu").append($("<div class=\"ui item\">").load('menus/' + window.modules[i] + '.html'));
-    }
-    if ($.cookie('core_token') == '' || $.cookie('core_token') == 'null')
+
+    if ($.cookie('core_token') == '' || $.cookie('core_token') == 'null') {
         $('#logout').css({display: 'none'});
+        $('#menuShow').css({display: 'none'});
+    } else {
+        $('.ui.sticky').sticky({
+            context: '#menu'
+          });
+        $('#menu').mouseleave(function() {
+            $('.ui.sidebar').sidebar('setting', 'transition', 'push').sidebar('setting', 'dimPage', false).sidebar('toggle');
+        });
+        $("#login_name").append('<a>' + $.cookie("core_login") + '</a>');
+        for (i = 0; i < window.modules.length; i++) {
+            $("#menu").append($("<div class=\"ui item\">").load('menus/' + window.modules[i] + '.html'));
+        }
+    }
 
     $(document).ready(function() {
         function loopCircle() {
