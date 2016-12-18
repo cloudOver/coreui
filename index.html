@@ -32,11 +32,10 @@
             }
         </style>
     </head>
-    <body ng-app=coreUi>
-    <div class="contents pusher">
-        <div ng-include="'views/navbar.html'"></div>
-        <div class="fluid container"><div ng-view id="view"></div></div>
-    </div>
+    <body ng-app=coreUi class="ui grid">
+        <div id="menu" class="ui four wide inverted left vertical column stackable menu" ng-include="'views/sidemenu.html'"></div>
+        <div class="twelve wide column" ng-view id="view"></div>
+
     <div ng-include="'views/footer.html'"></div>
 
     <script src="settings.js"></script>
