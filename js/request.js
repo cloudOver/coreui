@@ -46,6 +46,9 @@ function request(func, args, callback, quiet=false) {
                 if (quiet)
                     $('#requestLoader').modal('show');
                 $('#requestLoaderContent').append('<div class="ui icon warning message"><i class="warning circle icon"></i>' + response.status + '</div>');
+                window.running_requests -= 1;
+                msg.addClass('red');
+                return;
             }
 
             callback(response.data);
