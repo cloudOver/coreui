@@ -16,16 +16,13 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-window.running_requests = 0;
 window.request_id = 0;
 
 function request(func, args, callback, quiet=false) {
-    var msg = $('<div class="ui green button" style="display: none;"><i class="settings icon"></i>' + func + '</div>');
+    var msg = $('<div class="ui green button" style="display: none;" id="msg' + window.request_id + '">');
+    msg.append('<i class="settings icon"></i>' + func);
+    msg.on('click', function() { this.remove(); });
     $('#loader').append(msg);
-    if (window.running_requests == 0) {
-        window.running_requests++;
-        $('#loaderMenu').slideToggle();
-    }
     msg.slideToggle();
 
     $.ajax({
@@ -46,17 +43,16 @@ function request(func, args, callback, quiet=false) {
                 if (quiet)
                     $('#requestLoader').modal('show');
                 $('#requestLoaderContent').append('<div class="ui icon warning message"><i class="warning circle icon"></i>' + response.status + '</div>');
-                window.running_requests -= 1;
-                msg.addClass('red');
+                msg.removeClass('green');
+                msg.addClass('orange');
+                msg.empty();
+                msg.append('<i class="remove icon"></i>' + func + ': <b>' + response.status + '</b>');
+
                 return;
             }
 
             callback(response.data);
-            window.running_requests -= 1;
             msg.remove();
-            if (window.running_requests <= 0) {
-                $('#loaderMenu').slideToggle();
-            }
         },
         dataType: "application/json"
     });

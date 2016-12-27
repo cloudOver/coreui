@@ -54,13 +54,26 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                 <input type="text" ng-model="network.name" placeholder="Network name">
                             </div>
                         </div>
-                        <div class="field" ng-show="network.mode == 'isolated'">
-                            <div class="ui labeled input">
-                                <label class="ui label">DHCP server address</label>
+                        <div class="field" ng-show="network.mode == 'isolated' && network.data.dhcp_running">
+                            <div class="ui labeled disabled input">
+                                <label class="ui label">DHCP running at address</label>
                                 <input placeholder="Server address" ng-model="network.data.gateway" type="text"/>
-                                <button class="ui basic icon button" ng-click="dhcpStart()"><i class="play icon"></i></button>
                                 <button class="ui basic icon button" ng-click="dhcpStop()"><i class="stop icon"></i></button>
                             </div>
+                        </div>
+                        
+                        <div class="field" ng-show="network.mode == 'isolated' && !network.data.dhcp_running">
+                            <div class="ui labeled input">
+                                <label class="ui label">Start DHCP service</label>
+                                <input placeholder="Server address" ng-model="network.data.gateway" type="text"/>
+                                <button class="ui basic icon button" ng-click="dhcpStart()"><i class="play icon"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui column form">
+                        <div class="ui divided segment items">
+                            <div class="ui header">Leases</div>
+                            <div class="item" data-ng-repeat="lease in leases">{{ lease.address }}<small ng-show="lease.vm_id"> - instance {{ lease.vm_id }}</small></div>
                         </div>
                         <div class="field" ng-show="network.mode == 'isolated'">
                             <div class="ui labeled input">
@@ -68,12 +81,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                 <input placeholder="IPv4 or IPv6 address" ng-model="address" id="address" type="text"/>
                                 <button class="ui basic icon button" ng-click="networkCreateLease()"><i class="plus icon"></i></button>
                             </div>
-                        </div>
-                    </div>
-                    <div class="ui column">
-                        <div class="ui divided segment items">
-                            <div class="ui header">Leases</div>
-                            <div class="item" data-ng-repeat="lease in leases">{{ lease.address }}<small ng-show="lease.vm_id"> - instance {{ lease.vm_id }}</small></div>
                         </div>
                     </div>
                 </div>
