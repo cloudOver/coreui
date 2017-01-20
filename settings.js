@@ -1,6 +1,6 @@
-window.coreUrl = "http://demo.cloudover.io:8000/";
+window.coreUrl = "http://demo.cloudover.io:8443/";
 window.vncHost = "demo.cloudover.io";
-window.vncPort = 8000;
+window.vncPort = 8443;
 window.vncPrefix = "/webvnc/";
 
 window.debug = false;

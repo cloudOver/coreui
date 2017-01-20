@@ -42,6 +42,9 @@ function request(func, args, callback, quiet=false) {
             }
             var response = $.parseJSON(xhr.responseText);
 
+            if (response.status == "token_not_found" || response.status == "missing_token") {
+                document.location = "login.html";
+            }
             if (response.status != "ok") {
                 if (quiet)
                     $('#requestLoader').modal('show');
