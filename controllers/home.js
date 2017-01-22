@@ -85,7 +85,7 @@ window.app.controller('HomeCtrl', function ($scope, $location, $http) {
 
             $.ajax({
                 type: 'GET',
-                url: 'http://cloudover.io/thunder/raw/',
+                url: 'https://cloudover.io/thunder/raw/',
                 complete: function(xhr, status) {
                     console.debug(xhr);
                     var scripts = xhr.responseText.split("\n");
