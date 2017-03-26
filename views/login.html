@@ -72,7 +72,7 @@
         var password = $("#form-signin #inputPassword").val();
         console.debug(password);
         request('/user/user/get_seed/', {login: login}, function(r) {
-            var pw_hash = $().crypt({method: "sha1", source: password + r.seed});
+            var pw_hash = 'sha512' + $().crypt({method: "sha512", source: password + r.seed});
             request('/user/token/get_list/', {login: login, pw_hash: pw_hash}, function (list) {
                 $.cookie("core_login", login);
                 $.cookie("core_hash", pw_hash);

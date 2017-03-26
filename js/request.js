@@ -25,6 +25,10 @@ function request(func, args, callback, quiet=false) {
     $('#loader').append(msg);
     msg.slideToggle();
 
+    if (args['token'] != undefined) {
+        args['token'] = $().crypt({method: "sha1", source: 'tokenseed' + args['token']});
+    }
+
     $.ajax({
         type: "POST",
         url: window.coreUrl + func,
