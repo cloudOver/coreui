@@ -21,8 +21,8 @@ window.app.controller('HomeCtrl', function ($scope, $location, $http) {
     if (!$.cookie('core_token')) {
         document.location = 'login.html';
     }
-    request('/api/template/capabilities/', {token: $.cookie("core_token")}, function(caps) {
-        request('/api/template/get_list/', {token: $.cookie("core_token")}, function(templ) {
+    request('/api/template/capabilities/', {token: $.cookie('core_token')}, function(caps) {
+        request('/api/template/get_list/', {token: $.cookie('core_token')}, function(templ) {
             $scope.templates = [];
             for (i = 0; i < templ.length; i++) {
                 $scope.templates.push({});
@@ -34,7 +34,7 @@ window.app.controller('HomeCtrl', function ($scope, $location, $http) {
         });
     }, quiet=true);
 
-    request('/api/storage/capabilities/', {token: $.cookie("core_token")}, function(caps) {
+    request('/api/storage/capabilities/', {token: $.cookie('core_token')}, function(caps) {
         $scope.storage = (caps/1024).toFixed(2);
         $scope.$apply();
     }, quiet=true);
