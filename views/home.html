@@ -17,27 +17,47 @@
 </div>
 
 <div class="ui stackable grid container">
-    <div class="eight wide column">
+    <!-- Create new... -->
+    <div class="sixteen wide column">
         <div class="ui segment">
             <div class="ui fluid buttons">
                 <a class="ui green animated button" href="#/api/vm/create/">
-                    <div class="visible content"><i class="big plus square icon"></i></div>
+                    <div class="visible content"><i class="massive plus square icon"></i></div>
                     <div class="hidden content">New VM</div>
                 </a>
                 <a class="ui green animated button" href="#/api/network/create/">
-                    <div class="visible content"><i class="big globe icon"></i></div>
+                    <div class="visible content"><i class="massive globe icon"></i></div>
                     <div class="hidden content">Create Network</div>
                 </a>
                 <a class="ui green animated button" href="#/api/image/create/">
-                    <div class="visible content"><i class="big cloud upload icon"></i></div>
+                    <div class="visible content"><i class="massive cloud upload icon"></i></div>
                     <div class="hidden content">New Image</div>
                 </a>
                 <a class="ui green animated button" href="#/api/image/upload/">
-                    <div class="visible content"><i class="big cloud download icon"></i></div>
+                    <div class="visible content"><i class="massive cloud download icon"></i></div>
                     <div class="hidden content">Upload Image</div>
                 </a>
             </div>
         </div>
+    </div>
+
+    <!-- thunder -->
+    <div class="sixteen wide column" ng-show="thunder == true">
+        <div class="ui segment">
+            <div class="ui header">Thunder Script</div>
+            <div class="ui form">
+                <div class="field">
+                    <label>Search for script</label>
+                    <input placeholder="Name or id..." type="text" id="thunder_script_search" ng-model="thunder_script_name">
+                </div>
+            </div>
+            <p>&nbsp;</p>
+            <div class="ui four column grid" id="thunder_search_results"></div>
+        </div>
+    </div>
+
+    <!-- Resources -->
+    <div class="sixteen wide column">
         <div class="ui styled accordion">
             <div class="title active">
                 <i class="dropdown icon"></i>
@@ -87,21 +107,6 @@
                     </table>
                 </p>
             </div>
-        </div>
-    </div>
-    <div class="eight wide column">TODO</div>
-
-    <div class="sixteen wide column" ng-show="thunder == true">
-        <div class="ui segment">
-            <div class="ui header">Thunder Script</div>
-            <div class="ui form">
-                <div class="field">
-                    <label>Search for script</label>
-                    <input placeholder="Name or id..." type="text" id="thunder_script_search" ng-model="thunder_script_name">
-                </div>
-            </div>
-            <p>&nbsp;</p>
-            <div class="ui four column grid" id="thunder_search_results"></div>
         </div>
     </div>
 </div>
