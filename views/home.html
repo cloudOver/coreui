@@ -4,7 +4,7 @@
         Let's start together!
     </div>
     <div class="content">
-        <img class="image" src="img/introscreen.png" width="100%">
+        <img class="image" src="img/introscreen.png" width="100%"/>
     </div>
     <div class="actions">
         <div class="two fluid ui inverted buttons">
@@ -16,24 +16,28 @@
     </div>
 </div>
 
-<div class="ui long modal" id="script_result">
-    <i class="close icon"></i>
-    <div class="header">
-        Script call result
-    </div>
-    <div class="content" id="script_output"></div>
-    <div class="actions">
-        <div class="two fluid ui inverted buttons">
-            <div class="ui ok green basic inverted button">
-                <i class="checkmark icon"></i>
-                Close
-            </div>
-        </div>
-    </div>
-</div>
-
 <div class="ui stackable grid container">
     <div class="eight wide column">
+        <div class="ui segment">
+            <div class="ui fluid buttons">
+                <a class="ui green animated button" href="#/api/vm/create/">
+                    <div class="visible content"><i class="big plus square icon"></i></div>
+                    <div class="hidden content">New VM</div>
+                </a>
+                <a class="ui green animated button" href="#/api/network/create/">
+                    <div class="visible content"><i class="big globe icon"></i></div>
+                    <div class="hidden content">Create Network</div>
+                </a>
+                <a class="ui green animated button" href="#/api/image/create/">
+                    <div class="visible content"><i class="big cloud upload icon"></i></div>
+                    <div class="hidden content">New Image</div>
+                </a>
+                <a class="ui green animated button" href="#/api/image/upload/">
+                    <div class="visible content"><i class="big cloud download icon"></i></div>
+                    <div class="hidden content">Upload Image</div>
+                </a>
+            </div>
+        </div>
         <div class="ui styled accordion">
             <div class="title active">
                 <i class="dropdown icon"></i>
@@ -85,39 +89,19 @@
             </div>
         </div>
     </div>
-    <div class="center aligned eight wide column">
-        <div class="ui fluid buttons">
-            <a class="ui green animated button" href="#/api/vm/create/">
-                <div class="visible content"><i class="huge plus square icon"></i></div>
-                <div class="hidden content">New VM</div>
-            </a>
-            <a class="ui green animated button" href="#/api/network/create/">
-                <div class="visible content"><i class="huge globe icon"></i></div>
-                <div class="hidden content">Create Network</div>
-            </a>
-            <a class="ui green animated button" href="#/api/image/create/">
-                <div class="visible content"><i class="huge cloud upload icon"></i></div>
-                <div class="hidden content">New Image</div>
-            </a>
-            <a class="ui green animated button" href="#/api/image/upload/">
-                <div class="visible content"><i class="huge cloud download icon"></i></div>
-                <div class="hidden content">Upload Image</div>
-            </a>
-        </div>
-        <div class="ui segment" ng-show="thunder == true">
-            <div class="ui labeled fluid action input">
-                <div class="ui label">Search for script:</div>
-                <input placeholder="Name or ID" type="text" id="thunder_script_name" ng-model="thunder_script_name">
-                <button class="ui yellow icon button" ng-click="thunder_variable_check()"><i class="search icon"></i></button>
+    <div class="eight wide column">TODO</div>
+
+    <div class="sixteen wide column" ng-show="thunder == true">
+        <div class="ui segment">
+            <div class="ui header">Thunder Script</div>
+            <div class="ui form">
+                <div class="field">
+                    <label>Search for script</label>
+                    <input placeholder="Name or id..." type="text" id="thunder_script_search" ng-model="thunder_script_name">
+                </div>
             </div>
-            <p></p>
-            <div class="ui form" id="thunder_variables"></div>
-            <!--<button class="ui tiny basic button" style="display: none" id="thunder_show_predefined_variables" onclick="$('#thunder_predefined_variables').slideToggle();">Show predefined variables...</button>-->
-            <div class="ui form" id="thunder_predefined_variables" style="display: none"></div>
-            <div class="ui fluid buttons" id="thunder_actions" style="display: none;">
-                <button class="ui yellow button">Show definition</button>
-                <button class="ui green button" ng-click="thunder_script_call()">Execute</button>
-            </div>
+            <p>&nbsp;</p>
+            <div class="ui four column grid" id="thunder_search_results"></div>
         </div>
     </div>
 </div>

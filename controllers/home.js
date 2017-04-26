@@ -83,81 +83,34 @@ window.app.controller('HomeCtrl', function ($scope, $location, $http) {
         if (objs.indexOf('thunderscript.views.api') > 0) {
             $scope.thunder = true;
 
-            $.ajax({
-                type: 'GET',
-                url: 'https://cloudover.io/thunder/raw/',
-                complete: function(xhr, status) {
-                    console.debug(xhr);
-                    var scripts = xhr.responseText.split("\n");
-                    var lookups = [];
+            $('#thunder_script_search').on('input', function() {
+                if (this.value.length > 2)
+                    $.ajax({
+                        type: 'GET',
+                        url: 'https://cloudover.io/thunder/raw-list/' + this.value + '/',
+                        complete: function(xhr, status) {
+                            var response = $.parseJSON(xhr.responseText);
 
-                    for (i = 0; i < scripts.length; i++) {
-                        lookups[i] = {
-                            value: scripts[i],
-                            data: scripts[i]
-                        };
-                    }
-                    console.debug(lookups);
-                    $( "#thunder_script_name" ).autocomplete({
-                        lookup: lookups,
-                        onSelect: function(script_name) {
-                            $scope.thunder_script_name = script_name['data']
+                            $('#thunder_search_results').empty();
+                            for (i = 0; i < response.length; i++) {
+                                var column = $("<div class='column'>");
+                                var card = $('<div class="ui fluid card" style="display: none">');
+                                var content = $('<div class="content">');
+                                content.append('<div class="ui header">' + response[i].uri);
+
+                                var extra_content = $('<div class="extra content">');
+                                var btn = $('<a href="#/thunder/call/' + response[i].uri + '" class="ui basic green small icon button"><i class="setting icon"></i> Execute</a>');
+
+                                extra_content.append(btn);
+                                card.append(content);
+                                card.append(extra_content);
+                                column.append(card);
+                                $("#thunder_search_results").append(column);
+                                card.slideToggle();
+                            }
                         }
-                    })
-                    $( "#thunder_script_name" ).autocomplete('widget').addClass('ui segment');
-                }
+                    });
             });
-
-            $scope.thunder_variable_check = function (script_name) {
-                request('/api/thunder/variables/', {token: $.cookie("core_token"), script: $scope.thunder_script_name}, function(r) {
-                    $('#script_variables').empty();
-                    $.each(r['variables'], function(k, v) {
-                        console.debug(k + ':' + v)
-                        if (!v && k.match(/^[a-zA-Z0-9_\-]+$/g)) {
-                            grp = $('<div class="ui labeled fluid input" style="display: none;">');
-                            grp.append($('<div class="ui label">' + k + '</div>'))
-                            input = $('<input type="text" name="variable_' + k + '" />');
-                            input.attr('placeholder', v);
-                            grp.append(input);
-
-                            $('#thunder_variables').append(grp);
-                            $('#thunder_variables').append($('<p></p><p></p>'));
-                            grp.slideToggle();
-                        }
-                    });
-                    $('#thunder_show_predefined_variables').slideToggle();
-                    $.each(r['variables'], function(k, v) {
-                        console.debug(k + ':' + v)
-                        if (v) {
-                            grp = $('<div class="ui labeled fluid input" style="display: none;">');
-                            grp.append($('<div class="ui label">' + k + '</div>'))
-                            input = $('<input type="text" name="variable_' + k + '" />');
-                            input.attr('placeholder', v);
-                            grp.append(input);
-                            $('#thunder_predefined_variables').append(grp);
-                            $('#thunder_predefined_variables').append($('<br/>'));
-                            grp.slideToggle();
-                        }
-                    });
-                }, quiet=true);
-                $('#thunder_actions').slideToggle();
-            }
-
-            $scope.thunder_script_call = function() {
-                params = {}
-                $("#thunder_variables input").each(function() {
-                    params[$(this).attr('name').replace('variable_', '')] = $(this).val();
-                });
-                $('#script_loading').modal('show');
-                request('/api/thunder/call/', {token: $.cookie("core_token"), script: $scope.thunder_script_name, variables: params}, function(r) {
-                    $('#script_output').empty();
-                    $('#script_output').append(r['log'].replace(/>/g, '&lt;').replace(/>/g, '&gt;').replace(/(?:\r\n|\r|\n)/g, '<br />').replace());
-                    $('#script_loading').modal('hide').done(function() {
-                        $('#script_result').modal('show');
-                    });
-                }, quiet=true);
-                console.debug(params);
-            }
         } else {
             $scope.thunder = false;
         }
