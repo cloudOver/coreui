@@ -41,7 +41,7 @@ window.app.controller('ThunderCallCtrl', function ($scope, $location, $route, $r
     $scope.execute = function() {
         var call_params = {};
         $("input[name^=variable_]").map(function (idx, el) {
-            call_params[$(el).attr('name')] = $(el).val();
+            call_params[$(el).attr('name').substr(9, $(el).attr('name').length)] = $(el).val();
         });
         console.debug(call_params);
         request('/api/thunder/call/', {token: $.cookie("core_token"), script: $route.current.params.script, variables: call_params, thunder_token: $scope.token}, function(r) {});
