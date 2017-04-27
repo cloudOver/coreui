@@ -126,7 +126,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                     <select ng-model="network_proxy_lease" ng-options="lease.address for lease in vm.leases" class="ui dropdown">
                                         <option value="">-- select lease --</option>
                                     </select>
-                                    <button class="ui green basic right attached icon button" ng-click="proxyAttach(network_attach_lease)"><i class="checkmark icon"></i></button>
+                                    <input ng-model="network_proxy_port"/>
+                                    <button class="ui green basic right attached icon button" ng-click="proxyAttach(network_proxy_lease, network_proxy_port)"><i class="checkmark icon"></i></button>
                                 </div>
                             </div>
                         </div>

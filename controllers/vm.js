@@ -249,6 +249,14 @@ window.app.controller('VmEditCtrl', function ($scope, $location, $route, $routeP
         });
     }
 
+    $scope.proxyAttach = function(lease_id, port) {
+        request('/api/proxy/create/', {token: $.cookie("core_token"),
+                                       lease_id: lease_id,
+                                       port: port}, function(r) {
+            location.reload();
+        });
+    }
+
     $scope.imageAttach = function(image) {
         request('/api/image/attach/', {token: $.cookie("core_token"),
                                        image_id: image.id,
