@@ -116,9 +116,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         <div class="ui segment divided items">
                             <div class="ui header">Network leases</div>
                             <div class="item" data-ng-repeat="lease in vm.leases">
+
                                 {{ lease.address }}
                                     <button class="ui small basic red button" ng-show="lease.proxy_enabled == false">Enable proxy</button>
-                                <a href="{{ proxy_endpoint }}/proxy/{{ lease.id }}/">Open</a>
+                                    <button class="ui small basic red button" ng-show="lease.proxy_enabled != false">Disable proxy</button>
+                                <a href="{{ proxy_endpoint }}/proxy/{{ lease.id }}/">{{ lease.address }}</a>
                             </div>
                         </div>
                         <div class="ui form">
