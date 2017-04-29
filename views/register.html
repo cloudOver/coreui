@@ -89,7 +89,9 @@
             email: email
         }, function(r) {
             request('/user/user/get_seed/', {login: login}, function(r) {
-                var pw_hash = $().crypt({method: "sha1", source: password + r.seed});
+                var jsSha = new jsSHA(password + r.seed);
+                var hash = jsSha.getHash("SHA-512", "HEX");
+                var pw_hash = 'sha512:' + hash;
                 request('/user/token/get_list/', {login: login, pw_hash: pw_hash}, function (list) {
                     $.cookie("core_login", login);
                     $.cookie("core_hash", pw_hash);
