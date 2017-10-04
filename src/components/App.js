@@ -7,6 +7,7 @@ import {
 
 import Dashboard from './Dashboard';
 import About from './About';
+import Login from './Login';
 
 class AppComponent extends React.Component {
   render() {
@@ -15,6 +16,7 @@ class AppComponent extends React.Component {
         <div className="container">
           <Route exact path="/" component={Dashboard} />
           <Route path="/about" component={About} />
+          <Route path="/login" component={Login} />
         </div>
       </Router>
     );
