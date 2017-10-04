@@ -1,14 +1,14 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
-  BrowserRouter as Router,
-  Route,
-  Link
+    BrowserRouter as Router,
+    Route,
+    Link
 } from 'react-router-dom';
 
 import Dashboard from './Dashboard';
 import About from './About';
 
-class App extends Component {
+class AppComponent extends React.Component {
   render() {
     return (
       <Router>
@@ -21,4 +21,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default AppComponent;
