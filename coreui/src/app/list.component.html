@@ -1,0 +1,11 @@
+asd
+<table class="table">
+    <thead>
+        <tr>
+            <th *ngFor=" let header of headers">{{ header }}</th>
+        </tr>
+    </thead>
+    <tr *ngFor=" let item of items ">
+        <td *ngFor=" let field of item ">{{ field.value }}</td>
+    </tr>
+</table>
