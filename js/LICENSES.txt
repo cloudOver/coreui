@@ -1,0 +1,1 @@
+Check headers of each script for licensing details.
