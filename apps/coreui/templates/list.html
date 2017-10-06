@@ -1,4 +1,14 @@
-<div>
-    List:<br/>
-    <p>{{ $ctrl.method }}</p>
-</div>
+<table class="responsive-table">
+    <thead>
+        <tr>
+            <th ng-repeat="header in headers">{{ header }}</th>
+        </tr>
+    </thead>
+    <tr ng-repeat="item in items">
+        <td ng-repeat="field_set in fields">
+            <p ng-repeat="field in field_set">
+                {{ item[field] }}
+            </p>
+        </td>
+    </tr>
+</table>
