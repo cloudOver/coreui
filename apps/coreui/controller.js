@@ -1,5 +1,6 @@
 window.app_coreui = angular.module('coreui', [
     'ngRoute',
+    'ngAnimate',
 ]);
 
 window.app_coreui.provider('Api', function Api() {
@@ -32,18 +33,25 @@ window.app_coreui.provider('Api', function Api() {
 });
 
 window.app_coreui.component('navbar', {
-    templateUrl: 'apps/coreui/templates/navbar.html',
+    templateUrl: 'apps/coreui/components/navbar.html',
 });
 
 window.app_coreui.component('sidemenu', {
-    templateUrl: 'apps/coreui/templates/sidemenu.html',
+    templateUrl: 'apps/coreui/components/sidemenu.html',
 });
 
 window.app_coreui.component('list', {
-    templateUrl: 'apps/coreui/templates/list.html',
-    controller: function($scope, $http, Api, $q) {
+    templateUrl: 'apps/coreui/components/list.html',
+    controller: function($scope, $http, Api, $q, $location) {
+        $scope.items = null;
         this.$onInit = function() {
             $scope.headers = this.headers.split(",");
+
+            var itemlink = this.itemlink
+            $scope.click = function(id) {
+                if (itemlink != null)
+                    $location.path(itemlink + id);
+            };
 
             var field_sets = this.fields.split(",");
             var fields = [];
@@ -56,21 +64,48 @@ window.app_coreui.component('list', {
             Api.call('/api/' + this.component + '/get_list/', {}, $http, $q).then(function (items) {
                 $scope.items = items;
             });
-        }
+        };
     },
     bindings: {
         headers: '@',
         component: '@',
         fields: '@',
+        header: '@',
+        itemlink: '@',
     },
 });
 
+window.app_coreui.component('ask', {
+    templateUrl: 'apps/coreui/components/ask.html',
+    controller: function($scope, $http, Api, $q, $location) {
+        this.$onInit = function() {
+            $scope.question = this.question;
+            $scope.text = this.text;
+            $scope.landingurl = this.landingurl;
+            $scope.action = this.action;
+            $scope.objectselector = this.objectselector;
+            $scope.id = this.id;
 
-
-//////////////////////////////////////////////
-window.app_coreui.config(function (ApiProvider) {
-    ApiProvider._endpoint = 'http://192.168.77.253:8000';
-    ApiProvider._token = 'f7cef3fe19e94e76ae432010950fe56f-sha512-4bb4b4f075-c3e7e343e9eb5e624144a6134f0d14bb1cbbd200680c9d0131c6f14439b3a81be7d6b9706dc77181ec03db43337b46c8a6043f67a66e38ab17de34d1c93265f8';
-    ApiProvider._login = 'xxx';
-    ApiProvider._password = 'qqq';
+            $scope.click = function() {
+                params = {};
+                params[$scope.objectselector] = $scope.id;
+                console.log(params);
+                Api.call($scope.action, params, $http, $q).then(function (items) {
+                    $location.path($scope.landingurl);
+                });
+            };
+        };
+    },
+    bindings: {
+        question: '@',
+        id: '@',
+        objectselector: '@',
+        landingurl: '@',
+        action: '@',
+        text: '@',
+    },
 });
+
+window.app_coreui.config(['$routeProvider', function ($routeProvider) {
+    $routeProvider.when("/", {templateUrl: "apps/coreui/views/dashboard.html"})
+}]);

@@ -1,0 +1,33 @@
+<h4>{{ $ctrl.header }}</h4>
+<table class="highlight">
+    <thead>
+        <tr>
+            <th ng-repeat="header in headers">{{ header }}</th>
+        </tr>
+    </thead>
+    <tr ng-show="items == null">
+        <td colspan="{{ headers.length }}" class="center-align">
+            <a class="btn btn-floating btn-large cyan pulse"><i class="material-icons">rotate_right</i></a>
+        </td>
+    </tr>
+    <tr ng-show="items.length > 0">
+        <td colspan="{{ headers.length }}" class="center-align">
+            <small>{{ items.length }} items</small>
+        </td>
+    </tr>
+    <tr ng-show="items.length == 0">
+        <td colspan="{{ headers.length }}" class="center-align">
+            <small>No items</small>
+        </td>
+    </tr>
+    <tr ng-repeat="item in items" ng-click="click(item.id)">
+        <td ng-repeat="field_set in fields">
+            <div ng-repeat="field in field_set" ng-if="$first">
+                {{ item[field] }}
+            </div>
+            <small ng-repeat="field in field_set" ng-if="! $first">
+                {{ item[field] }}
+            </small>
+        </td>
+    </tr>
+</table>

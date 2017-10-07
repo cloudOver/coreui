@@ -1,0 +1,18 @@
+<button data-target="modal1" class="btn modal-trigger">{{ $ctrl.text }}</button>
+
+<!-- Modal Structure -->
+<div id="modal1" class="modal">
+    <div class="modal-content">
+        <h4>{{ text }}</h4>
+        <p>{{ question }}</p>
+    </div>
+    <div class="modal-footer">
+        <a class="modal-action modal-close waves-effect waves-green btn-flat">Cancel</a>
+        <a ng-click="click()" class="modal-action modal-close waves-effect waves-green btn-flat">{{ text }}</a>
+    </div>
+</div>
+<script>
+$(document).ready(function(){
+    $('.modal').modal();
+});
+</script>
