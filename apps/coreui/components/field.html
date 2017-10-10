@@ -1,0 +1,29 @@
+<div class="input-field col s10" ng-if="editable">
+    <input value="{{ $ctrl.value }}" id="{{ field }}" type="text" class="validate">
+    <label for="{{ field }}" class="white-text">{{ name }}</label>
+</div>
+<div class="col s2" ng-if="editable">
+    <button  data-target="modal-{{ field }}" class="cyan btn-floating"><i class="material-icons">edit</i></button>
+</div>
+<div class="input-field col s12" ng-if="! editable">
+    <input value="{{ $ctrl.value }}" id="{{ field }}" type="text" class="validate">
+    <label for="{{ field }}" class="white-text">{{ name }}</label>
+</div>
+
+<div id="modal-{{ field }}" class="modal black-text">
+    <div class="modal-content">
+        <h4>Edit {{ $ctrl.name }}</h4>
+        <p>{{ description }}</p>
+    </div>
+    <div class="modal-footer">
+        <a class="modal-action modal-close waves-effect waves-green btn-flat">Cancel</a>
+        <a class="modal-action modal-close waves-effect waves-green btn-flat">Save</a>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function(){
+        $('.modal').modal();
+    });
+    Materialize.updateTextFields();
+</script>

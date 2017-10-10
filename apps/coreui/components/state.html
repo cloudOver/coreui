@@ -1,0 +1,14 @@
+<div>
+    <!-- vm -->
+    <i class="blue-text material-icons" ng-show="$ctrl.state == 'init'">cloud_upload</i>
+    <i class="yellow-text material-icons" ng-show="$ctrl.state == 'stopped'">stop</i>
+    <i class="blue-text material-icons" ng-show="$ctrl.state == 'starting'">fast_forward</i>
+    <i class="green-text material-icons" ng-show="$ctrl.state == 'running'">check</i>
+    <i class="red-text material-icons" ng-show="$ctrl.state == 'failed'">sms_failed</i>
+    <!-- image -->
+    <i class="blue-text material-icons" ng-show="$ctrl.state == 'waiting'">cloud_upload</i>
+    <i class="yellow-text material-icons" ng-show="$ctrl.state == 'downloading'">cloud_download</i>
+    <i class="green-text material-icons" ng-show="$ctrl.state == 'ok'">check</i>
+    <i class="red-text material-icons" ng-show="$ctrl.state == 'failed'">sms_failed</i>
+    {{ $ctrl.state }}
+</div>

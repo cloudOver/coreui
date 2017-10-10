@@ -1,0 +1,17 @@
+<div class="card blue-grey lighten-1">
+    <div class="card-content white-text">
+        <span class="card-title">Details</span>
+        <div class="row">
+            <field name="Size" description="Image size" value="{{ image.size }} GB" ></field>
+            <field name="Format" description="Image formats supported by this cloud: {{ image_formats }}. You can change it only when creating new image" value="{{ image.format }}"></field>
+            <field name="Access" description="Image access" field="access" value="{{ image.access }}" id="{{ image.id }}" objectselector="image_id" component="image" choices="{{ access }}" editable="true"></field>
+        </div>
+        <p>Format: {{ image.format }}</p>
+        <p>Type: {{ image.type }}</p>
+        <p>Access: {{ image.access }}</p>
+        <div class="divider"></div>
+        <p>Network device: {{ image.network_device }}</p>
+        <p>Disk controller: {{ image.disk_controller }}</p>
+        <p>Video graphics: {{ image.video_device }}</p>
+    </div>
+</div>
