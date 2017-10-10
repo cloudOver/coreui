@@ -75,6 +75,43 @@ window.app_coreui.component('list', {
     },
 });
 
+window.app_coreui.component('field', {
+    templateUrl: 'apps/coreui/components/field.html',
+    controller: function($scope, $http, Api, $q, $location) {
+        this.$onInit = function() {
+            $scope.id = this.id;
+            $scope.objectselector = this.objectselector;
+            $scope.field = this.field;
+            $scope.value = this.value;
+            $scope.description = this.description;
+            $scope.name = this.name;
+            $scope.component = this.component;
+            $scope.options = this.options;
+            $scope.editable = this.editable;
+
+            var params = [];
+            params[$scope.objectselector] = $scope.id;
+            params[$scope.field] = $scope.value;
+
+            $scope.edit = function() {
+                Api.call('/api/' + $scope.component + '/edit/', params, $http, $q).then(function () {
+                });
+            };
+        };
+    },
+    bindings: {
+        id: '@',
+        objectselector: '@',
+        field: '@',
+        value: '@',
+        description: '@',
+        name: '@',
+        component: '@',
+        options: '@',
+        editable: '@',
+    },
+});
+
 window.app_coreui.component('ask', {
     templateUrl: 'apps/coreui/components/ask.html',
     controller: function($scope, $http, Api, $q, $location) {
@@ -103,6 +140,13 @@ window.app_coreui.component('ask', {
         landingurl: '@',
         action: '@',
         text: '@',
+    },
+});
+
+window.app_coreui.component('state', {
+    templateUrl: 'apps/coreui/components/state.html',
+    bindings: {
+        state: '@',
     },
 });
 
