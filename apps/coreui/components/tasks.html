@@ -1,10 +1,30 @@
-<div class="col s12 m8">
-    <div class="card blue-grey lighten-1">
-        <div class="card-content white-text">
-            <span class="card-title">This image is used by:</span>
-            <ul>
-                <li ng-for=" task in tasks">{{ task.state }}</li>
-            </ul>
-        </div>
+<div class="card green lighten-3">
+    <div class="card-content white-text">
+        <span class="card-title">Tasks:</span>
+        <table class="highlight">
+            <thead>
+                <tr>
+                    <th>Type</th>
+                    <th>Action</th>
+                    <th>State</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tr ng-show="$ctrl.tasklist == null">
+                <td colspan="3" class="center-align">
+                    This object has no tasks assigned.
+                </td>
+            </tr>
+            <tr ng-repeat="task in $ctrl.tasklist">
+                <td>{{ task.type }}</td>
+                <td>{{ task.action }}</td>
+                <td>{{ task.state }}</td>
+                <td>
+                    <a class="btn-floating btn-small red" ng-click="cancel(task.id)">
+                        <i class="large material-icons">remove</i>
+                    </a>
+                </td>
+            </tr>
+        </table>
     </div>
 </div>

@@ -23,11 +23,13 @@
     <tr ng-repeat="item in items" ng-click="click(item.id)">
         <td ng-repeat="field_set in fields">
             <state state="{{ item[field_set[0]] }}" ng-show="field_set[0] == 'state'"></state>
-
-            <div ng-repeat="field in field_set" ng-if="$first" ng-show="field_set[0] != 'state'">
+            <div ng-repeat="field in field_set" ng-if="$first" ng-show="field_set[0] == 'size'">
+                {{ item[field]/1024/1024 }} MB
+            </div>
+            <div ng-repeat="field in field_set" ng-if="$first" ng-show="field_set[0] != 'state' && field_set[0] != 'size'">
                 {{ item[field] }}
             </div>
-            <small ng-repeat="field in field_set" ng-if="! $first" ng-show="field_set[0] != 'state'">
+            <small ng-repeat="field in field_set" ng-if="! $first" ng-show="field_set[0] != 'state' && field_set[0] != 'size'">
                 {{ item[field] }}
             </small>
         </td>

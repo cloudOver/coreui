@@ -2,7 +2,9 @@
     <div class="card-content white-text">
         <span class="card-title">Volume: {{ image.name }}</span>
         <p>{{ image.description }}</p>
-        <small>ID: {{ image.id }}</small>
+        <p><small>ID: {{ image.id }}</small></p>
+        <p><small>Size: {{ image.size }}GB</small></p>
+        <p><small>State: <state state="{{ image.state }}"></state></small></p>
     </div>
     <div class="card-action">
         <ask text="Delete" action="/api/image/delete/" landingurl="/image/list/" objectselector="image_id" id="{{ $ctrl.id }}" question="Are you sure to delete image {{ image.name }}?">Remove</ask>

@@ -6,6 +6,10 @@ window.app_coreui.controller('ImageCtrl', function ($scope, $location, $http, Ap
     $scope.upload = function() {
         $location.path('/image/upload/');
     };
+    Api.call('/api/image/get_by_id/', {image_id: $route.current.params.id}, $http, $q).then(function (image) {
+        $scope.image = image;
+        $scope.image.size = ($scope.image.size/1024/1024/1024).toFixed(2);
+    });
 });
 
 window.app_coreui.controller('ImageCreateCtrl', function ($scope, $location, $http, $q, Api) {
@@ -18,9 +22,14 @@ window.app_coreui.controller('ImageCreateCtrl', function ($scope, $location, $ht
     });
 
     $scope.create = function() {
-        Api.call('/api/image/create/', {name: $scope.name, description: $scope.description, size: $scope.size, image_type: $scope.image_type}, $http, $q).then(function (image) {
-            $scope.image = image;
-            $scope.image.size = ($scope.image.size/1024/1024/1024).toFixed(2);
+        var params = {};
+        params['name'] = $scope.name;
+        params['description'] = $scope.description;
+        params['size'] = $scope.size * 1024 * 1024;
+        params['image_type'] = $('input[name=image_type]:checked').val();
+        console.log(params);
+        Api.call('/api/image/create/', params, $http, $q).then(function (image) {
+            $location.path('/image/list/');
         });
     };
 });

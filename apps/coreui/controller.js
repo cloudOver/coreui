@@ -40,6 +40,21 @@ window.app_coreui.component('sidemenu', {
     templateUrl: 'apps/coreui/components/sidemenu.html',
 });
 
+window.app_coreui.component('tasks', {
+    templateUrl: 'apps/coreui/components/tasks.html',
+    controller: function($scope, $http, Api, $q, $location) {
+        $scope.cancel = function(id) {
+            var params = {};
+            params['id'] = id;
+            Api.call('/api/task/cancel/', params, $http, $q).then(function () {
+            });
+        }
+    },
+    bindings: {
+        tasklist: '=',
+    },
+});
+
 window.app_coreui.component('list', {
     templateUrl: 'apps/coreui/components/list.html',
     controller: function($scope, $http, Api, $q, $location) {
@@ -59,7 +74,6 @@ window.app_coreui.component('list', {
                 fields.push(field_sets[field].split('+'));
             }
             $scope.fields = fields;
-
             var scope = $scope;
             Api.call('/api/' + this.component + '/get_list/', {}, $http, $q).then(function (items) {
                 $scope.items = items;
