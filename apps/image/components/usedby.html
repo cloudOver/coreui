@@ -1,8 +1,7 @@
 <div class="card blue-grey lighten-1">
     <div class="card-content white-text">
-        <span class="card-title">This image is used by:</span>
-        <ul>
-            <li ng-for=" image in images">{{ image.vm_set.length }}</li>
-        </ul>
+        {{image.attached_to_id}}
+        <span class="card-title" ng-show="image.attached_to_id == null">This image is not used by any instance</span>
+        <span class="card-title" ng-show="image.attached_to_id.length > 0">This image is used by instance {{ vm.name }}</span>
     </div>
 </div>

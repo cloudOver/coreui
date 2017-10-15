@@ -79,28 +79,64 @@ window.app_coreui.component('field', {
     templateUrl: 'apps/coreui/components/field.html',
     controller: function($scope, $http, Api, $q, $location) {
         this.$onInit = function() {
-            $scope.id = this.id;
+            var that = this;
+            setTimeout(function() {
+                $scope.objectid = that.objectid;
+                $scope.objectselector = that.objectselector;
+                $scope.field = that.field;
+                $scope.value = that.value;
+                $scope.description = that.description;
+                $scope.name = that.name;
+                $scope.component = that.component;
+                $scope.options = null;
+                $scope.editable = that.editable;
+
+                if (that.options != null) {
+                    var options = $.parseJSON(that.options);
+                    that.options = options;
+                    $scope.options = options;
+                }
+                $scope.$apply();
+            }, 1000);
+
+            $scope.objectid = this.objectid;
             $scope.objectselector = this.objectselector;
             $scope.field = this.field;
             $scope.value = this.value;
             $scope.description = this.description;
             $scope.name = this.name;
             $scope.component = this.component;
-            $scope.options = this.options;
+            $scope.options = null;
             $scope.editable = this.editable;
 
-            var params = [];
-            params[$scope.objectselector] = $scope.id;
-            params[$scope.field] = $scope.value;
 
             $scope.edit = function() {
+                $('#modal-' + $scope.field).modal('open');
+                if (that.options) {
+                    $('#option-' + that.field + '-' + that.value).attr('checked', true);
+                }
+            };
+            $scope.save = function() {
+                var params = {};
+                params[that.objectselector] = that.objectid;
+                console.log(that.options);
+                if (!that.options) {
+                    console.log($('#inputvalue-' + that.field).attr('value'));
+                    params[that.field] = $('#inputvalue-' + that.field).attr('value');
+                } else {
+                    params[that.field] = $('input[name=option-' + that.field + ']:checked', '#form-' + that.field).val();
+                }
+                that.value = params[that.field];
+                $scope.value = params[that.field];
+
+                console.log(params);
                 Api.call('/api/' + $scope.component + '/edit/', params, $http, $q).then(function () {
                 });
             };
         };
     },
     bindings: {
-        id: '@',
+        objectid: '@',
         objectselector: '@',
         field: '@',
         value: '@',
@@ -126,7 +162,6 @@ window.app_coreui.component('ask', {
             $scope.click = function() {
                 params = {};
                 params[$scope.objectselector] = $scope.id;
-                console.log(params);
                 Api.call($scope.action, params, $http, $q).then(function (items) {
                     $location.path($scope.landingurl);
                 });

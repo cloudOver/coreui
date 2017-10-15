@@ -1,0 +1,11 @@
+<div class="card blue-grey lighten-1">
+    <div class="card-content white-text">
+        <span class="card-title">Advanced</span>
+        <div class="row">
+            <field name="Type" description="How this volume could be used in cloud" field="type" value="{{ image.type }} " objectid="{{ image.id }}" objectselector="image_id" component="image" options="{{ types }}" editable="true"></field>
+            <field name="Network device" description="Select how instances started with this volume will emulate network device" field="network_device" value="{{ image.network_device }} " objectid="{{ image.id }}" objectselector="image_id" component="image" options="{{ network_devices }}" editable="true"></field>
+            <field name="Video device" description="Select how instances started with this volume will emulate video device" field="video_device" value="{{ image.video_device }} " objectid="{{ image.id }}" objectselector="image_id" component="image" options="{{ video_devices }}" editable="true"></field>
+            <field name="Disk controller" description="Select how instances started with this volume will emulate disk controller" field="disk_controller" value="{{ image.disk_controller }} " objectid="{{ image.id }}" objectselector="image_id" component="image" options="{{ disk_controllers }}" editable="true"></field>
+        </div>
+    </div>
+</div>

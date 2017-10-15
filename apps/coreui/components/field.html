@@ -1,29 +1,39 @@
-<div class="input-field col s10" ng-if="editable">
-    <input value="{{ $ctrl.value }}" id="{{ field }}" type="text" class="validate">
-    <label for="{{ field }}" class="white-text">{{ name }}</label>
+<div class="input-field col s10" ng-show="editable" onmouseover="Materialize.updateTextFields()">
+    <input value="{{ $ctrl.value }}" id="editable-{{ $ctrl.field }}" type="text" readonly>
+    <label for="editable-{{ $ctrl.field }}" class="white-text">{{ name }}</label>
 </div>
-<div class="col s2" ng-if="editable">
-    <button  data-target="modal-{{ field }}" class="cyan btn-floating"><i class="material-icons">edit</i></button>
+<div class="col s2" ng-show="editable" onmouseover="Materialize.updateTextFields()">
+    <a ng-click="edit()" data-target="modal-{{ field }}" class="cyan btn-floating"><i class="material-icons">edit</i></a>
 </div>
-<div class="input-field col s12" ng-if="! editable">
-    <input value="{{ $ctrl.value }}" id="{{ field }}" type="text" class="validate">
-    <label for="{{ field }}" class="white-text">{{ name }}</label>
+
+<div class="input-field col s12" ng-show="! editable" onmouseover="Materialize.updateTextFields()">
+    <input value="{{ value }}" id="noneditable-{{ field }}" type="text" readonly>
+    <label for="noneditable-{{ field }}" class="white-text">{{ $ctrl.name }}</label>
 </div>
 
 <div id="modal-{{ field }}" class="modal black-text">
     <div class="modal-content">
         <h4>Edit {{ $ctrl.name }}</h4>
-        <p>{{ description }}</p>
+        <p>{{ $ctrl.description }}</p>
+        <div class="input-field" ng-show="{{ $ctrl.options == null }}">
+            <input value="{{ $ctrl.value }}" id="inputvalue-{{ $ctrl.field }}" type="text" class="validate">
+        </div>
+        <form id="form-{{ $ctrl.field }}" ng-show="{{ $ctrl.options != null }}">
+            <div ng-repeat="option in options">
+                <input checked type="radio" name="option-{{ $ctrl.field }}" id="option-{{ $ctrl.field }}-{{ option }}" value="{{ option }}" />
+                <label for="option-{{ $ctrl.field }}-{{ option }}">{{ option }}</label>
+            </div>
+        </form>
     </div>
     <div class="modal-footer">
         <a class="modal-action modal-close waves-effect waves-green btn-flat">Cancel</a>
-        <a class="modal-action modal-close waves-effect waves-green btn-flat">Save</a>
+        <button ng-click="save()" class="modal-action modal-close waves-effect waves-green btn-flat">Save</button>
     </div>
 </div>
 
 <script>
     $(document).ready(function(){
         $('.modal').modal();
+        $('select').material_select();
     });
-    Materialize.updateTextFields();
 </script>

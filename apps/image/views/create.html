@@ -1,0 +1,24 @@
+<form id="create">
+    <h4>Create new volume</h4>
+    <div class="row">
+        <div class="input-field col s12 m6">
+            <input placeholder="Name" id="name" ng-model="name" type="text" class="validate" />
+            <label for="name">Name</label>
+        </div>
+        <div class="input-field col s12 m6">
+            <input placeholder="Size (MB)" id="size" ng-model="size" type="number" min="1" class="validate" />
+            <label for="name">Size (MB)</label>
+        </div>
+        <div class="input-field col s12 m6">
+            <input placeholder="Description" id="description" ng-model="description" type="text" class="validate" />
+            <label for="name">Description</label>
+        </div>
+        <div class="col s12 m6">
+            <p ng-repeat="image_type in image_types">
+                <input type="radio" name="image_type" id="image_types-{{ image_type }}" value="{{ image_type }}" />
+                <label for="image_types-{{ image_type }}">{{ image_type }}</label>
+            </p>
+        </div>
+    </div>
+    <a class="waves-effect waves-light btn blue" ng-click="create()">Create</a>
+</form>
