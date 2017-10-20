@@ -45,7 +45,7 @@ window.app_coreui.component('tasks', {
     controller: function($scope, $http, Api, $q, $location) {
         $scope.cancel = function(id) {
             var params = {};
-            params['id'] = id;
+            params['task_id'] = id;
             Api.call('/api/task/cancel/', params, $http, $q).then(function () {
             });
         }

@@ -1,1 +1,9 @@
+<div class="fixed-action-btn horizontal">
+    <a class="btn-floating btn-large red" ng-click="create()">
+        <i class="large material-icons">add</i>
+    </a>
+    <ul>
+        <li><a ng-click="templates()" class="btn-floating green"><i class="material-icons">list</i></a></li>
+    </ul>
+</div>
 <list header="Instances" itemlink="/vm/" headers="Name,State,ID" component="vm" fields="name+description,state,id"></list>
