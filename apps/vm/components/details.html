@@ -1,0 +1,12 @@
+<div class="card blue-grey darken-1">
+    <div class="card-content white-text">
+        <span class="card-title">Instance: {{ vm.name }}</span>
+        <p>{{ vm.description }}</p>
+        <p><small>ID: {{ vm.id }}</small></p>
+        <p><small>Template: {{ template.name }}</small></p>
+        <p><small>State: <state state="{{ vm.state }}"></state></small></p>
+    </div>
+    <div class="card-action">
+        <ask text="Delete" action="/api/vm/delete/" landingurl="/vm/list/" objectselector="vm_id" id="{{ $ctrl.id }}" question="Are you sure to delete image {{ vm.name }}?">Remove</ask>
+    </div>
+</div>

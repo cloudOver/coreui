@@ -1,0 +1,15 @@
+<div class="card red lighten-1">
+    <div class="card-content white-text">
+        <span class="card-title">Attach permanent volumes</span>
+        <input type="hidden" name="vmid" ng-model="vmid" value="{{ $ctrl.vmid }}" />
+        <p ng-repeat="image in images">
+            <input type="checkbox" name="image-{{ image.id }}" id="image-{{ image.id }}" ng-if="image.attached_to_id == null" />
+            <label ng-if="image.attached_to_id == null" class="white-text" for="image-{{ image.id }}">{{ image.name }}<br/>
+                <small>Size: {{ image.size/1024/1024 }}MB</small>
+            </label>
+        </p>
+    </div>
+    <div class="card-action">
+        <a ng-click="attach()" class="waves-effect waves-light btn">Attach</a>
+    </div>
+</div>

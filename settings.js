@@ -1,6 +1,6 @@
 window.app_coreui.config(function (ApiProvider) {
     ApiProvider._endpoint = 'http://192.168.77.253:8000';
-    ApiProvider._token = 'c126efd19fa14c16bde27b19b39dfedf-sha512-33b35f496c-6bfacaa44fca796971e3e9a6b69abed102ecf765cd661bd3f52d6f44b04ec60b8af28eaad621213abb90d0719a2843108d14388fea2bf686cea28298f6d670d9';
+    ApiProvider._token = '77fc647a3c0242b0a76640382d77c604-sha512-48abda00f1-5531cbc822de7a6cc4e215d67a994b83779d3edd6707ba20b8f815a0afdcce449fd6e8c056270bc22ec05a61ee553bf6da08b54a02a6ba29a92855834b9539c6';
     ApiProvider._login = 'xxx';
     ApiProvider._password = 'qqq';
 });

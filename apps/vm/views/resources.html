@@ -1,0 +1,14 @@
+<form id="create">
+    Your instance is being created. Meanwhile...<br/>
+    <h4>Attach resources</h4>
+    <div class="row">
+        <div class="col s12 m6">
+            <imageattach vmid="vm.id"></imageattach>
+            <cloudinitattach vmid="{{ vm.id }}"></cloudinitattach>
+        </div>
+        <div class="col s12 m6">
+            <networkattach vmid="{{ vm.id }}"></networkattach>
+        </div>
+    </div>
+    <a class="waves-effect waves-light btn blue" href="#!/vm/list/">Done</a>
+</form>

@@ -18,7 +18,16 @@ window.app_coreui.provider('Api', function Api() {
 
                 $http.post(that._endpoint + '/' + method, params)
                 .then(function successCallback(data, status, headers, config) {
-                    deferred.resolve(data.data.data);
+                    if (data.data.status == 'ok') {
+                        deferred.resolve(data.data.data);
+                    } else {
+                        if (data.data.data == null) {
+                            Materialize.toast(data.data.status, 4000)
+                        } else {
+                            Materialize.toast(data.data.status + ': ' + data.data.data, 4000)
+                        }
+                        deferred.reject(data.data.status);
+                    }
                 }, function errorCallback(data, status, headers, config) {
                     deferred.reject(status);
                 });

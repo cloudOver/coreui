@@ -114,6 +114,32 @@ window.app_coreui.component('imagesummary', {
     },
 });
 
+window.app_coreui.component('imageattach', {
+    templateUrl: 'apps/image/components/attach.html',
+    controller: function($scope, $http, Api, $q) {
+        this.$onInit = function() {
+            Api.call('/api/image/get_list/', {'type': 'permanent'}, $http, $q).then(function (images) {
+                $scope.images = images;
+            });
+
+            $scope.attach = function() {
+                for (var i = 0; i < $scope.images.length; i++) {
+                    if ($('#image-' + $scope.images[i].id).is(':checked') && $scope.images[i].attached_to_id == null) {
+                        var image_id = $scope.images[i].id;
+                        Api.call('/api/image/attach/', {'image_id': $scope.images[i].id, 'vm_id': $('input[name="vmid"]').val()}, $http, $q).then(function () {
+                            $('#image-' + image_id).attr('disabled', 'disabled');
+                            console.log(image_id);
+                        });
+                    }
+                }
+            };
+        }
+    },
+    bindings: {
+        vmid: '=',
+    }
+});
+
 window.app_coreui.config(['$routeProvider', function ($routeProvider) {
     $routeProvider.when("/image/list/", {templateUrl: "apps/image/views/list.html", controller: 'ImageCtrl'})
     $routeProvider.when("/image/upload/", {templateUrl: "apps/image/views/upload.html", controller: 'ImageUploadCtrl'})
