@@ -66,11 +66,13 @@ window.app.controller('PasswordCtrl', function ($scope, $location, $http) {
             $('#passwordvalidation').toggle();
             return;
         }
-        var new_hash = $().crypt({method: "sha1", source: $scope.password1 + $.cookie("core_hash")});
+        var new_seed = '1234567890-qwerty';
+        var jsSha = new jsSHA($scope.password1 + new_seed);
+        var new_hash = jsSha.getHash("SHA-512", "HEX");
         request('/user/user/change_password/', {login: $.cookie("core_login"),
             pw_hash: $.cookie("core_hash"),
-            password_seed: $.cookie('core_hash'),
-            password_hash: new_hash}, function (objs) {
+            password_seed: new_seed,
+            password_hash: 'sha512:' + new_hash}, function (objs) {
             $.cookie("core_hash", new_hash);
             $('#passwordchanged').toggle();
         });
