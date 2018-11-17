@@ -41,7 +41,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 </div>
                 <div class="divider"></div>
                 <div class="meta">Created: {{ vm.start_time }}</div>
-                <div class="meta">Format: {{ vm.template.name }}</div>
+                <div class="meta">Template: {{ vm.template.name }}</div>
+                <div class="divider"></div>
+                <div class="meta">VNC Port: {{ vm.vnc_port }}</div>
+                <div class="meta">VNC password: {{ vm.vnc_passwd }}</div>
             </div>
             <div class="right aligned column">
                 <div class="ui buttons">
